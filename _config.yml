@@ -62,30 +62,30 @@ author:
   avatar : "/assets/images/output.png"
   bio    : "𝕬𝖑𝖊𝖝 𝕻. 𝕮𝖆𝖗𝖑𝖑'𝖘 𝖑𝖆𝖇"
   links:
-    - label: "Website"
+    - label: "Dr.Carll's lab"
       icon: "fas fa-fw fa-link"
-      url: "https://"
+      url: "https://louisville.edu/envirome/research/laboratories/alex-carll-laboratory"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
+      url: "https://x.com/Bertrand49237"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
+      url: "https://github.com/FullBlackWolf"
+    - label: "About Junpeng Chen"
       icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://orcid.org/0000-0003-2307-6406"
 
 footer:
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
+      url: "https://louisville.edu/envirome/research/laboratories/alex-carll-laboratory"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
+      url: "https://github.com/FullBlackWolf"
+    - label: "Publications"
       icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://orcid.org/0000-0003-2307-6406"
 
 defaults:
   # _posts
