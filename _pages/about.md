@@ -3,8 +3,8 @@ permalink: /about/
 title: "About"
 ---
 <div style="text-align: justify;">
-“This research was supported in part by the U.S. National Science Foundation (NSF) under grant CNS1828521 and the University of Louisville’s Research Computing team.”
-
+“𝑻𝒉𝒊𝒔 𝒓𝒆𝒔𝒆𝒂𝒓𝒄𝒉 𝒘𝒂𝒔 𝒔𝒖𝒑𝒑𝒐𝒓𝒕𝒆𝒅 𝒊𝒏 𝒑𝒂𝒓𝒕 𝒃𝒚 𝒕𝒉𝒆 𝑼.𝑺. 𝑵𝒂𝒕𝒊𝒐𝒏𝒂𝒍 𝑺𝒄𝒊𝒆𝒏𝒄𝒆 𝑭𝒐𝒖𝒏𝒅𝒂𝒕𝒊𝒐𝒏 (𝑵𝑺𝑭) 𝒖𝒏𝒅𝒆𝒓 𝒈𝒓𝒂𝒏𝒕 𝑪𝑵𝑺1828521 𝒂𝒏𝒅 𝒕𝒉𝒆 𝑼𝒏𝒊𝒗𝒆𝒓𝒔𝒊𝒕𝒚 𝒐𝒇 𝑳𝒐𝒖𝒊𝒔𝒗𝒊𝒍𝒍𝒆’𝒔 𝑹𝒆𝒔𝒆𝒂𝒓𝒄𝒉 𝑪𝒐𝒎𝒑𝒖𝒕𝒊𝒏𝒈 𝒕𝒆𝒂𝒎.”
+<br>
 <div style="text-align: justify;">
 These documents were written by Junpeng Chen and Junyao Jiang, who are the project leaders. Junpeng Chen designed the machine learning component and the mathematics theory part. Junyao Jiang carried out the single-cell analysis. Kailin Yang, Haihui Wu, and Shanshan Wang conducted the animal experiments. You Li and TIanda Sun solved many key problems related to the project.
 </div>
@@ -48,6 +48,6 @@ Although these authors are not listed as the first authors, they should be regar
 <br><div style="text-align: justify;"> - Professors Steven Ellis and Changping Li helped solve & ask many important issues and contributed to discussions on the innovative aspects of the paper.
 </div>
 
-
+Thanks for Brandon Capps II, he is my first and best friend in America.
 
 
