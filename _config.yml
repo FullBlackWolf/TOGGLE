@@ -62,6 +62,9 @@ author:
   avatar : "/assets/images/output.png"
   bio    : "𝕬𝖑𝖊𝖝 𝕻. 𝕮𝖆𝖗𝖑𝖑'𝖘 𝖑𝖆𝖇"
   links:
+    - label: "About Junpeng Chen"
+      icon: "fab fa-fw fa-instagram"
+      url: "https://orcid.org/0000-0003-2307-6406"
     - label: "Dr.Carll's lab"
       icon: "fas fa-fw fa-link"
       url: "https://louisville.edu/envirome/research/laboratories/alex-carll-laboratory"
@@ -71,9 +74,7 @@ author:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/FullBlackWolf"
-    - label: "About Junpeng Chen"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://orcid.org/0000-0003-2307-6406"
+
 
 footer:
   links:
