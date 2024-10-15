@@ -58,9 +58,9 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "First Lastname"
+  name   : "Junpeng Chen"
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
+  bio    : "𝕬𝖑𝖊𝖝 𝕻. 𝕮𝖆𝖗𝖑𝖑'𝖘 𝖑𝖆𝖇 𝖋𝖗𝖔𝖒 𝖀𝖔𝖋𝕷"//" ᴀʟᴇx ᴄᴀʀʟʟ's ʟᴀʙ"
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
