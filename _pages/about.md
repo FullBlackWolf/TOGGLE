@@ -23,7 +23,10 @@ The biological experiments were primarily conducted by Kailin Yang, with guidanc
 Zhouweiyu Chen and Yuwei Li proposed constructive improvements to the algorithms. Without Zhouweiyu Chen’s error calculations and You Li’s numerical calculations, completing this work would have been nearly impossible. Junpeng Chen proposed the computational principles, but this work was initially unstable. Zhouweiyu Chen improved the critical computational steps, and Yuwei Li perfected the work and was deeply involved in all preliminary research.
 </div>
 
+<div style="text-align: justify;">
 We are so hate for Yuwei Li's unsuccessful Ph.D. application. He was an excellent member of us.
+</div>
 
+<div style="text-align: justify;">
 Although these authors are not listed as the first authors, they should be regarded as equal contributors to this work. Their contributions are no less significant than those of Junpeng Chen.
-
+</div>
