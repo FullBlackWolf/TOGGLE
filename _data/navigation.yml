@@ -1,9 +1,9 @@
 main:
-  - title: "Posts"
+  - title: "Main"
     url: /posts/
-  - title: "Categories"
+  - title: "Install & Guide"
     url: /categories/
-  - title: "Tags"
+  - title: "Samples"
     url: /tags/
   - title: "About"
     url: /about/
