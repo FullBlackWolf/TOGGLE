@@ -35,7 +35,7 @@ Although these authors are not listed as the first authors, they should be regar
 </div><br>
 <div style = "font-size: 30px;">
 ᴋᴀɪʟɪɴ 𝟷.𝟶
-</div><br>
+</div>
 <div style="text-align: justify;"> - 𝘛𝘩𝘪𝘴 𝘷𝘦𝘳𝘴𝘪𝘰𝘯 𝘸𝘢𝘴 𝘳𝘦𝘭𝘦𝘢𝘴𝘦𝘥 𝘰𝘯 𝘎𝘪𝘵𝘏𝘶𝘣 𝘣𝘺 𝘠𝘰𝘶 𝘓𝘪 𝘢𝘯𝘥 𝘑𝘶𝘯𝘱𝘦𝘯𝘨 𝘊𝘩𝘦𝘯, 𝘸𝘪𝘵𝘩 𝘑𝘶𝘯𝘱𝘦𝘯𝘨 𝘊𝘩𝘦𝘯 𝘸𝘳𝘪𝘵𝘪𝘯𝘨 𝘵𝘩𝘪𝘴 𝘩𝘦𝘭𝘱 𝘥𝘰𝘤𝘶𝘮𝘦𝘯𝘵.</div>
 <div style="text-align: justify;"> - 𝘛𝘪𝘢𝘯𝘥𝘢 𝘚𝘶𝘯 𝘢𝘴𝘴𝘪𝘴𝘵𝘦𝘥 𝘪𝘯 𝘥𝘦𝘱𝘭𝘰𝘺𝘪𝘯𝘨 𝘵𝘩𝘪𝘴 𝘥𝘰𝘤𝘶𝘮𝘦𝘯𝘵 𝘰𝘯 𝘵𝘩𝘦 𝘴𝘦𝘳𝘷𝘦𝘳.</div>
 <div style="text-align: justify;"> - 𝘑𝘶𝘯𝘱𝘦𝘯𝘨 𝘊𝘩𝘦𝘯 𝘢𝘯𝘥 𝘛𝘪𝘢𝘯𝘥𝘢 𝘚𝘶𝘯 𝘥𝘦𝘴𝘪𝘨𝘯𝘦𝘥 𝘢𝘭𝘭 𝘵𝘩𝘦 𝘮𝘢𝘤𝘩𝘪𝘯𝘦 𝘭𝘦𝘢𝘳𝘯𝘪𝘯𝘨 𝘢𝘭𝘨𝘰𝘳𝘪𝘵𝘩𝘮𝘴 𝘢𝘯𝘥 𝘤𝘰𝘮𝘱𝘶𝘵𝘢𝘵𝘪𝘰𝘯𝘢𝘭 𝘱𝘳𝘪𝘯𝘤𝘪𝘱𝘭𝘦𝘴.</div>
