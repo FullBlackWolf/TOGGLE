@@ -2,6 +2,13 @@
 permalink: /about/
 title: "About"
 ---
+
+<style>
+  .justify-text {
+    text-align: justify;
+  }
+</style>
+
 <div style="text-align: justify;">
 These documents were written by Junpeng Chen and Junyao Jiang, who are the project leaders. Junpeng Chen designed the machine learning component and the mathematics theory part. Junyao Jiang carried out the single-cell analysis. Kailin Yang, Haihui Wu, and Shanshan Wang conducted the animal experiments. You Li and Issac solved many key problems related to the project.
 
@@ -16,4 +23,4 @@ Zhouweiyu Chen and Yuwei Li proposed constructive improvements to the algorithms
 We are so hate for Yuwei Li's unsuccessful Ph.D. application. He was an excellent member of us.
 
 Although these authors are not listed as the first authors, they should be regarded as equal contributors to this work. Their contributions are no less significant than those of Junpeng Chen.
-</div>
+
