@@ -38,18 +38,12 @@ Although these authors are not listed as the first authors, they should be regar
 ᴋᴀɪʟɪɴ 𝟷.𝟶
 </div><br>
 <div style="text-align: justify;"> - This version was released on GitHub by You Li and Junpeng Chen, with Junpeng Chen writing this help document.</div>
-<br>
 <div style="text-align: justify;"> - Tianda Sun assisted in deploying this document on the server.</div><br>
 <div style="text-align: justify;"> - Junpeng Chen and Tianda Sun designed all the machine learning algorithms and computational principles.</div>
-<br>
 <div style="text-align: justify;"> - Junyao Jiang and Kailin Yang completed the biological analysis and the ferroptosis model animal experiments.</div>
-<br>
 <div style="text-align: justify;"> - Zhouweiyu Chen and Yuwei Li contributed to the auxiliary design of the numerical principles.</div>
-<br>
 <div style="text-align: justify;"> - Dr.Lu Cai and Dr.Alex P. Carll jointly supervised this research and provided funding. The research was supported by the U.S. National Institutes of Health, grant number: CNS1828521.</div>
-<br>
 <div style="text-align: justify;"> - The University of Louisville provided computational equipment support for this research and assisted all researchers with equipment maintenance and updates, including the following staff: [insert staff names].</div>
-<br>
 <div style="text-align: justify;"> - Professors Steven Ellis and Changping Li helped solve & ask many important issues and contributed to discussions on the innovative aspects of the paper.</div>
 
 <br>
