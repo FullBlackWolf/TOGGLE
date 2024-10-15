@@ -27,10 +27,6 @@ Zhouweiyu Chen and Yuwei Li proposed constructive improvements to the algorithms
 </div>
 <br>
 <div style="text-align: justify;">
-We are so hate for Yuwei Li's unsuccessful Ph.D. application. He was an excellent member of us.
-</div>
-<br>
-<div style="text-align: justify;">
 Although these authors are not listed as the first authors, they should be regarded as equal contributors to this work. Their contributions are no less significant than those of Junpeng Chen.
 </div><br>
 <div style = "font-size: 30px;">
@@ -46,6 +42,6 @@ Although these authors are not listed as the first authors, they should be regar
 <div style="text-align: justify;"> - 𝘗𝘳𝘰𝘧𝘦𝘴𝘴𝘰𝘳𝘴 𝘚𝘵𝘦𝘷𝘦𝘯 𝘌𝘭𝘭𝘪𝘴 𝘢𝘯𝘥 𝘊𝘩𝘢𝘯𝘨𝘱𝘪𝘯𝘨 𝘓𝘪 𝘩𝘦𝘭𝘱𝘦𝘥 𝘴𝘰𝘭𝘷𝘦 & 𝘢𝘴𝘬 𝘮𝘢𝘯𝘺 𝘪𝘮𝘱𝘰𝘳𝘵𝘢𝘯𝘵 𝘪𝘴𝘴𝘶𝘦𝘴 𝘢𝘯𝘥 𝘤𝘰𝘯𝘵𝘳𝘪𝘣𝘶𝘵𝘦𝘥 𝘵𝘰 𝘥𝘪𝘴𝘤𝘶𝘴𝘴𝘪𝘰𝘯𝘴 𝘰𝘯 𝘵𝘩𝘦 𝘪𝘯𝘯𝘰𝘷𝘢𝘵𝘪𝘷𝘦 𝘢𝘴𝘱𝘦𝘤𝘵𝘴 𝘰𝘧 𝘵𝘩𝘦 𝘱𝘢𝘱𝘦𝘳.</div>
 
 <br>
-𝕿𝖍𝖆𝖓𝖐𝖘 𝖋𝖔𝖗 𝕯𝖗.𝕭𝖗𝖆𝖓𝖉𝖔𝖓 𝕮𝖆𝖕𝖕𝖘 𝕴𝕴, 𝖍𝖊 𝖎𝖘 𝖒𝖞 𝖋𝖎𝖗𝖘𝖙 𝖆𝖓𝖉 𝖇𝖊𝖘𝖙 𝖋𝖗𝖎𝖊𝖓𝖉 𝖎𝖓 𝕬𝖒𝖊𝖗𝖎𝖈𝖆.
+𝕿𝖍𝖆𝖓𝖐𝖘 𝖋𝖔𝖗 𝕻𝖍.𝕯 𝖈𝖆𝖓𝖉𝖎𝖉𝖆𝖙𝖊 𝕭𝖗𝖆𝖓𝖉𝖔𝖓 𝕮𝖆𝖕𝖕𝖘 𝕴𝕴, 𝖍𝖊 𝖎𝖘 𝖒𝖞 𝖋𝖎𝖗𝖘𝖙 𝖆𝖓𝖉 𝖇𝖊𝖘𝖙 𝖋𝖗𝖎𝖊𝖓𝖉 𝖎𝖓 𝕬𝖒𝖊𝖗𝖎𝖈𝖆.
 
 
