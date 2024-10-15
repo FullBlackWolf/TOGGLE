@@ -32,13 +32,12 @@ We are so hate for Yuwei Li's unsuccessful Ph.D. application. He was an excellen
 <br>
 <div style="text-align: justify;">
 Although these authors are not listed as the first authors, they should be regarded as equal contributors to this work. Their contributions are no less significant than those of Junpeng Chen.
-</div>
-<br>
+</div><br>
 <div style = "font-size: 30px;">
 ᴋᴀɪʟɪɴ 𝟷.𝟶
 </div><br>
 <div style="text-align: justify;"> - This version was released on GitHub by You Li and Junpeng Chen, with Junpeng Chen writing this help document.</div>
-<div style="text-align: justify;"> - Tianda Sun assisted in deploying this document on the server.</div><br>
+<div style="text-align: justify;"> - Tianda Sun assisted in deploying this document on the server.</div>
 <div style="text-align: justify;"> - Junpeng Chen and Tianda Sun designed all the machine learning algorithms and computational principles.</div>
 <div style="text-align: justify;"> - Junyao Jiang and Kailin Yang completed the biological analysis and the ferroptosis model animal experiments.</div>
 <div style="text-align: justify;"> - Zhouweiyu Chen and Yuwei Li contributed to the auxiliary design of the numerical principles.</div>
