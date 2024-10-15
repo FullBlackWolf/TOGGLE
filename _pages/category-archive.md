@@ -1,6 +1,6 @@
 ---
 title: "Install & Guide"
-permalink: /Install & Guide/
+permalink: /categories/
 layout: tags
 author_profile: true
 ---
