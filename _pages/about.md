@@ -2,7 +2,7 @@
 permalink: /about/
 title: "About"
 ---
-
+<div style="text-align: justify;">
 “This research was supported in part by the U.S. National Science Foundation (NSF) under grant CNS1828521 and the University of Louisville’s Research Computing team.”
 
 <div style="text-align: justify;">
@@ -33,19 +33,19 @@ We are so hate for Yuwei Li's unsuccessful Ph.D. application. He was an excellen
 Although these authors are not listed as the first authors, they should be regarded as equal contributors to this work. Their contributions are no less significant than those of Junpeng Chen.
 </div>
 <br>
-<div style = "font-size: 20px;">
-KAILIN - v1.0
+<div style = "font-size: 40px;">
+**KAILIN - v1.0**
 </div>
 <br>
 <div style="text-align: justify;">
  - This version was released on GitHub by You Li and Junpeng Chen, with Junpeng Chen writing this help document.
- - Tianda Sun assisted in deploying this document on the server.
- - Junpeng Chen and Tianda Sun designed all the machine learning algorithms and computational principles.
- - Junyao Jiang and Kailin Yang completed the biological analysis and the ferroptosis model animal experiments.
- - Zhouweiyu Chen and Yuwei Li contributed to the auxiliary design of the numerical principles.
- - Dr.Lu Cai and Dr.Alex P. Carll jointly supervised this research and provided funding. The research was supported by the U.S. National Institutes of Health, grant number: CNS1828521.
- - The University of Louisville provided computational equipment support for this research and assisted all researchers with equipment maintenance and updates, including the following staff: [insert staff names].
- - Professors Steven Ellis and Changping Li helped solve & ask many important issues and contributed to discussions on the innovative aspects of the paper.
+<br><div style="text-align: justify;"> - Tianda Sun assisted in deploying this document on the server.
+<br><div style="text-align: justify;"> - Junpeng Chen and Tianda Sun designed all the machine learning algorithms and computational principles.
+<br><div style="text-align: justify;"> - Junyao Jiang and Kailin Yang completed the biological analysis and the ferroptosis model animal experiments.
+<br><div style="text-align: justify;"> - Zhouweiyu Chen and Yuwei Li contributed to the auxiliary design of the numerical principles.
+<br><div style="text-align: justify;"> - Dr.Lu Cai and Dr.Alex P. Carll jointly supervised this research and provided funding. The research was supported by the U.S. National Institutes of Health, grant number: CNS1828521.
+<br><div style="text-align: justify;"> - The University of Louisville provided computational equipment support for this research and assisted all researchers with equipment maintenance and updates, including the following staff: [insert staff names].
+<br><div style="text-align: justify;"> - Professors Steven Ellis and Changping Li helped solve & ask many important issues and contributed to discussions on the innovative aspects of the paper.
 </div>
 
 
