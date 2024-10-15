@@ -58,7 +58,7 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "Junpeng Chen"
+  name   : "KAILIN: Single Cell Fate Bias tools"
   avatar : "/assets/images/output.png"
   bio    : "𝕬𝖑𝖊𝖝 𝕻. 𝕮𝖆𝖗𝖑𝖑'𝖘 𝖑𝖆𝖇"
   links:
