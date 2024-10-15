@@ -33,8 +33,8 @@ We are so hate for Yuwei Li's unsuccessful Ph.D. application. He was an excellen
 Although these authors are not listed as the first authors, they should be regarded as equal contributors to this work. Their contributions are no less significant than those of Junpeng Chen.
 </div>
 <br>
-<div style = "font-size: 40px;">
-**KAILIN - v1.0**
+<div style = "font-size: 30px;">
+ᴋᴀɪʟɪɴ 𝟷.𝟶
 </div>
 <br>
 <div style="text-align: justify;">
