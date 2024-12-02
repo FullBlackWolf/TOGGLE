@@ -10,8 +10,6 @@ This tool is a further refinement and development of lineage tracing. Lineage tr
 
 ![图片](/assets/images/Main1.png)
 
-![图片](/assets/images/Cardiolablogo.png)
-
 <div style="text-align: justify;">
 Due to the randomness of DNA fragment capture, this technology is difficult to apply to cells that have temporarily or permanently lost their differentiation capacity. Furthermore, existing algorithms cannot be used to distinguish the fate of mature cells, as their transcription profiles are too similar, and the accuracy is low even in datasets with clear differentiation boundaries. However, research related to mature cells is emerging and requires tracing technology. For example, ferroptosis may offer new methods for cancer treatment, but its mechanism remains unclear.
 </div>
