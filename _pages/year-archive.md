@@ -11,9 +11,8 @@ This tool is a further refinement and development of lineage tracing. Lineage tr
 ![图片](/assets/images/Main1.png)
 ![图片](/assets/images/Main2.png)
 ![图片](/assets/images/Cardiolablogo.png)
-![图片](/assets/images/Main1)
-![图片](/assets/images/Main2)
-![图片](/assets/images/Cardiolablogo)
+![图片](https://github.com/FullBlackWolf/BSPC-104544/blob/main/Cardiolablogo%201.png)
+
 
 You'll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
