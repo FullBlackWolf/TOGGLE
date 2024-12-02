@@ -8,7 +8,10 @@ author_profile: true
 This tool is a further refinement and development of lineage tracing. Lineage tracing refers to reconstructing cellular dynamics during the clonal process by inserting DNA base sequences. Step 1-3: Capture cell samples and insert fragments using DOX technology. Step 4-6: When the cells begin to clone, these fragments are carried along. As the cells differentiate, these fragments are also retained but may acquire some random mutations. This technology enables us to trace and observe cells. However, it is extremely expensive and has a very low success rate in DNA insert and detect. Therefore, using RNA sequencing for cell tracking has become a popular topic.
 </div>
 
-![Image1](https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Main1.png)
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Main1.png" 
+     alt="Main image showing scientific process" 
+     title="This is an illustration of a scientific lineage tracing process">
+
 <div style="text-align: justify;">
 Due to the randomness of DNA fragment capture, this technology is difficult to apply to cells that have temporarily or permanently lost their differentiation capacity. Furthermore, existing algorithms cannot be used to distinguish the fate of mature cells, as their transcription profiles are too similar, and the accuracy is low even in datasets with clear differentiation boundaries. However, research related to mature cells is emerging and requires tracing technology. For example, ferroptosis may offer new methods for cancer treatment, but its mechanism remains unclear.
 </div>
