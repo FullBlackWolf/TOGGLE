@@ -9,16 +9,16 @@ This tool is a further refinement and development of lineage tracing. Lineage tr
 </div>
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/image1.png" 
-     alt="Main image showing scientific process" 
-     title="This is an illustration of a scientific lineage tracing process">
+     alt="image1" 
+     title="image1">
 
 <div style="text-align: justify;">
 Due to the randomness of DNA fragment capture, this technology is difficult to apply to cells that have temporarily or permanently lost their differentiation capacity. Furthermore, existing algorithms cannot be used to distinguish the fate of mature cells, as their transcription profiles are too similar, and the accuracy is low even in datasets with clear differentiation boundaries. However, research related to mature cells is emerging and requires tracing technology. For example, ferroptosis may offer new methods for cancer treatment, but its mechanism remains unclear.
 </div>
 
 <img src="https://github.com/FullBlackWolf/ATPX4869/blob/master/assets/images/image2.png" 
-     alt="Main image showing scientific process" 
-     title="This is an illustration of a scientific lineage tracing process">
+     alt="image2" 
+     title="image2">
      
 You'll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
