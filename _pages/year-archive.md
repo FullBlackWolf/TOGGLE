@@ -20,7 +20,7 @@ Due to the randomness of DNA fragment capture, this technology is difficult to a
      alt="image2" 
      title="image2">
 
-title: "Questions"
+Questions
 ---
 <div style="text-align: justify;">
 While there are numerous tools available for analyzing scRNA-seq data, few are designed to predict the fate of Mature cells, such as neurons. Current computational methods include Weighted Optimal Transport (WOT)14 and Cospar15. WOT constructs lineage information based on dynamic data trajectories but tends to misidentify similar transition trajectories. Cospar utilizes transition matrix principles to infer state transitions between nodes. However, it is not suitable for multi-stage classifications where correspondences are not unique; it cannot classify static, differentiated cell data, such as Mature cells, nor can it distinguish between different programmed stages within the same cell type. The primary challenges in fate prediction, illustrated in Figure, include: 
@@ -50,6 +50,8 @@ While there are numerous tools available for analyzing scRNA-seq data, few are d
      alt="Figure6" 
      title="Figure6">
 
+Innovation
+---
 <div style="text-align: justify;">
 We named this method "Trajectory of Gene Generated Lineage Estimation (TOGGLE)." Based on the above issues, this study developed a new algorithm—TOGGLE. Compared with Cospar, Super OT, WOT, and GAN-based OT algorithms, TOGGLE offers the following advantages: 
 (1) This addresses a novel type of tracing problem. Except for immune cells, mature cells generally do not undergo cloning, making lineage tracing based on cell division unsuitable for mature cells. Mature cells exhibit highly similar temporal states, and their capture is often limited to a single stage within the programmed fate of cells. 
@@ -61,3 +63,24 @@ We named this method "Trajectory of Gene Generated Lineage Estimation (TOGGLE)."
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Method.png" 
      alt="Method" 
      title="Method">
+
+
+Functions
+---
+𝑻𝒂𝒔𝒌 1: 𝑳𝒊𝒏𝒆𝒂𝒈𝒆 𝑻𝒓𝒂𝒄𝒊𝒏𝒈
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result1.png" 
+     alt="Result" 
+     title="Result">
+𝑻𝒂𝒔𝒌 2: 𝑪𝒉𝒂𝒏𝒈𝒆 𝒐𝒇 𝑹𝑵𝑨 𝑷𝒂𝒕𝒉𝒘𝒂𝒚
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result2.png" 
+     alt="Result" 
+     title="Result">
+𝑻𝒂𝒔𝒌 3: 𝑭𝒖𝒏𝒄𝒕𝒊𝒐𝒏 𝑫𝒊𝒇𝒇𝒆𝒓𝒆𝒏𝒕𝒊𝒂𝒕𝒊𝒐𝒏 𝒐𝒇 𝑴𝒂𝒕𝒖𝒓𝒆 𝑪𝒆𝒍𝒍𝒔
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result3.tif" 
+     alt="Result" 
+     title="Result">
+𝑻𝒂𝒔𝒌 4: 𝑭𝒂𝒕𝒆 𝑻𝒓𝒂𝒄𝒊𝒏𝒈 𝒐𝒇 𝑴𝒂𝒕𝒖𝒓𝒆 𝑪𝒆𝒍𝒍𝒔
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result4.png" 
+     alt="Result" 
+     title="Result">
+
