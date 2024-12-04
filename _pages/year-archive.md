@@ -19,7 +19,7 @@ Due to the randomness of DNA fragment capture, this technology is difficult to a
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/image2.png" 
      alt="image2" 
      title="image2">
----
+
 title: "Questions"
 ---
 <div style="text-align: justify;">
