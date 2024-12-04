@@ -19,7 +19,9 @@ Due to the randomness of DNA fragment capture, this technology is difficult to a
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/image2.png" 
      alt="image2" 
      title="image2">
-
+---
+title: "Questions"
+---
 <div style="text-align: justify;">
 While there are numerous tools available for analyzing scRNA-seq data, few are designed to predict the fate of Mature cells, such as neurons. Current computational methods include Weighted Optimal Transport (WOT)14 and Cospar15. WOT constructs lineage information based on dynamic data trajectories but tends to misidentify similar transition trajectories. Cospar utilizes transition matrix principles to infer state transitions between nodes. However, it is not suitable for multi-stage classifications where correspondences are not unique; it cannot classify static, differentiated cell data, such as Mature cells, nor can it distinguish between different programmed stages within the same cell type. The primary challenges in fate prediction, illustrated in Figure, include: 
 </div>
