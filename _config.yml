@@ -60,7 +60,7 @@ plugins:
 author:
   name   : "TOGGLE(KAILIN): Single Cell Fate Tracing tools"
   avatar : "/assets/images/Cardiolablogo.png"
-  bio    : "𝕬𝖑𝖊𝖝 𝕻. 𝕮𝖆𝖗𝖑𝖑'𝖘 𝖑𝖆𝖇"
+  bio    : "𝓐𝓵𝓮𝔁 𝓟. 𝓒𝓪𝓻𝓵𝓵'𝓼 𝓵𝓪𝓫"
   links:
     - label: "About Junpeng Chen"
       icon: "fab fa-fw fa-instagram"
