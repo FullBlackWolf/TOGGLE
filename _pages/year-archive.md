@@ -86,9 +86,21 @@ Functions
      alt="Result" 
      title="Result">
 𝑻𝒂𝒔𝒌 3: 𝑭𝒖𝒏𝒄𝒕𝒊𝒐𝒏 𝑫𝒊𝒇𝒇𝒆𝒓𝒆𝒏𝒕𝒊𝒂𝒕𝒊𝒐𝒏 𝒐𝒇 𝑴𝒂𝒕𝒖𝒓𝒆 𝑪𝒆𝒍𝒍𝒔
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result3.tif" 
-     alt="Result" 
-     title="Result">
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/FigureA.png" 
+     alt="FA" 
+     title="FA">
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/FigureC.png" 
+     alt="FC" 
+     title="FC">
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/FigureF.png" 
+     alt="FF" 
+     title="FF">
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/FigureS.png" 
+     alt="FS" 
+     title="FS">
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/FigureSC.png" 
+     alt="FSC" 
+     title="FSC">
 𝑻𝒂𝒔𝒌 4: 𝑭𝒂𝒕𝒆 𝑻𝒓𝒂𝒄𝒊𝒏𝒈 𝒐𝒇 𝑴𝒂𝒕𝒖𝒓𝒆 𝑪𝒆𝒍𝒍𝒔
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result4.png" 
      alt="Result" 
