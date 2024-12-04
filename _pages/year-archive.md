@@ -78,14 +78,23 @@ We named this method "Trajectory of Gene Generated Lineage Estimation (TOGGLE)."
 Functions
 ---
 𝑻𝒂𝒔𝒌 1: 𝑳𝒊𝒏𝒆𝒂𝒈𝒆 𝑻𝒓𝒂𝒄𝒊𝒏𝒈
+<div style="text-align: justify;">
+Trace the cell lineage of hematopoietic development and fibroblast reprogramming. A: The ground truth of reprogrammed data from Biddy et al., 201816; B: The clustering result of reprogrammed data; C: The similarity matrix of clustering results of reprogrammed data; D: The TOGGLEss prediction result of reprogrammed data; E: The ground truth of neutrophil progenitor data from Weinreb et al. 20209; F: The clustering result of neutrophil progenitor data; G: The similarity matrix of clustering results of neutrophil progenitor data; H: The TOGGLEss prediction result of neutrophil progenitor data
+</div>
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result1.png" 
      alt="Result" 
      title="Result">
 𝑻𝒂𝒔𝒌 2: 𝑪𝒉𝒂𝒏𝒈𝒆 𝒐𝒇 𝑹𝑵𝑨 𝑷𝒂𝒕𝒉𝒘𝒂𝒚
+<div style="text-align: justify;">
+Figure 11. The Enrichment Results of Genes in Each Gene Group. A: Biological processes and pathways of Group 2; B: Biological processes and pathways of Group 3; C: Biological processes and pathways of Group 4; D: Biological processes of Group 5. (BP: biological processes; PY: signaling pathways. X-axis is fold enrichment)
+</div>
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result2.png" 
      alt="Result" 
      title="Result">
 𝑻𝒂𝒔𝒌 3: 𝑭𝒖𝒏𝒄𝒕𝒊𝒐𝒏 𝑫𝒊𝒇𝒇𝒆𝒓𝒆𝒏𝒕𝒊𝒂𝒕𝒊𝒐𝒏 𝒐𝒇 𝑴𝒂𝒕𝒖𝒓𝒆 𝑪𝒆𝒍𝒍𝒔
+<div style="text-align: justify;">
+Analysis results of GSE253768 set. A: Cell types of snRNA-seq; B: Fibroblasts and myofibroblasts were divided into 7 groups after TOGGLE analysis; C: Distribution of 7 cell types in MI and Sham groups; D: Weight/strength diagram of cell communication between fibroblasts and immune cells; E: Bubble diagram of cell communication between fibroblasts and immune cells; F: RNA distribution of fibroblasts in the MI group; G: Mapping MI group bulk RNA-seq data on UMAP of fibroblasts; H: Enrichment results of FibR2-G6 (BP: biological processes; PY: signaling pathways. X-axis is fold enrichment).
+</div>
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/FigureA.png" 
      alt="FA" 
      title="FA">
@@ -102,6 +111,9 @@ Functions
      alt="FSC" 
      title="FSC">
 𝑻𝒂𝒔𝒌 4: 𝑭𝒂𝒕𝒆 𝑻𝒓𝒂𝒄𝒊𝒏𝒈 𝒐𝒇 𝑴𝒂𝒕𝒖𝒓𝒆 𝑪𝒆𝒍𝒍𝒔
+<div style="text-align: justify;">
+Ferroptotic Neurons Prediction. A: Cells in previous Groups R2-2 and R2-3 further analyzed by TOGGLEss that divided into 5 groups; B: The proportion of ferroptosis-driving genes in each cell group; C: Log2FC values of highly expressed ferroptosis-driving genes; D: The proportion of cells expressing different ferroptosis-driving genes; E: Top 50 pathways of Group R3-4 and Group R3-5 genes.
+</div>
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Result4.png" 
      alt="Result" 
      title="Result">
