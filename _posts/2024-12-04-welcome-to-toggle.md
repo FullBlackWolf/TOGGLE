@@ -1,5 +1,5 @@
 ---
-title: "Welcome to Kailin!"
+title: "Welcome to TOGGLE(Ver. Kailin)!"
 date: 2024-12-04T15:34:30-04:00
 categories:
   - blog
