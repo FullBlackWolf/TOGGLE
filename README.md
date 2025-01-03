@@ -1,4 +1,4 @@
-# KAILIN: Selfsupervised Method for Fate Tracing
+# KAILIN: Unsupervised Method for Fate Tracing
 
 TOGGLE website:
 https://fullblackwolf.github.io/TOGGLE/
