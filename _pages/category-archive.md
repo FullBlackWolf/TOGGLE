@@ -58,6 +58,40 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
                     ---[Rdata] #File processed by R
                     ---[result] #File processed by Matlab
 ```   
+
+Cover Letter
+---  
+Summary:  
+This study developed TOGGLE to address challenges in cell fate analysis. Using hematopoietic and fibroblast reprogramming datasets, TOGGLE reconstructed cell lineages, identified progenitor cells, and predicted developmental trajectories without extensive preprocessing. It classified functionally continuous cells into distinct types and tracked intra-class differentiation. Additionally, TOGGLE analyzed RNA pathway changes in e-cigarette and nicotine exposure datasets, highlighting non-genetic and metabolic influences. By identifying RNA pathway transformations and cellular function execution, TOGGLE offers a robust framework for understanding programmed cell fate transitions.  
+Meanwhile, we used neurons undergoing ferroptosis as sample to establish the programmed fate lineage of mature cells. We mapped the trajectory of neuronal programmed cell death and identified neuron populations primarily undergoing ferroptosis. Our findings establish a novel framework for investigating ferroptosis(programmed cell fate) mechanisms and offer TOGGLE as a powerful tool for mapping cell death trajectories across tissues. This study lays the groundwork for future therapeutic strategies targeting ferroptosis in ischemic stroke and other diseases involving programmed cell death.  
+Compared with previous algorithm, TOGGLE addresses tracing mature cell fates, overcoming challenges in lineage tracing where mature cells lack clear fate boundaries and often exist in highly similar temporal states. It reconstructs complete fate trajectories, grouping cells by fate progression without pre-identifying progenitor or descendant cells. Based on a corollary of Takens' theorem, TOGGLE enables dynamic reconstruction of cell fate, including differentiation lineages (e.g., hematopoietic cells), reprogramming (e.g., induced cells), programmed fates (e.g., ferroptosis), and functional transformations (e.g., e-cigarette-induced cardiac changes). This tool establishes comprehensive fate-tracking for mature cells and their functions.   
+
+Biology Challenges:  
+Terminally differentiated cells undergo programmed cell death through distinct molecular pathways, including ferroptosis, apoptosis, and pyroptosis. However, identifying specific types remains challenging due to the complexity of signaling pathways, marker genes, and the limitations of current tools.   
+Algorithm Challenges:  
+•	Endpoint loss (e.g., missing terminal samples like dead neurons in stroke).  
+•	Time loss (difficulty in sampling at multiple intervals).  
+•	Sample imbalance (uneven representation of cell stages), and the absence of clear fate boundaries (gradual transitions in processes like ferroptosis).   
+•	Lack of Boundaries: cell soft and same type and subtype lack type boundaries, fate prediction of neurons lacks clear boundaries between cell states  
+Innovation of Methods:  
+1.	Based on the ability to perform mature cell subtype/type classification and lineage tracing prediction, we extended functionality to enable classification within the same subtype/type of cells based on their specific functional states.  
+2.	While existing techniques can only conduct subtype classification and lineage tracing, we enhanced the resolution of these principles to enable programmed fate differentiation, distinguishing different stages of cell fate.  
+3.	We demonstrated the potential to detect RNA pathway alterations in the e-cigarette dataset and the ability to classify functional cell interactions in the rat myocardial infarction (MI) model dataset.  
+
+Terminology Explanation:  
+•	Subtype Classification: A method of categorizing cell types. Specific mature cells can differentiate into different subtypes under various conditions. For instance, CD4⁺ T cells can transition into Th1 cells, Th2 cells, Treg cells, or Tfh cells. These all belong to the broader category of T cells but represent distinct subcategories. For clarity, we define that if a cell type does not generate other subtypes, it is considered to have only one subtype.  
+•	Lineage Tracing: A functional classification method for cells. It predicts the types of cells that a progenitor cell with differentiation potential will develop into. For example, hematopoietic cells may differentiate into monocytes or neutrophils.  
+•	Programmed Fate Differentiation: A classification of cell fate stages. Within the same cell subtype or type, specific programmed events are initiated for a particular purpose, such as healthy cells undergoing apoptosis or ferroptosis. This is a new topic we trying to talk for single cell.
+Discover of Biology:  
+•	We mapped the trajectory of neuronal programmed cell death and identified neuron populations primarily undergoing ferroptosis.  
+•	Key ferroptosis-driving genes, including Ctsb, Mtdh, Ndrg1, Smad7, and others, were highlighted as potential therapeutic targets. By characterizing these pathways, we provide new insights into the regulation of ferroptosis, which is essential for rescuing neurons and mitigating damage in affected brain areas.  
+
+Advanced Comparison: 
+
+
+
+
+
   
 Raw data
 ---
