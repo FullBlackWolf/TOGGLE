@@ -32,7 +32,7 @@ fl1n09
 ```   
 When installing TOGGLE (KALIN) using Anaconda, the path is typically:  
 ```python
-anaconda3\envs\[Your Environment Name]\Lib\site-packages\LittleSnowFox
+./anaconda3/envs/[Your Environment Name]/Lib/site-packages/LittleSnowFox
 ```
 Overwrite the files in 
 ```python
