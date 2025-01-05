@@ -1,5 +1,6 @@
 ---
 title: "Install & Guide"
+permalink: /categories/
 author_profile: true
 ---
 
