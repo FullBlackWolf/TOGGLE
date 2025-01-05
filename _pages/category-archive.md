@@ -47,7 +47,7 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
 ---[LittleSnowFox]
      ---[database]
      ---[Clustering_sample]
-             ---[e-cigarettes], [e-cigarettes_difference_expression], [fibroblasts]
+            ---[e-cigarettes], [e-cigarettes_difference_expression], [fibroblasts]
                     ---[data] #File processed by Jupyter Notebook
                     ---[Rdata] #File processed by R
                     ---[result] #File processed by Matlab
@@ -57,6 +57,18 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
                     ---[data] #File processed by Jupyter Notebook
                     ---[Rdata] #File processed by R
                     ---[result] #File processed by Matlab
+     ---R_processing
+            ---Hematopoiesis_all.R
+            ---Hematopoiesis_prog.R
+            ---Myocardial_infarction.R
+            ---Myocardial_infarction_RNA.R
+            ---Neuron.R
+            ---Reprogramming_all.R
+            ---Reprogramming_prog.R
+     ---cigarette.ipynb #
+     ---fibroblasts.ipynb
+     ---neuron.ipynb
+     ---tracing.ipynb
 ```   
 
 Cover Letter
