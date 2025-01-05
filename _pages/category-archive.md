@@ -20,7 +20,13 @@ PIP Install
 pip install LittleSnowFox
 ```  
 
-    
+
+Download the database
+---
+https://biocomputing.cowtransfer.com/s/b7f5aa9cc9ee4e  
+Password:fl1n09  
+
+     
 Raw data
 ---
 We provide a format-converted dataset on the cloud drive.  
