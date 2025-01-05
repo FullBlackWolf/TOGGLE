@@ -23,8 +23,14 @@ pip install LittleSnowFox
 
 Download the database
 ---
+```python
 https://biocomputing.cowtransfer.com/s/b7f5aa9cc9ee4e  
-Password:fl1n09  
+```  
+Password  
+```python
+:fl1n09
+```   
+  
 
      
 Raw data
