@@ -30,9 +30,19 @@ Password
 ```python
 fl1n09
 ```   
-  
+When installing TOGGLE (KALIN) using Anaconda, the path is typically:  
+```python
+anaconda3\envs\[Your Environment Name]\Lib\site-packages\LittleSnowFox
+```
+Overwrite the files in 
+```python
+./LittleSnowFox/
+```
+After installing **LittleSnowFox** using `pip install LittleSnowFox`, the Matlab program will be successfully downloaded. However, the package does not include the accompanying data files. To avoid potential errors in downloading data files through the Python component, you need to manually download the data files. You can directly download the entire `database` folder.
 
-     
+If the folder is placed correctly, you will be prompted with "Do you want to overwrite the `database` folder?" Select "Yes" to write the data files. Ensure that the data directory is correctly overwritten in the Anaconda environment during the process.
+  
+  
 Raw data
 ---
 We provide a format-converted dataset on the cloud drive.  
