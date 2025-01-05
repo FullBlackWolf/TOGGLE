@@ -1,7 +1,7 @@
 # KAILIN: Unsupervised Method for Fate Tracing
 
 TOGGLE website:
-https://fullblackwolf.github.io/TOGGLE/
+https://fullblackwolf.github.io/TOGGLE/posts/
 
 Data:
 https://biocomputing.cowtransfer.com/s/b7f5aa9cc9ee4e
