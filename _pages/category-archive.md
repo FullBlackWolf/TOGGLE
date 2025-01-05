@@ -88,7 +88,10 @@ Discover of Biology:
 
 Advanced Comparison: 
 
-
+<br>
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Advanced.png" 
+     alt="Advanced.png" 
+     title="Advanced.png">
 
 
 
