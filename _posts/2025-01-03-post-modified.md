@@ -1,6 +1,6 @@
 ---
 title: "Z: Installation Guide!"
-last_modified_at: 2025-01-02T16:20:02-05:00
+last_modified_at: 2025-01-03
 categories:
   - Blog
 tags:
