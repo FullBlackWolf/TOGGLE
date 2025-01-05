@@ -63,12 +63,14 @@ Cover Letter
 ---  
 𝑩𝒊𝒐𝒍𝒐𝒈𝒚 𝑪𝒉𝒂𝒍𝒍𝒆𝒏𝒈𝒆𝒔:    
 Terminally differentiated cells undergo programmed cell death through distinct molecular pathways, including ferroptosis, apoptosis, and pyroptosis. However, identifying specific types remains challenging due to the complexity of signaling pathways, marker genes, and the limitations of current tools.   
-Algorithm Challenges:  
+
+𝑨𝒍𝒈𝒐𝒓𝒊𝒕𝒉𝒎 𝑪𝒉𝒂𝒍𝒍𝒆𝒏𝒈𝒆𝒔:
 •	Endpoint loss (e.g., missing terminal samples like dead neurons in stroke).  
 •	Time loss (difficulty in sampling at multiple intervals).  
 •	Sample imbalance (uneven representation of cell stages), and the absence of clear fate boundaries (gradual transitions in processes like ferroptosis).   
 •	Lack of Boundaries: cell soft and same type and subtype lack type boundaries, fate prediction of neurons lacks clear boundaries between cell states  
-Innovation of Methods:  
+
+𝑰𝒏𝒏𝒐𝒗𝒂𝒕𝒊𝒐𝒏 𝒐𝒇 𝑴𝒆𝒕𝒉𝒐𝒅𝒔:
 1.	Based on the ability to perform mature cell subtype/type classification and lineage tracing prediction, we extended functionality to enable classification within the same subtype/type of cells based on their specific functional states.  
 2.	While existing techniques can only conduct subtype classification and lineage tracing, we enhanced the resolution of these principles to enable programmed fate differentiation, distinguishing different stages of cell fate.  
 3.	We demonstrated the potential to detect RNA pathway alterations in the e-cigarette dataset and the ability to classify functional cell interactions in the rat myocardial infarction (MI) model dataset.  
