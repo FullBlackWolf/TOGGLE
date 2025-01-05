@@ -12,7 +12,15 @@ Python = `3.9.18`(No compatibility testing performed)
 Matlab = `R2024a`(In theory, all versions are supported, because Matlab is backward compatible)   
 R = `4.3.2`  
 Anaconda/Miniconda (Highly recommend)  
+  
+  
+PIP Install
+---
+```python
+pip install LittleSnowFox
+```  
 
+    
 Raw data
 ---
 We provide a format-converted dataset on the cloud drive.  
@@ -45,5 +53,3 @@ https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE253578
 https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE232429  
   
 
-PIP Install
----
