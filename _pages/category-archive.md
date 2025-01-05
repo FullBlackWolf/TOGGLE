@@ -28,7 +28,7 @@ https://biocomputing.cowtransfer.com/s/b7f5aa9cc9ee4e
 ```  
 Password  
 ```python
-:fl1n09
+fl1n09
 ```   
   
 
