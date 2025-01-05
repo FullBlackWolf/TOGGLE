@@ -41,7 +41,23 @@ Overwrite the files in
 After installing **LittleSnowFox** using `pip install LittleSnowFox`, the Matlab program will be successfully downloaded. However, the package does not include the accompanying data files. To avoid potential errors in downloading data files through the Python component, you need to manually download the data files. You can directly download the entire `database` folder.
 
 If the folder is placed correctly, you will be prompted with "Do you want to overwrite the `database` folder?" Select "Yes" to write the data files. Ensure that the data directory is correctly overwritten in the Anaconda environment during the process.
-  
+
+```python
+#Database folder Structure：
+---[LittleSnowFox]
+     ---[database]
+     ---[Clustering_sample]
+             ---[e-cigarettes], [e-cigarettes_difference_expression], [fibroblasts]
+                    ---[data] #File processed by Jupyter Notebook
+                    ---[Rdata] #File processed by R
+                    ---[result] #File processed by Matlab
+                    ---main_v3_[Sample Name].m #Matlab Main Coding
+     ---[Tracing_sample] 
+            ---[Hematopoiesis], [Nerveferroptosis], [Reprogramming]
+                    ---[data] #File processed by Jupyter Notebook
+                    ---[Rdata] #File processed by R
+                    ---[result] #File processed by Matlab
+```   
   
 Raw data
 ---
