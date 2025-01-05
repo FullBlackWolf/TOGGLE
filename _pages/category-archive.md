@@ -57,7 +57,7 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
                     ---[data] #File processed by Jupyter Notebook
                     ---[Rdata] #File processed by R
                     ---[result] #File processed by Matlab
-     ---R_processing
+     ---[R_processing] #Preprocessing with R
             ---Hematopoiesis_all.R
             ---Hematopoiesis_prog.R
             ---Myocardial_infarction.R
@@ -65,10 +65,10 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
             ---Neuron.R
             ---Reprogramming_all.R
             ---Reprogramming_prog.R
-     ---cigarette.ipynb #
-     ---fibroblasts.ipynb
-     ---neuron.ipynb
-     ---tracing.ipynb
+     ---cigarette.ipynb #First step for e-cigarette analysis
+     ---fibroblasts.ipynb #First step for fibroblasts analysis
+     ---neuron.ipynb #First step for neuron analysis
+     ---tracing.ipynb #First step for tracing analysis
 ```   
 
 Cover Letter
