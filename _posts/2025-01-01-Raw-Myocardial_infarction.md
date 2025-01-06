@@ -3,7 +3,7 @@ title: "Preprocessing: Myocardial Infarction"
 categories:
   - Blog
 tags:
-  - Install
+  - Preprocessing & Quality Control
 ---
 
 # Load required packages
