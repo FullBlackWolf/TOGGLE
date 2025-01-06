@@ -1,5 +1,5 @@
 ---
-title: "Mature: Function Difference of Myocardial"
+title: "Mature Functions: Function Difference of Myocardial"
 categories:
   - Blog
 tags:
