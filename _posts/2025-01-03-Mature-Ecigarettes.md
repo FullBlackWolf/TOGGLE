@@ -1,10 +1,10 @@
 ---
-title: "Installation Guide"
+title: "Mature-Ecigarettes"
 last_modified_at: 2025-01-03
 categories:
   - Blog
 tags:
-  - Install
+  - Samples
 ---
 
 Python = `3.9.18`
