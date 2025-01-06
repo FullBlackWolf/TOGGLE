@@ -1,5 +1,5 @@
 ---
-title: "Preprocessing: Myocardial Infarction"
+title: "Mature: Function Difference of Myocardial"
 categories:
   - Blog
 tags:
