@@ -1,5 +1,5 @@
 ---
-title: "Rawdata Preprocessing: RNA Pathways of Myocardial"
+title: "Rawdata Preprocessing: RNA Map of Myocardial"
 excerpt_separator: "<!--more-->"
 categories:
   - Blog
