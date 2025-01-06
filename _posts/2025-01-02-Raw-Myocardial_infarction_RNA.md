@@ -1,5 +1,5 @@
 ---
-title: "Post: Standard!"
+title: "Rawdata Preprocessing: RNA Pathways of Myocardial"
 excerpt_separator: "<!--more-->"
 categories:
   - Blog
