@@ -339,6 +339,8 @@ ggsave(filename = "FibroblastCell-1.pdf", plot = p1, device = 'pdf', width = 15,
      alt="Myocardial-2.png" 
      title="Myocardial-2.png">
 
+UMAP
+---
 ```R
 p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24, height = 12, units = 'cm')
@@ -348,6 +350,8 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
      alt="Myocardial-3.png" 
      title="Myocardial-3.png">
      
+UMAP
+---
 ```R
 p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24, height = 12, units = 'cm')
@@ -358,9 +362,17 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
      alt="Myocardial-4.png" 
      title="Myocardial-4.png">
 
+
+𝓣𝓪𝓴𝓮 𝓜𝓘'𝓼 𝓘𝓶𝓶𝓾𝓷𝓮𝓒𝓮𝓵𝓵 𝓪𝓷𝓭 𝓶𝓮𝓻𝓰𝓮 𝓲𝓽 𝔀𝓲𝓽𝓱 𝓕𝓲𝓫𝓻𝓸𝓫𝓵𝓪𝓼𝓽𝓒𝓮𝓵𝓵 𝓽𝓸 𝓶𝓪𝓴𝓮 𝓒𝓮𝓵𝓵 𝓬𝓸𝓶𝓶𝓾𝓷𝓲𝓬𝓪𝓽𝓲𝓸𝓷
+
+Load Data
+---
 ```R
-###################Take MI's ImmuneCell and merge it with FibroblastCell to make Cell communication#########################
 load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell-8000.Rdata")
+```
+Extract Fibroblasts
+---
+```R
 #Take out the FibroblastCell from the myocardial infarction group
 Idents(testAB.integrated) <- "Fenqun"
 Fib_seurat <- subset(testAB.integrated,idents=c("FibR1-G5", "FibR1-G6", "FibR1-G7"),invert = FALSE)
@@ -368,13 +380,21 @@ Idents(Fib_seurat) <- "Group"
 Fib_seurat <- subset(Fib_seurat,idents=c("MI"),invert = FALSE)
 Fib_seurat[["RNA"]] <- as(object = Fib_seurat[["RNA"]], Class = "Assay")
 #Take out the ImmuneCell from the previous Cell's MI group
+```
+Extract Immune Cells
+---
+```R
 load("C:/GEOANALYSIS/GSE253768/MI Cell-15 clusters.Rdata")
 Idents(testAB.integrated) <- "Group"
 Immu_seurat <- subset(testAB.integrated,idents=c("MI"),invert = FALSE)
 Idents(Immu_seurat) <- "clusters2"
 Immu_seurat <- subset(Immu_seurat,idents=c("Macrophages", "T cells"),invert = FALSE)
 Immu_seurat[["RNA"]] <- as(object = Immu_seurat[["RNA"]], Class = "Assay")
-#Merge the two matrices and keep the Cell type data
+```
+
+Merge the two matrices and keep the Cell type data
+---
+```R
 # Get the expression matrix of Fib_seurat and Immu_seurat
 Fib_expr <- Fib_seurat@assays$RNA@counts
 Immu_expr <- Immu_seurat@assays$RNA@counts
@@ -398,6 +418,11 @@ combined_seurat <- CreateSeuratObject(
   counts = combined_expr,
   meta.data = combined_meta
 )
+```
+
+Add Cell Type Information
+---
+```R
 # View the column names in metadata
 colnames(combined_seurat@meta.data)
 # View the first few rows of metadata to ensure that the correct columns are included
@@ -413,6 +438,11 @@ combined_seurat$cell_type <- dplyr::case_when(
   combined_seurat$Source == "Immu" ~ as.character(combined_seurat$clusters2),
   TRUE ~ NA_character_
 )
+```
+
+Clean Metadata
+---
+```R
 # View the newly created cell_type column
 print(head(combined_seurat$cell_type))
 # View the combined Seurat object
@@ -425,11 +455,22 @@ combined_seurat$RNA_snn_res.0.18 <- NULL
 combined_seurat$seurat_clusters <- NULL
 combined_seurat$clusters1 <- NULL
 combined_seurat$clusters2 <- NULL
+```
+
+Perform UMAP Analysis
+---
+```R
 #do umap
 combined_seurat <- SCTransform(combined_seurat,assay = 'RNA')
 combined_seurat <- RunPCA(combined_seurat)
 ElbowPlot(combined_seurat)
 combined_seurat <- RunUMAP(combined_seurat, dims = 1:10)
+```
+
+Visualize and Save UMAP
+---
+
+```R
 UMAPPlot(combined_seurat,group.by='cell_type',label=T)
 cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
 p1 <- DimPlot(combined_seurat, reduction = "umap", group.by = "cell_type", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
