@@ -7,7 +7,8 @@ tags:
 ---
 
 
-
+Load required R packages
+---
 ```R
 # Load required packages
 library(Seurat)
@@ -20,8 +21,9 @@ library(future)
 library(harmony)
 library(RColorBrewer)
 ```
-
-
+Read file names and set the working directory  
+---
+```R
 # Create a vector to read files
 setwd("C:/GEOANALYSIS/GSE253768")
 ## Save the file names in the folder to 'dir_name'
@@ -35,8 +37,11 @@ names(dir_name) <- gsub("\\.csv$", "", dir_name)
 dir_name
 ##      MI1         MI2       Sham1       Sham2 
 ##"MI1.csv"   "MI2.csv" "Sham1.csv" "Sham2.csv" 
+```
 
-# Batch read data and create Seurat objects
+Batch read data and create Seurat objects
+---
+```R
 ## Batch data processing
 scRNAlist <- list()
 for (i in 1:length(dir_name)) {
@@ -52,7 +57,11 @@ for (i in 1:length(dir_name)) {
     project = names(dir_name)[i]
   )
 }
+```
 
+Calculate mitochondrial and red blood cell proportions
+---
+```R
 # Check the Seurat object list
 scRNAlist
 
@@ -72,7 +81,11 @@ for(i in 1:length(scRNAlist)){
   # Remove 'sc'
   rm(sc)
 }
+```
 
+Quality control and preliminary merging
+---
+```R
 # Perform a simple merge and then plot quality control (QC)
 CI <- merge(scRNAlist[[1]], y=c(scRNAlist[[2]], scRNAlist[[3]], scRNAlist[[4]]))
 head(colnames(CI))
@@ -83,7 +96,11 @@ plot2 <- FeatureScatter(CI, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 CombinePlots(plots = list(plot1, plot2))# QC plot 1
 VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent"), ncol = 4, pt.size=0)# QC plot 2
 VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent"), ncol = 4, pt.size=0.5)# QC plot 3
+```
 
+Filter cells
+---
+```R
 # Filter cells in batch
 scRNAlist <- lapply(X = scRNAlist, FUN = function(x){
   x <- subset(x, 
@@ -91,7 +108,11 @@ scRNAlist <- lapply(X = scRNAlist, FUN = function(x){
                 mt_percent < 10 & 
                 HB_percent < 5 & 
                 nCount_RNA < quantile(nCount_RNA,0.97))})
+```
 
+Data normalization, feature selection, and dimensionality reduction
+--- 
+```R
 # Merge Seurat objects
 scRNAlist <- merge(scRNAlist[[1]], y=c(scRNAlist[[2]], scRNAlist[[3]], scRNAlist[[4]]))
 # Select highly variable genes and perform dimensionality reduction
@@ -99,13 +120,23 @@ scRNAlist <- NormalizeData(scRNAlist) %>%
   FindVariableFeatures(selection.method = "vst",nfeatures = 3000) %>% 
   ScaleData() %>% 
   RunPCA(npcs = 30, verbose = T)
+```
 
+Harmony integration analysis
+---
+```R
 # Integrate using Harmony
 testAB.integrated <- RunHarmony(scRNAlist, group.by.vars = "orig.ident")
 # Copy 'orig.ident' to 'Sample'
 testAB.integrated@meta.data$Sample <- testAB.integrated@meta.data$orig.ident
 # Copy 'orig.ident' to 'Group' and remove numbers
 testAB.integrated@meta.data$Group <- gsub("[0-9]", "", testAB.integrated@meta.data$orig.ident)
+```
+
+
+Clustering and dimensionality reduction visualization
+---
+```R
 # Check the updated metadata
 head(testAB.integrated@meta.data)
 
@@ -121,12 +152,15 @@ testAB.integrated <- RunTSNE(testAB.integrated, reduction = "harmony", dims = 1:
 testAB.integrated <- RunUMAP(testAB.integrated, reduction = "harmony", dims = 1:25)
 # Save
 save(testAB.integrated, metadata, file = "MI Cell-15 clusters.Rdata")
-
 # Export markers
 testAB.integrated <- JoinLayers(testAB.integrated)
 CI.markers <- FindAllMarkers(testAB.integrated, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 write.csv(CI.markers, file="MI Cell marker.csv")
+```
 
+Annotation and cluster labeling
+---
+```R
 # Naming the 15 clusters
 new.cluster.ids <- c("Fibroblasts", "Cardiomyocytes", "Endothelial cells",
                      "Cardiomyocytes", "Smooth muscle cells", "Macrophages",
@@ -138,7 +172,10 @@ testAB.integrated <- RenameIdents(testAB.integrated, new.cluster.ids)
 testAB.integrated$clusters2 <- testAB.integrated@active.ident
 
 save(testAB.integrated, metadata, file = "MI Cell-15 clusters.Rdata")
-
+```
+Export results and visualization
+---
+```R
 # Export the count of each cluster
 Table1 <- table(testAB.integrated$Group, testAB.integrated$clusters2)
 Table2 <- table(testAB.integrated$Sample, testAB.integrated$clusters2)
