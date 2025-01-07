@@ -215,6 +215,7 @@ testAB.integrated$seurat_clusters <- NULL
 
 Re-normalize and Identify Highly Variable Genes
 ---
+
 ```R
 #Re-finding highly variable genes
 testAB.integrated <- NormalizeData(testAB.integrated) %>% 
@@ -224,8 +225,10 @@ testAB.integrated <- NormalizeData(testAB.integrated) %>%
 # Save
 save(testAB.integrated, file = "MI-FibroblastCell.Rdata")
 ```
+
 Export as AnnData Format
 ---
+
 ```R
 # Export as h5ad version
 high_var_genes <- VariableFeatures(testAB.integrated)  
@@ -244,8 +247,10 @@ sceasy::convertFormat(
   outFile = "MI-FibroblastCell.h5ad"
 )
 ```
+
 Load and Integrate Additional Data
 ---
+
 ```R
 
 #reload
@@ -261,8 +266,10 @@ metadata$Result <- index_result[rownames(metadata), "Result"]
 ##Update the metadata of the Seurat object
 testAB.integrated@meta.data <- metadata
 ```
+
 Filter Cells Based on Metadata
 ---
+
 ```R
 ##Check the updated metadata
 head(testAB.integrated@meta.data)
@@ -274,8 +281,10 @@ testAB.integrated <- subset(testAB.integrated, cells = cells_to_keep)
 ## Save
 save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
 ```
+
 Group Cells into Categories
 ---
+
 ```R
 #Add new columns in metadata to group these
 testAB.integrated@meta.data <- testAB.integrated@meta.data %>%
@@ -290,8 +299,10 @@ testAB.integrated@meta.data <- testAB.integrated@meta.data %>%
     TRUE ~ NA_character_ 
   ))
 ```
+
 Reprocess and Visualize
 ---
+
 ```R
 # Redraw UMAP
 testAB.integrated <- SCTransform(testAB.integrated,assay = 'RNA')
@@ -305,14 +316,17 @@ save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
 
 Export Cluster Markers
 ---
+
 ```R
 # Export markers for different groups
 Idents(testAB.integrated) <- "Fenqun"
 CI.markers <- FindAllMarkers(testAB.integrated, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 write.csv(CI.markers, file="FibroblastCell markers.csv")
 ```
+
 Save and Export UMAP Plot
 ---
+
 ```R
 
 ## Visualize and export
@@ -338,3 +352,18 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-4.png" 
      alt="Myocardial-4.png" 
      title="Myocardial-4.png">
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-5.png" 
+     alt="Myocardial-4.png" 
+     title="Myocardial-4.png">
+
+Save
+---
+```R
+## Save 
+save(seurat_object, file = "MI-FibroblastCell-mixed with whole transcriptome data.Rdata")
+# Export markers
+Idents(seurat_object) <- "Fenqun"
+CI.markers <- FindAllMarkers(seurat_object, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+write.csv(CI.markers, file="8000 Cells mixed with normal transcriptome markers.csv")
+```
