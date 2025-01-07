@@ -325,7 +325,10 @@ ggsave(filename = "FibroblastCell-1.pdf", plot = p1, device = 'pdf', width = 15,
      alt="Myocardial-2.png" 
      title="Myocardial-2.png">
 
-
+```R
+p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24, height = 12, units = 'cm')
+```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-3.png" 
      alt="Myocardial-3.png" 
