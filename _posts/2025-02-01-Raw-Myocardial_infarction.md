@@ -22,7 +22,7 @@ library(future)
 library(harmony)
 library(RColorBrewer)
 ```
-Read file names and set the working directory  
+Read file names and set the working directory
 ---
 ```R
 # Create a vector to read files
