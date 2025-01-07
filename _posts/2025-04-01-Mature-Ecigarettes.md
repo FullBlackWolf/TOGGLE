@@ -1,6 +1,6 @@
 ---
 title: "Mature Functions: RNA Pathways Changes of Ecigarettes"
-last_modified_at: 2025-01-03
+date: 2024-12-04T15:34:30-04:00
 categories:
   - Blog
 tags:
