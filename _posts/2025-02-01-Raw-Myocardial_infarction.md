@@ -347,23 +347,272 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-3.png" 
      alt="Myocardial-3.png" 
      title="Myocardial-3.png">
+     
+```R
+p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24, height = 12, units = 'cm')
+```
 
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-4.png" 
      alt="Myocardial-4.png" 
      title="Myocardial-4.png">
 
+```R
+###################Take MI's ImmuneCell and merge it with FibroblastCell to make Cell communication#########################
+load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell-8000.Rdata")
+#Take out the FibroblastCell from the myocardial infarction group
+Idents(testAB.integrated) <- "Fenqun"
+Fib_seurat <- subset(testAB.integrated,idents=c("FibR1-G5", "FibR1-G6", "FibR1-G7"),invert = FALSE)
+Idents(Fib_seurat) <- "Group"
+Fib_seurat <- subset(Fib_seurat,idents=c("MI"),invert = FALSE)
+Fib_seurat[["RNA"]] <- as(object = Fib_seurat[["RNA"]], Class = "Assay")
+#Take out the ImmuneCell from the previous Cell's MI group
+load("C:/GEOANALYSIS/GSE253768/MI Cell-15 clusters.Rdata")
+Idents(testAB.integrated) <- "Group"
+Immu_seurat <- subset(testAB.integrated,idents=c("MI"),invert = FALSE)
+Idents(Immu_seurat) <- "clusters2"
+Immu_seurat <- subset(Immu_seurat,idents=c("Macrophages", "T cells"),invert = FALSE)
+Immu_seurat[["RNA"]] <- as(object = Immu_seurat[["RNA"]], Class = "Assay")
+#Merge the two matrices and keep the Cell type data
+# Get the expression matrix of Fib_seurat and Immu_seurat
+Fib_expr <- Fib_seurat@assays$RNA@counts
+Immu_expr <- Immu_seurat@assays$RNA@counts
+# Get metadata
+Fib_meta <- Fib_seurat@meta.data
+Immu_meta <- Immu_seurat@meta.data
+# Add a new column Source to metadata to mark the source of data
+Fib_meta$Source <- "Fib"
+Immu_meta$Source <- "Immu"
+# Merge expression matrix
+combined_expr <- cbind(Fib_expr, Immu_expr)
+# Merge metadata
+combined_meta <- bind_rows(
+  mutate(Fib_meta, Cell_Barcode = rownames(Fib_meta)),
+  mutate(Immu_meta, Cell_Barcode = rownames(Immu_meta))
+)
+# Ensure that the Cell barcode and expression matrix column names are consistent
+combined_meta <- combined_meta %>% filter(Cell_Barcode %in% colnames(combined_expr))
+# Create a new Seurat object
+combined_seurat <- CreateSeuratObject(
+  counts = combined_expr,
+  meta.data = combined_meta
+)
+# View the column names in metadata
+colnames(combined_seurat@meta.data)
+# View the first few rows of metadata to ensure that the correct columns are included
+head(combined_seurat@meta.data)
+# Ensure that the Source column has been created correctly
+print(head(combined_seurat$Source))
+# Make sure the Fenqun and clusters2 columns have data
+print(head(combined_seurat$Fenqun))
+print(head(combined_seurat$clusters2))
+# Create a cell_type column and view the results
+combined_seurat$cell_type <- dplyr::case_when(
+  combined_seurat$Source == "Fib" ~ as.character(combined_seurat$Fenqun),
+  combined_seurat$Source == "Immu" ~ as.character(combined_seurat$clusters2),
+  TRUE ~ NA_character_
+)
+# View the newly created cell_type column
+print(head(combined_seurat$cell_type))
+# View the combined Seurat object
+combined_seurat
+combined_seurat$Sample <- NULL
+combined_seurat$Group <- NULL
+combined_seurat$Result <- NULL
+combined_seurat$Fenqun <- NULL
+combined_seurat$RNA_snn_res.0.18 <- NULL
+combined_seurat$seurat_clusters <- NULL
+combined_seurat$clusters1 <- NULL
+combined_seurat$clusters2 <- NULL
+#do umap
+combined_seurat <- SCTransform(combined_seurat,assay = 'RNA')
+combined_seurat <- RunPCA(combined_seurat)
+ElbowPlot(combined_seurat)
+combined_seurat <- RunUMAP(combined_seurat, dims = 1:10)
+UMAPPlot(combined_seurat,group.by='cell_type',label=T)
+cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
+p1 <- DimPlot(combined_seurat, reduction = "umap", group.by = "cell_type", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "UMAP of ImmuneCell and grouped FibroblastCell.pdf", plot = p1, device = 'pdf', width = 18, height = 15, units = 'cm')
+```
+
+
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-5.png" 
      alt="Myocardial-5.png" 
      title="Myocardial-5.png">
+     
+```R
+# Save
+save(combined_seurat, file = "ImmuneCell and grouped FibroblastCell files.Rdata")
+
+
+#####Start CCC analysis
+library(CellChat)
+DefaultAssay(combined_seurat) <- "RNA"
+combined_seurat <- NormalizeData(combined_seurat, 
+                               normalization.method = "LogNormalize", 
+                               scale.factor = 10000)
+#Propose the required data
+data.input  <- combined_seurat@assays$RNA$data
+identity = data.frame(group =combined_seurat$cell_type, row.names = names(combined_seurat$cell_type)) 
+unique(identity$group) # check the cell labels
+
+#Create a cellchat object
+cellchat <- createCellChat(object = data.input)
+
+#Add metadata information to the CellChat object
+cellchat <- addMeta(cellchat, meta = identity, meta.name = "labels")
+cellchat <- setIdent(cellchat, ident.use = "labels") # set "labels" as default cell identity
+levels(cellchat@idents) # show factor levels of the cell labels
+groupSize <- as.numeric(table(cellchat@idents))
+
+#Load and set the required CellChatDB database
+CellChatDB <- CellChatDB.mouse
+cellchat@DB <- CellChatDB # set the used database in the object
+
+#Preprocess expression data for cell-to-cell interaction analysis
+cellchat <- subsetData(cellchat) # subset the expression data of signaling genes for saving computation cost
+cellchat <- identifyOverExpressedGenes(cellchat)
+cellchat <- identifyOverExpressedInteractions(cellchat)
+cellchat <- projectData(cellchat, PPI.mouse)
+#Infer the interaction network between cells and analyze
+cellchat <- computeCommunProb(cellchat, raw.use = T)
+cellchat <- filterCommunication(cellchat, min.cells = 10)#Filter cells with less communication
+cellchat <- computeCommunProbPathway(cellchat)
+cellchat <- aggregateNet(cellchat)
+#Get all ligand-receptor pairs and their communication probabilities
+df.net <- subsetCommunication(cellchat)
+#Extract communication information by pathway
+df.pathway = subsetCommunication(cellchat, slot.name = "netP")
+write.csv(df.net, "Fib and ImmuneCell Interaction.csv", quote = F, sep = ',')
+write.csv(df.pathway, "Fib and ImmuneCell Interactions - Characterized by Pathways.csv",quote = F,sep = ',')
+#Analyze intercellular communication network
+cellchat <- netAnalysis_computeCentrality(cellchat)
+saveRDS(cellchat, file = "cellchat-Fib and ImmuneCell.rds")
+#Drawing
+Fib = c("FibR1-G7", "FibR1-G5", "FibR1-G6")
+Immu = c("Macrophages", "T cells")
+library(patchwork)
+#Save graph function
+par(mfrow=c(1,2),xpd=T)
+#netVisual_circle(cellchat@net$count, vertex.weight = groupSize, weight.scale = T,
+#                 label.edge= F, title.name = "Number of interactions")
+netVisual_circle(cellchat@net$weight, vertex.weight = groupSize, weight.scale = T,
+                 label.edge= F, title.name = "Fibroblasts as Targets", 
+                 sources.use = Immu,
+                 targets.use = Fib)
+netVisual_circle(cellchat@net$weight, vertex.weight = groupSize, weight.scale = T,
+                 label.edge= F, title.name = "Immune cells as Targets",
+                 sources.use = Fib,
+                 targets.use = Immu)
+```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-6.png" 
      alt="Myocardial-6.png" 
      title="Myocardial-6.png">
 
+```R
+#Make Cell communication bubble chart
+p1 <- netVisual_bubble(cellchat, sources.use = Immu, targets.use = Fib, title.name = "Fibroblasts as Targets", remove.isolate = T) 
+p2 <- netVisual_bubble(cellchat, sources.use = Fib, targets.use = Immu,title.name = "Immune cells as Targets", remove.isolate = T)
+p1 + p2
+```
+
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-7.png" 
      alt="Myocardial-7.png" 
      title="Myocardial-7.png">
+
+
+```R
+
+################################Perform mixed analysis of the common transcriptome#####################################
+#############################################################################################
+library(SeuratDisk)
+# Set the input file path and output file path
+input_file <- "tissue_and_sc.h5ad" # Replace with your h5ad file path
+output_file <- "tissue_and_sc.h5seurat" # Convert to temporary h5seurat file
+# Convert .h5ad to .h5seurat format
+Convert(input_file, dest = "h5seurat", overwrite = TRUE)
+# Load .h5seurat file to Seurat object
+seurat_object <- LoadH5Seurat(output_file)
+# View Seurat object information
+print(seurat_object)
+
+## Regenerate meta.data
+load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
+# Extract meta.data of testAB.integrated and seurat_object
+meta_testAB <- testAB.integrated@meta.data
+meta_seurat <- seurat_object@meta.data
+# Extract "orig.ident", "Group", "Sample" from testAB.integrated
+selected_metadata <- meta_testAB[, c("orig.ident", "Group", "Sample")]
+# Ensure row names are aligned
+rownames(selected_metadata) <- rownames(meta_testAB)
+# Initialize new metadata for seurat_object
+meta_seurat$orig.ident <- NA
+meta_seurat$Group <- NA
+meta_seurat$Sample <- NA
+# Align metadata from testAB.integrated to seurat_object
+common_cells <- intersect(rownames(meta_seurat), rownames(selected_metadata))
+meta_seurat[common_cells, c("orig.ident", "Group", "Sample")] <- selected_metadata[common_cells, ]
+# Add new labels for extra cells in seurat_object
+additional_cells <- setdiff(rownames(meta_seurat), rownames(selected_metadata))
+# Set new Group and Sample names
+meta_seurat[additional_cells, "orig.ident"] <- additional_cells # Set orig.ident as the cell label
+meta_seurat[additional_cells, "Group"] <- additional_cells # Set Group as the cell label
+meta_seurat[additional_cells, "Sample"] <- additional_cells # Set Sample as the cell label
+# Update meta.data of seurat_object
+seurat_object@meta.data <- meta_seurat
+# View the updated meta.data
+head(seurat_object@meta.data)
+
+##Import the new grouping results
+index_result <- read.csv("result_mixed mapping.csv")
+##Make sure the table's Index is consistent with the Cell name of the Seurat object
+##Set the Index as the row name to facilitate subsequent operations
+rownames(index_result) <- index_result$Var1
+##Match the Result column to the metadata of the Seurat object according to the Index
+metadata <- seurat_object@meta.data # Get the metadata of the Seurat object
+metadata$Result <- index_result[rownames(metadata), "Result"]
+##Update the metadata of the Seurat object
+seurat_object@meta.data <- metadata
+##Check the updated metadata
+head(seurat_object@meta.data)
+
+#Add Fenqun3
+#Specify Cell grouping
+mi_cells <- c("MI.1", "MI.2", "MI.3", "MI.4")
+#Update the meta.data of the Seurat object and create a new Fenqun3 column
+seurat_object@meta.data <- seurat_object@meta.data %>%
+  mutate(Fenqun4 = case_when(
+    Cell_Barcode %in% mi_cells ~ "MI", 
+    Result >= 1 & Result <= 9 ~ "FibR2-G1",
+    Result >= 10 & Result <= 12 ~ "FibR2-G2",
+    Result >= 13 & Result <= 25 ~ "FibR2-G3",
+    Result >= 26 & Result <= 33 ~ "FibR2-G4",
+    Result >= 34 & Result <= 41 ~ "FibR2-G5",
+    Result >= 42 & Result <= 50 ~ "FibR2-G6",
+    Result >= 51 & Result <= 59 ~ "FibR2-G7",
+    TRUE ~ NA_character_ 
+  ))
+# View updated meta.data
+head(seurat_object@meta.data)
+
+# Redraw UMAP
+seurat_object <- SCTransform(seurat_object,assay = 'RNA')
+seurat_object <- RunPCA(seurat_object)
+ElbowPlot(seurat_object)
+seurat_object <- RunUMAP(seurat_object, dims = 1:10)
+
+## Make a plot highlighting MI and Sham
+# Create a new column Fenqun3's UMAP plot
+cell_type_cols <- c("#ffffcc","#5a5098","#a3caa9","#deedad","#bd5c56","#efd695","#dd9667","#6693b1","#842844")
+# Create a new column to define the point size based on the "Fenqun4" column
+seurat_object@meta.data$point_size <- ifelse(seurat_object@meta.data$Fenqun4 %in% c("MI"), 3, 0.1)
+# Use DimPlot to make a UMAP plot, keeping the original colors and labels, but resizing the points
+p1 <- DimPlot(seurat_object, reduction = "umap", group.by = "Fenqun4", pt.size = seurat_object@meta.data$point_size, label = TRUE, repel = TRUE, raster = FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme( panel.border = element_rect(fill = NA, color = "black", size = 1, linetype = "solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "UMAP diagram highlighting MI and Sham points.pdf", plot = p1, device = 'pdf', width = 21, height = 18, units = 'cm') 
+```
+     
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-8.png" 
      alt="Myocardial-8.png" 
