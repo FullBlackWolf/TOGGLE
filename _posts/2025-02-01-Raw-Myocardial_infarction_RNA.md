@@ -122,3 +122,6 @@ cell_type_cols <- c("#B383B9", "#EE934E","#F5D2A8","#7DBFA7","#fced82","#D2EBC8"
 p1 <- DimPlot(testAB.integrated_MI, reduction = "umap", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "RNA clustering UMAP of MI.pdf", plot = p1, device = 'pdf', width = 21, height = 18, units = 'cm')
 ```
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/RNA-1.png" 
+     alt="RNA-1.png" 
+     title="RNA-1.png">
