@@ -354,8 +354,21 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
      title="Myocardial-4.png">
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-5.png" 
-     alt="Myocardial-4.png" 
-     title="Myocardial-4.png">
+     alt="Myocardial-5.png" 
+     title="Myocardial-5.png">
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-6.png" 
+     alt="Myocardial-6.png" 
+     title="Myocardial-6.png">
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-7.png" 
+     alt="Myocardial-7.png" 
+     title="Myocardial-7.png">
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-8.png" 
+     alt="Myocardial-8.png" 
+     title="Myocardial-8.png">
+     
 
 Save
 ---
