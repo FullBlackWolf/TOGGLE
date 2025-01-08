@@ -196,7 +196,7 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 Start
 ---
 
-```Python
+```python
 import numpy as np
 import os
 import kailin as kl
