@@ -277,19 +277,234 @@ save(testAB.integrated,file = 'GSE232429 Neuron.Rdata')
      alt="Neuron-3.png" 
      title="Neuron-3.png">
 
+DEG analysis for GSE232429
+---
+```R
+library(SingleCellExperiment)
+library(DEsingle)
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
+```
 
+Set active.ident to ranse
+---
+```R
+Idents(testAB.integrated) <- "ranse"
+DefaultAssay(testAB.integrated) <- "RNA"
+```
+
+Perform pairwise comparisons
+---
+```R
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-2"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-2.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-3"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-3.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-4"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-4.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-3"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-2 vs Group R1-3.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-4"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-2 vs Group R1-4.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-2 vs Group R1-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-3", "Group R1-4"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-3 vs Group R1-4.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-3", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-3 vs Group R1-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-4", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-4 vs Group R1-5.csv")
+```
+
+
+Based on all the results, groups 1, 2, and 5 were included in the subsequent analysis
+---
+```R
+load("C:/GEOANALYSIS/GSE232429/GSE232429 Neuron.Rdata")
+Idents(testAB.integrated) <- "Biaoqian"
+testAB.integrated <- subset(testAB.integrated,idents=c("R1-1","R1-2","R1-5"),invert = FALSE)
+cell_type_cols <- c("#6693b1","#a3caa9","#bd5c56")
+p2 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "ranse", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 3E-1.pdf", plot = p2, device = 'pdf', width = 26, height = 14, units = 'cm')
+```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-4.png" 
      alt="Neuron-4.png" 
      title="Neuron-4.png">
 
 
-
+Visualization
+---
+```R
+p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
+save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
+```
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-5.png" 
      alt="Neuron-5.png" 
      title="Neuron-5.png">
 
+Perform pseudo-time inference on groups 1, 2, and 5
+---
 
+```R
+load("C:/GEOANALYSIS/GSE232429/GSE232429 after removing 3 and 4.Rdata")
+testAB.integrated[["RNA4"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
+#re-do umap
+UMAPPlot(testAB.integrated,group.by='ranse',label=T)
+testAB.integrated = SCTransform(testAB.integrated,assay = 'RNA')
+testAB.integrated = RunPCA(testAB.integrated)
+ElbowPlot(testAB.integrated)
+testAB.integrated = RunUMAP(testAB.integrated,dims = 1:10)
+UMAPPlot(testAB.integrated,group.by='ranse',label=T)
+```
+
+Extract the matrix to make pseudo time
+---
+```R
+DefaultAssay(testAB.integrated) <- "RNA4"
+data <- as(as.matrix(testAB.integrated@assays$RNA4@counts), 'sparseMatrix')
+pd <- new('AnnotatedDataFrame',
+          data = testAB.integrated@meta.data)
+fData <- data.frame(gene_short_name = row.names(data), 
+                    row.names = row.names(data))
+fd <- new('AnnotatedDataFrame', data = fData)
+pd <- as(pd, "data.frame")
+fd <- as(fd, "data.frame")
+#Start make pseudo time
+cds <- new_cell_data_set(data,
+                         cell_metadata = pd
+                         ,gene_metadata = fd)
+cds <- preprocess_cds(cds, num_dim = 10)
+cds <- reduce_dimension(cds, reduction_method = "UMAP")
+cds <- cluster_cells(cds, resolution = 0.000001)
+plot_cells(cds, color_cells_by = "ranse",show_trajectory_graph = F,group_label_size=12)
+#Replace the original umap data
+cds@int_colData@listData[["reducedDims"]]@listData[["UMAP"]][,1] = testAB.integrated@reductions$umap@cell.embeddings[,1]
+cds@int_colData@listData[["reducedDims"]]@listData[["UMAP"]][,2] = testAB.integrated@reductions$umap@cell.embeddings[,2]
+#Continue to the next step
+cds <- learn_graph(cds)
+cds <- order_cells(cds)
+p3 <- plot_cells(cds,
+           color_cells_by = "pseudotime",
+           label_cell_groups = T,
+           label_leaves = TRUE,
+           label_branch_points = TRUE,
+           graph_label_size = 1.5) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 4A.pdf", plot = p3, device = 'pdf', width = 18, height = 16, units = 'cm')
+save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
+```
+
+Regroup 1, 2, and 5
+---
+```R
+testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
+#Import the new grouping results
+# Read CSV file
+result_data <- read.csv("pseudotime_map.csv", stringsAsFactors = FALSE)
+# Ensure the file contains columns 'Var1' and 'Result'; check file content
+head(result_data)
+# Check if all 'Var1' values exist in Seurat object's cell names
+common_cells <- intersect(result_data$Var1, rownames(testAB.integrated@meta.data))
+if (length(common_cells) < nrow(result_data)) {
+  warning("Some cells in 'pseudotime_map.csv' are not found in testAB.integrated metadata!")
+}
+```
+
+Map 'Result' values to Seurat object's metadata based on 'Var1'
+---
+```R
+# First, create a new column 'Result' and set it to NA
+testAB.integrated@meta.data$Result <- NA
+# Use match() to merge corresponding values
+matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var1)
+testAB.integrated@meta.data$Result <- result_data$Result[matching_indices]
+## Group based on 'Result'
+# get metadata
+metadata <- testAB.integrated@meta.data
+# Create a new column shijian based on the value of the Result column
+metadata$shijian <- with(metadata, 
+                     ifelse(Result >= 1 & Result <= 14, "Group R2-1",
+                     ifelse(Result >= 15 & Result <= 18, "Group R2-2",
+                      ifelse(Result >= 19 & Result <= 21, "Group R2-3",
+                      ifelse(Result == 22, "Group R2-4",
+                      ifelse(Result == 23, "Group R2-5",
+                      ifelse(Result == 24, "Group R2-6",
+                      ifelse(Result == 25, "Group R2-7",
+                      ifelse(Result >= 26 & Result <= 44, "Group R2-8",
+                      ifelse(Result == 45, "Group R2-9", NA)))))))))
+)
+```
+
+Build the Biaoqian column, remove the "Group" in shijian
+---
+```R
+metadata$Biaoqian <- gsub("^Group ", "", metadata$shijian)
+```
+
+Assign updated metadata back to the Seurat object
+---
+```R
+testAB.integrated@meta.data <- metadata
+```
+
+Check results
+---
+```R
+head(testAB.integrated@meta.data)
+#Save
+save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
+```
+
+
+Plotting
+---
+```R
+#Figure 4C
+cell_type_cols <- c("#5a5098","#6693b1","#a3caa9","#deedad","#ffffcc","#efd695","#dd9667","#bd5c56","#842844")
+p4 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "shijian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 4C-1.pdf", plot = p4, device = 'pdf', width = 21, height = 18, units = 'cm')
+```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-6.png" 
      alt="Neuron-6.png" 
