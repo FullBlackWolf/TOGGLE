@@ -35,19 +35,23 @@ library(ggrepel)
 
 Create vector to read files
 ---
+
 ```R
 setwd("C:/GEOANALYSIS/GSE232429")
 ```
 
 Read data
 ---
+
 ```R
 Sham1<- Read10X(data.dir = "Sham1")
 MCAO1<- Read10X(data.dir = "MCAO1")
 MCAO2<- Read10X(data.dir = "MCAO2")
 ```
+
 Create Seurat object and filter. Add code to filter out cells with fewer than 200 genes (min.features = 200) and genes covered by fewer than 3 cells (min.cells = 3)
 ---
+
 ```R
 Sham1<- CreateSeuratObject(counts =Sham1, project = "Sham1", min.features = 200, min.cells = 3)
 MCAO1<- CreateSeuratObject(counts =MCAO1, project = "MCAO1", min.features = 200, min.cells = 3)
