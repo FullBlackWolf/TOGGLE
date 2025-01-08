@@ -9,6 +9,9 @@ tags:
 
 Preprocessing
 ---
+
+The default GEO data file is located at `C:/GEOANALYSIS/GSE232429`.
+
 Load required packages
 ---
 ```R
