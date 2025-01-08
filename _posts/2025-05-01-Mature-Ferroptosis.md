@@ -170,32 +170,6 @@ sceasy::convertFormat(
 )
 ```
 
-Save the file as h5ad for further analysis in Python
----
-```R
-library(sceasy)
-# Ensure default assay is RNA
-DefaultAssay(testAB.integrated) <- "RNA"
-# Convert RNA assay to version 4 matrix format
-testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
-# Use FindVariableFeatures to select highly variable genes
-testAB.integrated <- FindVariableFeatures(
-  object = testAB.integrated,
-  selection.method = "vst", 
-  nfeatures = 2000          
-)
-# Check if highly variable genes were correctly selected
-variable_genes <- VariableFeatures(testAB.integrated)
-cat("Number of variable genes selected:", length(variable_genes), "\n")
-head(variable_genes)
-# Export as h5ad file, ensuring inclusion of highly variable gene information
-sceasy::convertFormat(
-  testAB.integrated,
-  from = "seurat",
-  to = "anndata",
-  outFile = "GSE232429 Neuron.h5ad"
-)
-```
 
 
 Visualization
