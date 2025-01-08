@@ -7,8 +7,9 @@ tags:
   - Samples
 ---
 
-Perform the second round of screening
+Distinguish the stages of ferroptosis in cells. Due to shared RNA pathways, many cells undergoing apoptosis are mixed in.
 ---
+
 ```Python
 import cospar as cs
 import numpy as np
