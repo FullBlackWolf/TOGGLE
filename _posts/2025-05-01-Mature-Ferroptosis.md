@@ -70,6 +70,7 @@ save_list = ["orig_adata.obs['orig.ident']", "orig_adata.obsm['X_umap']"]
 #将要计算的文件保存到/result
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
 ```
+𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠.
 
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis\main_v3_matlab_run_me.m`
@@ -174,7 +175,7 @@ hk = heatmap(weighting_result);
 hk.ColorLimits = [40, 50]
 ```
 
-
+𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.
 Load required packages
 ---
 ```R
@@ -372,6 +373,8 @@ orig_adata, loading_directory, distance_matrix = kl.preprocessing.kl_dense_matri
 print(loading_directory)
 print(choosen_sample)
 ```
+
+𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠.
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
 
@@ -459,7 +462,7 @@ hk.ColorLimits = [26,27]
 
 ```
 
-
+𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.
 Perform pseudo-time inference on groups 1, 2, and 5
 ---
 
@@ -902,7 +905,7 @@ for i, value in enumerate(check_list):
 print(df)
 
 ```
-
+𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠.
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
 
@@ -1006,7 +1009,7 @@ hk = heatmap(weighting_result);
 
 
 
-
+𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.
 Distinguish between ferroptosis and apoptosis
 ---
 
