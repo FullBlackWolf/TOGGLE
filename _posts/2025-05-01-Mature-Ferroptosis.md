@@ -603,6 +603,40 @@ p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", spli
 ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
 save(testAB.integrated,file = 'GSE232429_after_removing_3_and_4.Rdata')
 ```
+Save .h5ad
+---
+```R
+testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata')) 
+# Save the file as h5ad for further analysis in Python 
+library(sceasy) 
+# Ensure default assay is RNA 
+DefaultAssay(testAB.integrated) <- "RNA" 
+# Convert RNA assay to version 4 matrix format 
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay") 
+# Use FindVariableFeatures to select highly variable genes 
+testAB.integrated <- FindVariableFeatures( 
+  object = testAB.integrated, 
+  selection.method = "vst",  
+  nfeatures = 2000          
+) 
+
+high_var_genes <- VariableFeatures(testAB.integrated) # get the highly variable genes 
+data_high_var <- testAB.integrated@assays$RNA@data[high_var_genes, ]  # Extracting expression data of highly variable genes 
+# Create a new Seurat object containing only the highly variable genes 
+testAB_high_var <- subset( 
+  x = testAB.integrated, 
+  features = high_var_genes 
+) 
+# Export as h5ad file, ensuring inclusion of highly variable gene information 
+sceasy::convertFormat( 
+  testAB_high_var, 
+  from = "seurat", 
+  to = "anndata", 
+  outFile = "2024.10.28_Group15-21.h5ad" 
+) 
+```
+
+
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-5.png" 
      alt="Neuron-5.png" 
      title="Neuron-5.png">
@@ -650,7 +684,7 @@ print(current_folder)
 # Select which sample to use
 choosen_sample = "Nerveferroptosis_15_21"
 # Select the .h5ad file
-h5ad_filename = "2024.10.28的15-21数据.h5ad"
+h5ad_filename = "2024.10.28_Group15-21.h5ad"
 # Run the built-in example and obtain the sparse matrix
 # Here, a non-example function needs to be included
 current_folder_input = current_folder
