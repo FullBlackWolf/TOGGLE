@@ -55,6 +55,27 @@ print(loading_directory)
 print(choosen_sample)
 ```
 
+Load required packages
+---
+```R
+library(Seurat)
+library(multtest)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(tidyverse)
+library(future)
+library(RColorBrewer)
+library(SummarizedExperiment)
+library(scater)
+library(cowplot)
+library(harmony)
+library(monocle3)
+library(uwot)
+library(ComplexHeatmap)
+library(ggrepel)
+```
+
 DEG analysis for GSE232429
 ---
 
