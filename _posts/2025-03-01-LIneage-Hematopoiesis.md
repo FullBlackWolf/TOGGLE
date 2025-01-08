@@ -372,3 +372,28 @@ hk.XDisplayLabels = column_labels; % 设置列标签
 ```
 Use `.\[LittleSnowFox's Anaconda installation directory]\R_processing\Hematopoiesis_all.R` to generate the picture.
 
+```R
+library(ggplot2)
+
+if (!exists("first_run_flag")) {
+  setwd("..")
+  current_dir <- getwd()
+  print("Switched to the parent directory.")
+  current_dir
+  first_run_flag <- TRUE
+} else {
+  print("Not the first run, skipping setwd.")
+}
+
+print(current_dir)
+database_dir <- file.path(current_dir, "database")
+Tracing_dir <- file.path(database_dir, "Tracing_sample")
+Hematopoiesis_dir <- file.path(Tracing_dir, "Hematopoiesis")
+Hematopoiesis_result_dir <- file.path(Hematopoiesis_dir, "result")
+Hematopoiesis_map <- file.path(Hematopoiesis_result_dir, "all_map_blood.csv")
+
+repro <- read.csv(Hematopoiesis_map)
+
+ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
+ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
+```
