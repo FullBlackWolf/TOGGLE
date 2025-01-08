@@ -12,7 +12,7 @@ Preprocessing
 
 The default GEO data file is located at `C:/GEOANALYSIS/GSE232429`.
 
-Load required packages
+Load required packages (R)
 ---
 ```R
 library(Seurat)
@@ -292,7 +292,7 @@ Do not close R to ensure the subsequent programs can run.
 Start
 ---
 
-𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝.
+𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
 ```python
 import numpy as np
 import os
@@ -349,7 +349,7 @@ save_list = ["orig_adata.obs['orig.ident']", "orig_adata.obsm['X_umap']"]
 #将要计算的文件保存到/result
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
 ```
-𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠.
+𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)
 
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis\main_v3_matlab_run_me.m`
@@ -454,7 +454,7 @@ hk = heatmap(weighting_result);
 hk.ColorLimits = [40, 50]
 ```
 
-𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.    
+𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)    
 <br>
 
 Load required packages
@@ -598,7 +598,7 @@ Do not close R to ensure the subsequent programs can run.
 
 Start
 ---
-𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝.
+𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
 ```python
 import numpy as np
 import os
@@ -657,7 +657,7 @@ print(loading_directory)
 print(choosen_sample)
 ```
 
-𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠.
+𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
 
@@ -745,7 +745,7 @@ hk.ColorLimits = [26,27]
 
 ```
 
-𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.   
+𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)   
 <br>
 Perform pseudo-time inference on groups 1, 2, and 5
 ---
@@ -1053,7 +1053,7 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 Start
 ---
-𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝.
+𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
 ```python
 import numpy as np
 import os
@@ -1189,7 +1189,8 @@ for i, value in enumerate(check_list):
 print(df)
 
 ```
-𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠.
+𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)  
+
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
 
@@ -1293,60 +1294,10 @@ hk = heatmap(weighting_result);
 
 
 
-𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.  
+𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)   
 <br>
 Distinguish between ferroptosis and apoptosis
 ---
-
-```python
-import numpy as np
-import os
-import kailin as kl
-#import matlab.engine
-#eng = matlab.engine.start_matlab()
-
-print(kl.__version__)
-#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
-#则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
-kl.kl_initialize(0)
-#获取kailin工作的根目录
-parent_directory_origin = kl.kl_settings.parent_directory_origin
-print(parent_directory_origin)
-#改进：
-#添加一个cluster模式
-#选择进行Lineage Tracing还是Cluster，并给出可用的列表
-current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
-print(current_folder)
-
-
-#选择要使用哪个样本
-choosen_sample = "Nerveferroptosis_remove_R1_3_4"
-#选择.h5ad文件
-h5ad_filename = "重画矩阵GSE232429_testAB.integrated.h5ad"
-#运行自带的示例，并获取稀疏矩阵
-#这里需要做非示例的函数进去
-current_folder_input = current_folder
-orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input,1,13000,0.1,0.001,True)
-#orig_adata,loading_directory,distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
-#运行自带的示例，并获取非稀疏矩阵
-#这里需要做非示例的函数进去
-#current_folder_input = current_folder
-#loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input)
-print(loading_directory)
-print(choosen_sample)
-
-orig_adata.obs['shijian2']
-
-
-#需要区分dense和sparase
-save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
-
-#将要计算的文件保存到/result
-merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
-
-```
-
-
 
 Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis
 ---
