@@ -143,126 +143,42 @@ save(testAB.integrated, file = "GSE232429 Neuron.Rdata")
 Save the file as h5ad for further analysis in Python
 ---
 ```R
-library(sceasy)
-# Ensure default assay is RNA
-DefaultAssay(testAB.integrated) <- "RNA"
-# Convert RNA assay to version 4 matrix format
-testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
-# Use FindVariableFeatures to select highly variable genes
-testAB.integrated <- FindVariableFeatures(
- object = testAB.integrated,
- selection.method = "vst", 
- nfeatures = 2000         
+library(SeuratDisk)
+convert_Rdata_to_H5AD <- function(rdata_path) {
+  file_dir <- dirname(rdata_path)
+  file_name <- tools::file_path_sans_ext(basename(rdata_path))
+  load(rdata_path)
+  object_names <- ls()
+  
+  # 检查是否为 Seurat 对象
+  for (obj_name in object_names) {
+    obj <- get(obj_name)
+    if (inherits(obj, "Seurat")) {
+
+      # 保存为 H5Seurat 格式
+      h5seurat_path <- file.path(file_dir, paste0(file_name, "_", obj_name, ".h5Seurat"))
+      SaveH5Seurat(obj, filename = h5seurat_path)
+
+      # 转换为 H5AD 格式
+      h5ad_path <- file.path(file_dir, paste0(file_name, "_", obj_name, ".h5ad"))
+      Convert(h5seurat_path, dest = "h5ad")
+      cat("Conversion complete for object", obj_name, ". H5AD file saved at:", h5ad_path, "/n")
+    }
+  }
+}
+
+#Export H5AD Files
+# args <- commandArgs(trailingOnly = TRUE)
+args <- "GSE232429 Neuron.Rdata"#工作路径下的Rdata文件
+if (length(args) == 0) {
+  stop("No .Rdata file path provided. Usage: Rscript script_name.R <path_to_Rdata>")
+}
+rdata_path <- args[1]
+convert_Rdata_to_H5AD(rdata_path) 
+
 )
-high_var_genes <- VariableFeatures(testAB.integrated) # get the highly variable genes
-data_high_var <- testAB.integrated@assays$RNA@data[high_var_genes, ]  # Extracting expression data of highly variable genes
-# Create a new Seurat object containing only the highly variable genes
-testAB_high_var <- subset(
- x = testAB.integrated,
- features = high_var_genes
-)
-# Export as h5ad file, ensuring inclusion of highly variable gene information
-sceasy::convertFormat(
- testAB_high_var,
- from = "seurat",
- to = "anndata",
- outFile = " GSE232429 Neuron.h5ad"
-)
 ```
-
-
-
-Visualization
----
-```R
-cell_type_cols <- c("#6693b1","#a3caa9","#deedad","#dd9667","#bd5c56")
-p1 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "ranse", split.by = "Group", pt.size=0.5, label = T, repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
-ggsave(filename = "Figure 3A-1.pdf", plot = p1, device = 'pdf', width = 26, height = 14, units = 'cm')
-```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-1.png" 
-     alt="Neuron-1.png" 
-     title="Neuron-1.png">
-
-```R
-p2 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T, repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
-ggsave(filename = "Figure 3A-2.pdf", plot = p2, device = 'pdf', width = 26, height = 14, units = 'cm')
-```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-2.png" 
-     alt="Neuron-2.png" 
-     title="Neuron-2.png">
-
-
-Export cell proportions
----
-```R
-Table1 <- table(testAB.integrated$Group, testAB.integrated$ranse)
-write.table(Table1, file = "Cell counts-group.txt", sep ="\t")
-```
-
-Plot cells elevated compared to MCAO group
----
-```R
-tb <- data.frame(table(testAB.integrated$ranse,testAB.integrated$Sample, testAB.integrated$Group))
-tb=tb[,c(1,3,4)]
-```
-
-Calculate Percentages
----
-```R
-tb$Total <- apply(tb,1,function(x)sum(tb[tb$Var3 == x[2],3]))
-tb<- tb %>% mutate(Percentage = round(Freq/Total,3) * 100)
-tb=tb[,c(1,2,5)]
-tb$Var1=as.factor(tb$Var1)
-tb$Var3=as.factor(tb$Var3)
-head(tb)
-```
-
-
-
-Perform t-Tests
----
-```R
-df= do.call(rbind,
-            lapply(split(tb,tb$Var1), function(x){
-              # x= split(tb,tb$Var1)[[1]]
-              tmp = t.test(x$Percentage ~ x$Var3)
-              return(c(tmp$p.value, tmp$estimate[1]-tmp$estimate[2]))
-            }))
-```
-
-Add Threshold Labels
----
-```R
-colnames(df) = c("pval","Difference")
-df = as.data.frame(df)
-df$threshold = factor(ifelse(df$Difference > 0 ,'Down','Up'))
-```
-
-Visualization
----
-
-```R
-ggplot(df,aes(x=Difference,y=-log10(pval),color=threshold))+
-  geom_point()+
-  geom_text_repel(
-    aes(label = rownames(df)),
-    size = 4,
-    segment.color = "black", show.legend = FALSE ) + #add cell name
-  theme_bw()+# Modify plot background
-  theme(legend.title = element_blank()) +  # Hide legend title
-  ylab('-log10(pval)')+  # Update Y-axis label
-  xlab('Difference')+  # Update X-axis label
-  geom_vline(xintercept=c(0),lty=3,col="black",lwd=0.5)
-ggsave("Figure 3C.pdf",width = 5,height = 3.8)
-save(testAB.integrated,file = 'GSE232429 Neuron.Rdata')
-```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-3.png" 
-     alt="Neuron-3.png" 
-     title="Neuron-3.png">
-
+H5ad saved as `GSE232429 Neuron_testAB.integrated.h5ad`. Because the automatically generated file name is too long, change it to `GSE232429 Neuron.h5ad`  
 Do not close R to ensure the subsequent programs can run.
 
 
@@ -451,6 +367,138 @@ Group result generated in `[LittleSnowFox's Anaconda installation directory]\dat
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)    
 
 <br>
+
+
+After analysis, import results from '1n13000_result.csv' into metadata
+---
+
+```R
+load("C:/GEOANALYSIS/GSE232429/GSE232429 Neuron.Rdata")
+# Read CSV file
+result_data <- read.csv("1n13000_result.csv", stringsAsFactors = FALSE) 
+# Ensure the file contains columns 'Var1' and 'Result'; check file content
+head(result_data)
+# Check if all 'Var1' values exist in Seurat object's cell names
+common_cells <- intersect(result_data$Var1, rownames(testAB.integrated@meta.data))
+if (length(common_cells) < nrow(result_data)) {
+  warning("Some cells in '1n13000_result.csv' are not found in testAB.integrated metadata!")
+}
+# Map 'Result' values to Seurat object's metadata based on 'Var1'
+# First, create a new column 'Result' and set it to NA
+testAB.integrated@meta.data$Result <- NA
+# Use match() to merge corresponding values
+matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var1)
+testAB.integrated@meta.data$Result <- result_data$Result[matching_indices]
+## Group based on 'Result'
+# 获取 metadata
+metadata <- testAB.integrated@meta.data
+# Create new column 'ranse' based on 'Result' values
+metadata$ranse <- with(metadata, 
+                       ifelse(Result >= 1 & Result <= 10, "Group R1-1",
+                              ifelse(Result >= 11 & Result <= 18, "Group R1-2",
+                                     ifelse(Result >= 19 & Result <= 29, "Group R1-3",
+                                            ifelse(Result >= 30 & Result <= 39, "Group R1-4",
+                                                   ifelse(Result >= 40 & Result <= 68, "Group R1-5", NA))))))
+# Construct 'Biaoqian' column by removing 'Group ' from 'ranse'
+metadata$Biaoqian <- gsub("^Group ", "", metadata$ranse)
+# Assign updated metadata back to the Seurat object
+testAB.integrated@meta.data <- metadata
+# Check results
+head(testAB.integrated@meta.data)
+```
+
+Visualization
+---
+```R
+cell_type_cols <- c("#6693b1","#a3caa9","#deedad","#dd9667","#bd5c56")
+p1 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "ranse", split.by = "Group", pt.size=0.5, label = T, repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 3A-1.pdf", plot = p1, device = 'pdf', width = 26, height = 14, units = 'cm')
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-1.png" 
+     alt="Neuron-1.png" 
+     title="Neuron-1.png">
+
+```R
+p2 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T, repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 3A-2.pdf", plot = p2, device = 'pdf', width = 26, height = 14, units = 'cm')
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-2.png" 
+     alt="Neuron-2.png" 
+     title="Neuron-2.png">
+
+
+Export cell proportions
+---
+```R
+Table1 <- table(testAB.integrated$Group, testAB.integrated$ranse)
+write.table(Table1, file = "Cell counts-group.txt", sep ="\t")
+```
+
+Plot cells elevated compared to MCAO group
+---
+```R
+tb <- data.frame(table(testAB.integrated$ranse,testAB.integrated$Sample, testAB.integrated$Group))
+tb=tb[,c(1,3,4)]
+```
+
+Calculate Percentages
+---
+```R
+tb$Total <- apply(tb,1,function(x)sum(tb[tb$Var3 == x[2],3]))
+tb<- tb %>% mutate(Percentage = round(Freq/Total,3) * 100)
+tb=tb[,c(1,2,5)]
+tb$Var1=as.factor(tb$Var1)
+tb$Var3=as.factor(tb$Var3)
+head(tb)
+```
+
+
+
+Perform t-Tests
+---
+```R
+df= do.call(rbind,
+            lapply(split(tb,tb$Var1), function(x){
+              # x= split(tb,tb$Var1)[[1]]
+              tmp = t.test(x$Percentage ~ x$Var3)
+              return(c(tmp$p.value, tmp$estimate[1]-tmp$estimate[2]))
+            }))
+```
+
+Add Threshold Labels
+---
+```R
+colnames(df) = c("pval","Difference")
+df = as.data.frame(df)
+df$threshold = factor(ifelse(df$Difference > 0 ,'Down','Up'))
+```
+
+Visualization
+---
+
+```R
+ggplot(df,aes(x=Difference,y=-log10(pval),color=threshold))+
+  geom_point()+
+  geom_text_repel(
+    aes(label = rownames(df)),
+    size = 4,
+    segment.color = "black", show.legend = FALSE ) + #add cell name
+  theme_bw()+# Modify plot background
+  theme(legend.title = element_blank()) +  # Hide legend title
+  ylab('-log10(pval)')+  # Update Y-axis label
+  xlab('Difference')+  # Update X-axis label
+  geom_vline(xintercept=c(0),lty=3,col="black",lwd=0.5)
+ggsave("Figure 3C.pdf",width = 5,height = 3.8)
+save(testAB.integrated,file = 'GSE232429 Neuron.Rdata')
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-3.png" 
+     alt="Neuron-3.png" 
+     title="Neuron-3.png">
+
+
 
 Load required packages
 ---
