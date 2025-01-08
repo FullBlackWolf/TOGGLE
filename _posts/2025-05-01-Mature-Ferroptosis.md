@@ -13,7 +13,6 @@ tags:
 Start
 ---
 ```python
-import cospar as cs
 import numpy as np
 import os
 import kailin as kl
@@ -198,7 +197,6 @@ Start
 ---
 
 ```Python
-import cospar as cs
 import numpy as np
 import os
 import kailin as kl
@@ -564,7 +562,6 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 Start
 ---
 ```python
-import cospar as cs
 import numpy as np
 import os
 import kailin as kl
@@ -720,7 +717,6 @@ Distinguish between ferroptosis and apoptosis
 ---
 
 ```python
-import cospar as cs
 import numpy as np
 import os
 import kailin as kl
