@@ -251,200 +251,6 @@ print(loading_directory)
 print(choosen_sample)
 ```
 
-Verify the ferroptosis ratio
----
-```python
-import cospar as cs
-import numpy as np
-import os
-import kailin as kl
-#import matlab.engine
-#eng = matlab.engine.start_matlab()
-
-print(kl.__version__)
-#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
-#则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
-kl.kl_initialize(0)
-#获取kailin工作的根目录
-parent_directory_origin = kl.kl_settings.parent_directory_origin
-print(parent_directory_origin)
-#改进：
-#添加一个cluster模式
-#选择进行Lineage Tracing还是Cluster，并给出可用的列表
-current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
-print(current_folder)
-
-#选择要使用哪个样本
-choosen_sample = "Nerveferroptosis_19_21_Group8"
-#选择.h5ad文件
-h5ad_filename = "重画矩阵GSE232429_testAB.integrated.h5add"
-#运行自带的示例，并获取稀疏矩阵
-#这里需要做非示例的函数进去
-current_folder_input = current_folder
-updated_folder = os.path.join(current_folder, "Nerveferroptosis_19_21_Group8/data")
-h5ad_path = os.path.join(updated_folder, "2024.10.30-有Health和GROUP8细分群的数据.h5ad")
-
-print(h5ad_path)
-
-```
-```python
-import anndata as ad
-adata = ad.read_h5ad(h5ad_path)
-adata.obs['nFeature_RNA']
-adata.obs['fenqun1']
-adata_Health_RNA = adata[adata.obs['fenqun1'] == 'Health'].var.index.tolist()
-# 获取特定层的形状
-length_of_adata_Healt_RNA = len(adata_Health_RNA)
-print(adata.X.shape)
-print(length_of_adata_Healt_RNA)
-
-print(tarc_column)
-adata_Death_RNA = adata[adata.obs['fenqun1'] != 'Health'].var.index.tolist()
-# 获取特定层的形状
-length_of_adata_Death_RNA= len(adata_Death_RNA)
-print(adata.X.shape)
-print(length_of_adata_Death_RNA)
-
-#
-import pandas as pd
-
-# 初始化 check_list 和一个空的 DataFrame
-check_list = ['Smad7', 
-              'Pex2', 
-              'Far1', 
-              'Mtch1', 
-              'Lpin1', 
-              'Nras', 
-              'Agps', 
-              'Wipi1', 
-              'Hmgb1', 
-              'Mapk3', 
-              'Cd82', 
-              'Elovl5', 
-              'Scp2', 
-              'Lgmn', 
-              'Adam23', 
-              'Emc2', 
-              'Ulk2', 
-              'Hddc3', 
-              'Gstz1', 
-              'Map3k11', 
-              'Cirbp']
-
-df = pd.DataFrame(columns=['Value', 'Average', 'Rate'])  # 定义一个空的 DataFrame
-
-# 读取数据有多少个
-nras_expression = adata[adata.obs['fenqun1'] != 'Health'][:, check_list[1]].X
-total_num = adata[adata.obs['fenqun1'] != 'Health'].X.shape[0]
-print('表达数据的行数为:', total_num)
-
-
-
-num_rows = adata[adata.obs['fenqun1'] != 'Health'].n_obs
-# 打印行数
-print('adata_Death_RNA 的行数为:', num_rows)
-#读取adata中
-
-num_rows_1 = adata[adata.obs['fenqun1'] == 'Health'].n_obs
-# 打印行数
-print('adata_Health_RNA 的行数为:', num_rows_1)
-#读取adata中
-
-
-# 循环遍历 check_list，将每个值保存到 DataFrame 中
-for i, value in enumerate(check_list):
-    df.loc[i, 'Value'] = value  # 只给 'Value' 列赋值
-    
-    #取check_list中的Gene
-    Chosen_computing = check_list[i]
-    #print(Chosen_computing)
-    
-    #选取健康细胞作为参照值
-    #adata[adata.obs['fenqun1'] != 'Health']
-    tarc_column = adata[:, adata.var.index == Chosen_computing].X
-    
-    #取出平均值
-    tarc_mean = np.median(tarc_column.toarray())
-    df.loc[i, 'Average'] = tarc_mean
-    
-    #把要计算的基因样本抽出来
-    compare_expression = adata[adata.obs['fenqun1'] != 'Health'][:, check_list[1]].X.toarray()
-    #print('compare_expression:',compare_expression )
-    average_standa = df.loc[i, 'Average']
-    
-    #计算比较总数
-    count_number = sum(value >= average_standa for value in compare_expression)
-    #count_number = sum(compare_expression >= df.loc[i, 'Average'])
-    #print('Sum:',count_number)
-    
-    #计算比率
-    rate = count_number/total_num
-    
-    #保存比率
-    df.loc[i, 'Rate'] = rate
-    
-
-
-# 打印最终的 DataFrame
-print(df)
-
-```
-
-Distinguish between ferroptosis and apoptosis
----
-
-```python
-import cospar as cs
-import numpy as np
-import os
-import kailin as kl
-#import matlab.engine
-#eng = matlab.engine.start_matlab()
-
-print(kl.__version__)
-#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
-#则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
-kl.kl_initialize(0)
-#获取kailin工作的根目录
-parent_directory_origin = kl.kl_settings.parent_directory_origin
-print(parent_directory_origin)
-#改进：
-#添加一个cluster模式
-#选择进行Lineage Tracing还是Cluster，并给出可用的列表
-current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
-print(current_folder)
-
-
-#选择要使用哪个样本
-choosen_sample = "Nerveferroptosis_remove_R1_3_4"
-#选择.h5ad文件
-h5ad_filename = "重画矩阵GSE232429_testAB.integrated.h5ad"
-#运行自带的示例，并获取稀疏矩阵
-#这里需要做非示例的函数进去
-current_folder_input = current_folder
-orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input,1,13000,0.1,0.001,True)
-#orig_adata,loading_directory,distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
-#运行自带的示例，并获取非稀疏矩阵
-#这里需要做非示例的函数进去
-#current_folder_input = current_folder
-#loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input)
-print(loading_directory)
-print(choosen_sample)
-
-orig_adata.obs['shijian2']
-
-
-#需要区分dense和sparase
-save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
-
-#将要计算的文件保存到/result
-merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
-
-```
-
-
-
-
 
 Perform pseudo-time inference on groups 1, 2, and 5
 ---
@@ -741,6 +547,219 @@ chayi1 <- FindMarkers(testAB.integrated, ident.1 = "Group R2-3", ident.2 = "Grou
 write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv")
 
 ```
+
+
+
+
+
+Verify the ferroptosis ratio
+---
+```python
+import cospar as cs
+import numpy as np
+import os
+import kailin as kl
+#import matlab.engine
+#eng = matlab.engine.start_matlab()
+
+print(kl.__version__)
+#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
+#则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
+kl.kl_initialize(0)
+#获取kailin工作的根目录
+parent_directory_origin = kl.kl_settings.parent_directory_origin
+print(parent_directory_origin)
+#改进：
+#添加一个cluster模式
+#选择进行Lineage Tracing还是Cluster，并给出可用的列表
+current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
+print(current_folder)
+
+#选择要使用哪个样本
+choosen_sample = "Nerveferroptosis_19_21_Group8"
+#选择.h5ad文件
+h5ad_filename = "重画矩阵GSE232429_testAB.integrated.h5add"
+#运行自带的示例，并获取稀疏矩阵
+#这里需要做非示例的函数进去
+current_folder_input = current_folder
+updated_folder = os.path.join(current_folder, "Nerveferroptosis_19_21_Group8/data")
+h5ad_path = os.path.join(updated_folder, "2024.10.30-有Health和GROUP8细分群的数据.h5ad")
+
+print(h5ad_path)
+
+```
+```python
+import anndata as ad
+adata = ad.read_h5ad(h5ad_path)
+adata.obs['nFeature_RNA']
+adata.obs['fenqun1']
+adata_Health_RNA = adata[adata.obs['fenqun1'] == 'Health'].var.index.tolist()
+# 获取特定层的形状
+length_of_adata_Healt_RNA = len(adata_Health_RNA)
+print(adata.X.shape)
+print(length_of_adata_Healt_RNA)
+
+print(tarc_column)
+adata_Death_RNA = adata[adata.obs['fenqun1'] != 'Health'].var.index.tolist()
+# 获取特定层的形状
+length_of_adata_Death_RNA= len(adata_Death_RNA)
+print(adata.X.shape)
+print(length_of_adata_Death_RNA)
+
+#
+import pandas as pd
+
+# 初始化 check_list 和一个空的 DataFrame
+check_list = ['Smad7', 
+              'Pex2', 
+              'Far1', 
+              'Mtch1', 
+              'Lpin1', 
+              'Nras', 
+              'Agps', 
+              'Wipi1', 
+              'Hmgb1', 
+              'Mapk3', 
+              'Cd82', 
+              'Elovl5', 
+              'Scp2', 
+              'Lgmn', 
+              'Adam23', 
+              'Emc2', 
+              'Ulk2', 
+              'Hddc3', 
+              'Gstz1', 
+              'Map3k11', 
+              'Cirbp']
+
+df = pd.DataFrame(columns=['Value', 'Average', 'Rate'])  # 定义一个空的 DataFrame
+
+# 读取数据有多少个
+nras_expression = adata[adata.obs['fenqun1'] != 'Health'][:, check_list[1]].X
+total_num = adata[adata.obs['fenqun1'] != 'Health'].X.shape[0]
+print('表达数据的行数为:', total_num)
+
+
+
+num_rows = adata[adata.obs['fenqun1'] != 'Health'].n_obs
+# 打印行数
+print('adata_Death_RNA 的行数为:', num_rows)
+#读取adata中
+
+num_rows_1 = adata[adata.obs['fenqun1'] == 'Health'].n_obs
+# 打印行数
+print('adata_Health_RNA 的行数为:', num_rows_1)
+#读取adata中
+
+
+# 循环遍历 check_list，将每个值保存到 DataFrame 中
+for i, value in enumerate(check_list):
+    df.loc[i, 'Value'] = value  # 只给 'Value' 列赋值
+    
+    #取check_list中的Gene
+    Chosen_computing = check_list[i]
+    #print(Chosen_computing)
+    
+    #选取健康细胞作为参照值
+    #adata[adata.obs['fenqun1'] != 'Health']
+    tarc_column = adata[:, adata.var.index == Chosen_computing].X
+    
+    #取出平均值
+    tarc_mean = np.median(tarc_column.toarray())
+    df.loc[i, 'Average'] = tarc_mean
+    
+    #把要计算的基因样本抽出来
+    compare_expression = adata[adata.obs['fenqun1'] != 'Health'][:, check_list[1]].X.toarray()
+    #print('compare_expression:',compare_expression )
+    average_standa = df.loc[i, 'Average']
+    
+    #计算比较总数
+    count_number = sum(value >= average_standa for value in compare_expression)
+    #count_number = sum(compare_expression >= df.loc[i, 'Average'])
+    #print('Sum:',count_number)
+    
+    #计算比率
+    rate = count_number/total_num
+    
+    #保存比率
+    df.loc[i, 'Rate'] = rate
+    
+
+
+# 打印最终的 DataFrame
+print(df)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Distinguish between ferroptosis and apoptosis
+---
+
+```python
+import cospar as cs
+import numpy as np
+import os
+import kailin as kl
+#import matlab.engine
+#eng = matlab.engine.start_matlab()
+
+print(kl.__version__)
+#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
+#则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
+kl.kl_initialize(0)
+#获取kailin工作的根目录
+parent_directory_origin = kl.kl_settings.parent_directory_origin
+print(parent_directory_origin)
+#改进：
+#添加一个cluster模式
+#选择进行Lineage Tracing还是Cluster，并给出可用的列表
+current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
+print(current_folder)
+
+
+#选择要使用哪个样本
+choosen_sample = "Nerveferroptosis_remove_R1_3_4"
+#选择.h5ad文件
+h5ad_filename = "重画矩阵GSE232429_testAB.integrated.h5ad"
+#运行自带的示例，并获取稀疏矩阵
+#这里需要做非示例的函数进去
+current_folder_input = current_folder
+orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input,1,13000,0.1,0.001,True)
+#orig_adata,loading_directory,distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
+#运行自带的示例，并获取非稀疏矩阵
+#这里需要做非示例的函数进去
+#current_folder_input = current_folder
+#loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input)
+print(loading_directory)
+print(choosen_sample)
+
+orig_adata.obs['shijian2']
+
+
+#需要区分dense和sparase
+save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
+
+#将要计算的文件保存到/result
+merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
+
+```
+
+
 
 Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis
 ---
