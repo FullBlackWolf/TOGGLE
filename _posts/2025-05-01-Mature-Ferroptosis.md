@@ -176,6 +176,7 @@ hk.ColorLimits = [40, 50]
 ```
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.    
+<br>
 Load required packages
 ---
 ```R
@@ -463,6 +464,7 @@ hk.ColorLimits = [26,27]
 ```
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.   
+<br>
 Perform pseudo-time inference on groups 1, 2, and 5
 ---
 
@@ -1010,6 +1012,7 @@ hk = heatmap(weighting_result);
 
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬.  
+<br>
 Distinguish between ferroptosis and apoptosis
 ---
 
