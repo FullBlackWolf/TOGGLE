@@ -319,7 +319,7 @@ print(current_folder)
 choosen_sample = "Nerveferroptosis"
 
 #选择.h5ad文件
-h5ad_filename = "GSE232429_Neuron.Rdata"
+h5ad_filename = "GSE232429 Neuron.h5ad"
 
 
 #运行自带的示例，并获取稀疏矩阵
