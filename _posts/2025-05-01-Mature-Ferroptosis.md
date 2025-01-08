@@ -289,10 +289,15 @@ Do not close R to ensure the subsequent programs can run.
 𝙄𝙙𝙚𝙣𝙩𝙞𝙛𝙮 𝙘𝙚𝙡𝙡𝙨 𝙪𝙣𝙙𝙚𝙧𝙜𝙤𝙞𝙣𝙜 𝙥𝙧𝙤𝙜𝙧𝙖𝙢𝙢𝙚𝙙 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨.
 ---
 
+<br>
+
 Start
 ---
 
 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
+
+<br>
+
 ```python
 import numpy as np
 import os
@@ -350,6 +355,8 @@ save_list = ["orig_adata.obs['orig.ident']", "orig_adata.obsm['X_umap']"]
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
 ```
 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)
+
+<br>
 
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis\main_v3_matlab_run_me.m`
@@ -455,6 +462,7 @@ hk.ColorLimits = [40, 50]
 ```
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)    
+
 <br>
 
 Load required packages
@@ -593,12 +601,20 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 Do not close R to ensure the subsequent programs can run.
 
 --------------------------------------------
+
+
 𝘿𝙞𝙨𝙩𝙞𝙣𝙜𝙪𝙞𝙨𝙝 𝙩𝙝𝙚 𝙨𝙩𝙖𝙜𝙚𝙨 𝙤𝙛 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙞𝙣 𝙘𝙚𝙡𝙡𝙨. 𝘿𝙪𝙚 𝙩𝙤 𝙨𝙝𝙖𝙧𝙚𝙙 𝙍𝙉𝘼 𝙥𝙖𝙩𝙝𝙬𝙖𝙮𝙨, 𝙢𝙖𝙣𝙮 𝙘𝙚𝙡𝙡𝙨 𝙪𝙣𝙙𝙚𝙧𝙜𝙤𝙞𝙣𝙜 𝙖𝙥𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙖𝙧𝙚 𝙢𝙞𝙭𝙚𝙙 𝙞𝙣.
 ---
 
+<br>
+
 Start
 ---
+
 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
+
+<br>
+
 ```python
 import numpy as np
 import os
@@ -658,6 +674,10 @@ print(choosen_sample)
 ```
 
 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)
+
+<br>
+
+
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
 
@@ -746,7 +766,9 @@ hk.ColorLimits = [26,27]
 ```
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)   
+
 <br>
+
 Perform pseudo-time inference on groups 1, 2, and 5
 ---
 
@@ -1047,13 +1069,19 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 
 --------------------------------------------
+
 𝙑𝙚𝙧𝙞𝙛𝙮 𝙩𝙝𝙚 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙧𝙖𝙩𝙞𝙤, 𝙙𝙞𝙨𝙩𝙞𝙣𝙜𝙪𝙞𝙨𝙝 𝙗𝙚𝙩𝙬𝙚𝙚𝙣 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙖𝙣𝙙 𝙖𝙥𝙤𝙥𝙩𝙤𝙨𝙞𝙨.
 ---
 
+<br>
 
 Start
 ---
+
 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
+
+<br>
+
 ```python
 import numpy as np
 import os
@@ -1189,7 +1217,11 @@ for i, value in enumerate(check_list):
 print(df)
 
 ```
+
+
 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)  
+
+<br>
 
 Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
@@ -1295,7 +1327,9 @@ hk = heatmap(weighting_result);
 
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)   
+
 <br>
+
 Distinguish between ferroptosis and apoptosis
 ---
 
