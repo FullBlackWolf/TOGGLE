@@ -69,6 +69,110 @@ save_list = ["orig_adata.obs['orig.ident']", "orig_adata.obsm['X_umap']"]
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
 ```
 
+Afterward, execute the following file:
+`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis\main_v3_matlab_run_me.m`
+
+```matlab
+
+
+%% Load data and Split to compute
+%% Load data and Split to compute
+MM0 = load('./result/粗糙过滤r1n13000distance_matrix.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
+count_=readtable('./result/粗糙过滤r1n13000merged_data.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,300,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.00007]
+
+% %对小矩阵进行排序
+% %计算pesudotime，两种计算模式，mean和median
+% %疑问，pseudotime跟着小矩阵重排了吗？
+% [pesudotime_info] = pesudotime_combine(split_simple,count_.Pst,"mean")
+% %使用sigmoid函数处理伪时间
+% pesudotime_info_sigmoid = sigmoid(pesudotime_info,45,10,100);
+% %pesudotime_info_sigmoid = pesudotime_info;
+% % 使用 heatmap 函数并传递相应参数
+% 
+% number_of_length = 1:length(cluster_map_matrix);
+% 
+% row_labels = pesudotime_info_sigmoid;
+% column_labels = number_of_length;
+
+figure(1)
+hi = heatmap(cluster_map_matrix);
+hi.ColorLimits = [0, 0.00002]
+hi.YDisplayLabels = row_labels; % 设置行标签
+hi.XDisplayLabels = column_labels; % 设置列标签
+
+
+
+%% 临近法激活
+%writetable(count_result,"result/pseudotime_map.csv");
+%临近法激活，（）
+corr_matrix = relevance_generate(0.00007,3,cluster_map_matrix);
+heatmap(corr_matrix);
+
+%% 编码
+encode_result = encoder_corr_matrix(0.000071,0.000069,50,3,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = weighting_decode + decode_result;
+hk = heatmap(weighting_result);
+hk.ColorLimits = [40, 50]
+```
+
+
 Load required packages
 ---
 ```R
@@ -265,6 +369,92 @@ orig_adata, loading_directory, distance_matrix = kl.preprocessing.kl_dense_matri
 # )
 print(loading_directory)
 print(choosen_sample)
+```
+Afterward, execute the following file:
+`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
+
+```matlab
+clc;clear
+
+%% Load data and Split to compute
+%% Load data and Split to compute
+MM0 = load('./result/distance_matrix.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
+count_=readtable('./result/merged_data.csv');
+
+%% 得到边界划分点
+%[p,splitlist] = binary_corr_sorting(MM0,20,125,5,5);
+[p,splitlist] = binary_corr_sorting(MM0,20,100,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0.00005,0.0003]%
+
+%writetable(count_result, './result/result_group.csv');
+%writetable(count_result,"result/pseudotime_map.csv");
+
+
+
+%% 临近法激活
+corr_matrix = relevance_generate(0.00065,4,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.0007,0.0006,1,4,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = weighting_decode + decode_result;
+hk = heatmap(decode_result);
+hk.ColorLimits = [26,27]
+
 ```
 
 
@@ -710,9 +900,97 @@ print(df)
 
 ```
 
+Afterward, execute the following file:
+`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
+
+```matlab
+
+
+%% Load data and Split to compute
+%% Load data and Split to compute
+MM0 = load('./result/r1n13000distance_matrix.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
+count_=readtable('./result/r1n13000merged_data.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,300,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
 
 
 
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.00007]
+
+%----------------------------
+figure(1)
+h = heatmap(cluster_map_matrix);
+h.ColorLimits = [0, 0.00007]
+
+
+%writetable(count_result,"result/pseudotime_map.csv");
+
+%% 临近法激活
+corr_matrix = relevance_generate(0.00065,4,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.0007,0.0006,1,4,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = weighting_decode + decode_result;
+hk = heatmap(weighting_result);
+
+
+```
 
 
 
