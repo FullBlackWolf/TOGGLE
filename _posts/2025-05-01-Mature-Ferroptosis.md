@@ -445,7 +445,6 @@ hi.XDisplayLabels = column_labels; % 设置列标签
 
 
 %% 临近法激活
-%writetable(count_result,"result/pseudotime_map.csv");
 %临近法激活，（）
 corr_matrix = relevance_generate(0.00007,3,cluster_map_matrix);
 heatmap(corr_matrix);
@@ -461,6 +460,8 @@ figure(3)
 weighting_result = weighting_decode + decode_result;
 hk = heatmap(weighting_result);
 hk.ColorLimits = [40, 50]
+
+writetable(count_result,"result/pseudotime_map.csv");
 ```
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)    
