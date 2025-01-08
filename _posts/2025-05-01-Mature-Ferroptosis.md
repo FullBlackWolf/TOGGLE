@@ -275,7 +275,7 @@ ggplot(df,aes(x=Difference,y=-log10(pval),color=threshold))+
   xlab('Difference')+  # Update X-axis label
   geom_vline(xintercept=c(0),lty=3,col="black",lwd=0.5)
 ggsave("Figure 3C.pdf",width = 5,height = 3.8)
-save(testAB.integrated,file = 'GSE232429 Neuron.Rdata')
+save(testAB.integrated,file = 'GSE232429_Neuron.Rdata')
 ```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-3.png" 
@@ -298,6 +298,8 @@ Start
 
 <br>
 
+Import `GSE232429_Neuron.Rdata` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis`.  
+
 ```python
 import numpy as np
 import os
@@ -317,7 +319,7 @@ print(current_folder)
 choosen_sample = "Nerveferroptosis"
 
 #选择.h5ad文件
-h5ad_filename = "GSE232429取少量细胞进行推算的单细胞数据_testAB.h5ad"
+h5ad_filename = "GSE232429_Neuron.Rdata"
 
 
 #运行自带的示例，并获取稀疏矩阵
@@ -592,7 +594,7 @@ Visualization
 ```R
 p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
-save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
+save(testAB.integrated,file = 'GSE232429_after_removing_3_and_4.Rdata')
 ```
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-5.png" 
      alt="Neuron-5.png" 
@@ -612,6 +614,8 @@ Start
 ---
 
 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
+
+Import `GSE232429_Neuron.Rdata` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis`.  
 
 <br>
 
