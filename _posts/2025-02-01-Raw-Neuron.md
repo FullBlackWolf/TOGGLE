@@ -510,12 +510,29 @@ ggsave(filename = "Figure 4C-1.pdf", plot = p4, device = 'pdf', width = 21, heig
      alt="Neuron-6.png" 
      title="Neuron-6.png">
 
-
+     
+Visualization
+---
+```R
+p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 4C-2.pdf", plot = p5, device = 'pdf', width = 21, height = 18, units = 'cm')
+```
      
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-7.png" 
      alt="Neuron-7.png" 
      title="Neuron-7.png">
 
+
+Export cell proportions
+---
+```R
+
+Table1 <- table(testAB.integrated$newresults)
+write.table(Table1, file = "The number of cells per cluster.txt", sep ="\t")
+cell_type_cols <- c("#5a5098","#6693b1","#a3caa9","#deedad","#ffffcc","#efd695","#dd9667","#bd5c56","#842844")
+p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "shijian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 4E-1.pdf", plot = p5, device = 'pdf', width = 26, height = 14, units = 'cm')
+```
 
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-8.png" 
@@ -523,23 +540,204 @@ ggsave(filename = "Figure 4C-1.pdf", plot = p4, device = 'pdf', width = 21, heig
      title="Neuron-8.png">
 
 
+Visualization
+---
+```R
+p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 4E-2.pdf", plot = p6, device = 'pdf', width = 26, height = 14, units = 'cm')
+```
+
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-9.png" 
      alt="Neuron-9.png" 
      title="Neuron-9.png">
 
+Group Difference
+---
+```R
+Table1 <- table(testAB.integrated$Group, testAB.integrated$shijian2)
+write.table(Table1, file = "The cell proportion of the new grouping result-group.txt", sep ="\t")
+# Plot cells elevated compared to MCAO group
+tb <- data.frame(table(testAB.integrated$shijian2,testAB.integrated$Sample, testAB.integrated$Group))
+tb=tb[,c(1,3,4)]
 
+tb$Total <- apply(tb,1,function(x)sum(tb[tb$Var3 == x[2],3]))
+tb<- tb %>% mutate(Percentage = round(Freq/Total,3) * 100)
+tb=tb[,c(1,2,5)]
+tb$Var1=as.factor(tb$Var1)
+tb$Var3=as.factor(tb$Var3)
+head(tb)
+df= do.call(rbind,
+            lapply(split(tb,tb$Var1), function(x){
+              # x= split(tb,tb$Var1)[[1]]
+              tmp = t.test(x$Percentage ~ x$Var3)
+              return(c(tmp$p.value, tmp$estimate[1]-tmp$estimate[2]))
+            }))
+
+colnames(df) = c("pval","Difference")
+df = as.data.frame(df)
+df$threshold = factor(ifelse(df$Difference > 0 ,'Down','Up'))
+
+ggplot(df,aes(x=Difference,y=-log10(pval),color=threshold))+
+  geom_point()+
+  geom_text_repel(
+    aes(label = rownames(df)),
+    size = 4,
+    segment.color = "black", show.legend = FALSE ) +
+  theme_bw()+# Modify plot background
+  theme(legend.title = element_blank()) +  # Hide legend title
+  ylab('-log10(pval)')+  # Update Y-axis label
+  xlab('Difference')+  # Update X-axis label
+  geom_vline(xintercept=c(0),lty=3,col="black",lwd=0.5)
+ggsave("Figure 4G.pdf",width = 5,height = 3.8)
+```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-10.png" 
      alt="Neuron-10.png" 
      title="Neuron-10.png">
 
 
+Do DEG analysis for regrouping results
+---
+
+```R
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
+#set active.ident to shijian
+Idents(testAB.integrated) <- "shijian"
+DefaultAssay(testAB.integrated) <- "RNA"
+#Do DEG analysis
+s0 <- subset(testAB.integrated,idents=c("Group R2-1", "Group R2-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$shijian2)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R2-1 vs Group R2-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R2-1", "Group R2-6"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$shijian2)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R2-1 vs Group R2-6.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R2-1", "Group R2-7"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$shijian2)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R2-1 vs Group R2-7.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R2-3", "Group R2-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$shijian2)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R2-3 vs Group R2-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R2-3", "Group R2-6"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$shijian2)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R2-3 vs Group R2-6.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R2-3", "Group R2-7"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$shijian2)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R2-3 vs Group R2-7.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R2-2", "Group R2-4"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$shijian2)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R2-2 vs Group R2-4.csv")
+```
+After determining the head and tail, we will find the differential genes of the head and tail cell groups
+---
+```R
+testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
+DefaultAssay(testAB.integrated) <- "RNA" 
+testAB.integrated <- JoinLayers(testAB.integrated)
+Idents(testAB.integrated) <- "shijian"
+chayi1 <- FindMarkers(testAB.integrated, ident.1 = "Group R2-3", ident.2 = "Group R2-9",
+                      assay = "RNA", slot="counts",
+                      only.pos = F, min.pct = 0, logfc.threshold = 0)
+write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv")
+
+```
+
+Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis
+---
+```R
+testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
+Idents(testAB.integrated) <- "Biaoqian"
+testAB.integrated <- subset(testAB.integrated,idents=c("R2-2","R2-3"),invert = FALSE)
+Idents(testAB.integrated) <- "Group"
+testAB.integrated <- subset(testAB.integrated,idents=c("MCAO"),invert = FALSE)
+DefaultAssay(testAB.integrated) <- "RNA4"
+###First generate h5ad for further analysis###
+# Make sure you select a matrix that contains all genes
+sceasy::convertFormat(
+  testAB.integrated,
+  from = "seurat",
+  to = "anndata",
+  outFile = "Cells from Group R2-2 and Group R2-3.h5ad"
+)
+####Then I got 15-21-result.csv, so I imported it
+# Read CSV file
+result_data <- read.csv("15-21-result.csv", stringsAsFactors = FALSE)
+# Make sure the columns in the file are named "Var3" and "Result", check the file contents
+head(result_data)
+# Check if all 'Var1' values exist in Seurat object's cell names
+common_cells <- intersect(result_data$Var3, rownames(testAB.integrated@meta.data))
+if (length(common_cells) < nrow(result_data)) {
+  warning("Some cells in '15-21-result.csv' are not found in testAB.integrated metadata!")
+}
+# Map 'Result' values to Seurat object's metadata based on 'Var1'
+# First, create a new column 'Result' and set it to NA
+testAB.integrated@meta.data$Result <- NA
+# Use match() to merge corresponding values
+matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var3)
+testAB.integrated@meta.data$Result <- result_data$Result[matching_indices]
+## Group based on 'Result'
+# get metadata
+metadata <- testAB.integrated@meta.data
+# Create a new column fenqun1 based on the value of the Result column
+metadata$fenqun1 <- with(metadata, 
+                         ifelse(Result >= 1 & Result <= 6, "Group R3-1",
+                                ifelse(Result >= 7 & Result <= 12, "Group R3-2",
+                                       ifelse(Result >= 13 & Result <= 19, "Group R3-3",
+                                              ifelse(Result >= 20 & Result <= 27, "Group R3-4",
+                                                     ifelse(Result >= 28 & Result <= 34, "Group R3-5", NA))))))
+# Build the Biaoqian column and remove "Group" from fenqun1
+metadata$Biaoqian <- gsub("^Group ", "", metadata$fenqun1)
+
+# Assign updated metadata back to the Seurat object
+testAB.integrated@meta.data <- metadata
+# Check results
+head(testAB.integrated@meta.data)
+#Save
+save(testAB.integrated,file = 'Cells from Group R2-2 and Group R2-3.Rdata')
+```
+
+Drawing
+---
+```R
+cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
+testAB.integrated = RunPCA(testAB.integrated)
+ElbowPlot(testAB.integrated)
+testAB.integrated = RunUMAP(testAB.integrated,dims = 1:20)
+p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "fenqun1", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 6A-1.pdf", plot = p5, device = 'pdf', width = 15, height = 12, units = 'cm')
+
+```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-11.png" 
      alt="Neuron-11.png" 
      title="Neuron-11.png">
+     
+Visualization
+---
+```R
+p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 6A-2.pdf", plot = p6, device = 'pdf', width = 15, height = 12, units = 'cm')
 
-
+```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-12.png" 
      alt="Neuron-12.png" 
