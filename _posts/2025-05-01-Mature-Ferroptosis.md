@@ -615,7 +615,7 @@ Start
 
 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
 
-Import `GSE232429_Neuron.Rdata` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis`.  
+Import `GSE232429_after_removing_3_and_4.Rdata` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21`.  
 
 <br>
 
