@@ -7,7 +7,7 @@ tags:
   - Samples
 ---
 
-Identify cells undergoing programmed ferroptosis.
+𝙄𝙙𝙚𝙣𝙩𝙞𝙛𝙮 𝙘𝙚𝙡𝙡𝙨 𝙪𝙣𝙙𝙚𝙧𝙜𝙤𝙞𝙣𝙜 𝙥𝙧𝙤𝙜𝙧𝙖𝙢𝙢𝙚𝙙 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨.
 ---
 
 ```Python
@@ -189,7 +189,7 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
      title="Neuron-5.png">
 
 
-Distinguish the stages of ferroptosis in cells. Due to shared RNA pathways, many cells undergoing apoptosis are mixed in.
+𝘿𝙞𝙨𝙩𝙞𝙣𝙜𝙪𝙞𝙨𝙝 𝙩𝙝𝙚 𝙨𝙩𝙖𝙜𝙚𝙨 𝙤𝙛 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙞𝙣 𝙘𝙚𝙡𝙡𝙨. 𝘿𝙪𝙚 𝙩𝙤 𝙨𝙝𝙖𝙧𝙚𝙙 𝙍𝙉𝘼 𝙥𝙖𝙩𝙝𝙬𝙖𝙮𝙨, 𝙢𝙖𝙣𝙮 𝙘𝙚𝙡𝙡𝙨 𝙪𝙣𝙙𝙚𝙧𝙜𝙤𝙞𝙣𝙜 𝙖𝙥𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙖𝙧𝙚 𝙢𝙞𝙭𝙚𝙙 𝙞𝙣.
 ---
 
 ```Python
@@ -552,7 +552,7 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 
 
-Verify the ferroptosis ratio
+𝙑𝙚𝙧𝙞𝙛𝙮 𝙩𝙝𝙚 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙧𝙖𝙩𝙞𝙤, 𝙙𝙞𝙨𝙩𝙞𝙣𝙜𝙪𝙞𝙨𝙝 𝙗𝙚𝙩𝙬𝙚𝙚𝙣 𝙛𝙚𝙧𝙧𝙤𝙥𝙩𝙤𝙨𝙞𝙨 𝙖𝙣𝙙 𝙖𝙥𝙤𝙥𝙩𝙤𝙨𝙞𝙨.
 ---
 ```python
 import cospar as cs
