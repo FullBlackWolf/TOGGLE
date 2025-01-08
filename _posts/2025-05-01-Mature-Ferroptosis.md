@@ -50,25 +50,122 @@ orig_adata, loading_directory, distance_matrix = kl.preprocessing.kl_dense_matri
     0.001, 
     True
 )
-# orig_adata, loading_directory, distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(
-#     choosen_sample, 
-#     h5ad_filename, 
-#     "draw", 
-#     current_folder_input
-# )
-# Run the built-in example and obtain the non-sparse matrix
-# Here, a non-example function needs to be included
-# current_folder_input = current_folder
-# loading_directory, distance_matrix = kl.preprocessing.kl_dense_matrix(
-#     choosen_sample, 
-#     h5ad_filename, 
-#     "draw", 
-#     current_folder_input
-# )
+
 print(loading_directory)
 print(choosen_sample)
 ```
 
+DEG analysis for GSE232429
+---
+
+```R
+library(SingleCellExperiment)
+library(DEsingle)
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
+```
+
+Set active.ident to ranse
+---
+
+```R
+Idents(testAB.integrated) <- "ranse"
+DefaultAssay(testAB.integrated) <- "RNA"
+```
+
+Perform pairwise comparisons
+---
+
+```R
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-2"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-2.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-3"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-3.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-4"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-4.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-1 vs Group R1-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-3"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-2 vs Group R1-3.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-4"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-2 vs Group R1-4.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-2 vs Group R1-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-3", "Group R1-4"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-3 vs Group R1-4.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-3", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-3 vs Group R1-5.csv")
+
+s0 <- subset(testAB.integrated,idents=c("Group R1-4", "Group R1-5"),invert = FALSE)
+s0 <- as.SingleCellExperiment(s0)
+group0 <- factor(s0$ranse)
+results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
+write.csv(results0, file="Group R1-4 vs Group R1-5.csv")
+```
+
+
+Based on all the results, groups 1, 2, and 5 were included in the subsequent analysis
+---
+
+```R
+load("C:/GEOANALYSIS/GSE232429/GSE232429 Neuron.Rdata")
+Idents(testAB.integrated) <- "Biaoqian"
+testAB.integrated <- subset(testAB.integrated,idents=c("R1-1","R1-2","R1-5"),invert = FALSE)
+cell_type_cols <- c("#6693b1","#a3caa9","#bd5c56")
+p2 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "ranse", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 3E-1.pdf", plot = p2, device = 'pdf', width = 26, height = 14, units = 'cm')
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-4.png" 
+     alt="Neuron-4.png" 
+     title="Neuron-4.png">
+
+
+Visualization
+---
+
+```R
+p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
+save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
+```
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-5.png" 
+     alt="Neuron-5.png" 
+     title="Neuron-5.png">
 
 
 Distinguish the stages of ferroptosis in cells. Due to shared RNA pathways, many cells undergoing apoptosis are mixed in.
@@ -326,117 +423,7 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 
 
 
-DEG analysis for GSE232429
----
 
-```R
-library(SingleCellExperiment)
-library(DEsingle)
-testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
-```
-
-Set active.ident to ranse
----
-
-```R
-Idents(testAB.integrated) <- "ranse"
-DefaultAssay(testAB.integrated) <- "RNA"
-```
-
-Perform pairwise comparisons
----
-
-```R
-s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-2"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-1 vs Group R1-2.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-3"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-1 vs Group R1-3.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-4"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-1 vs Group R1-4.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-5"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-1 vs Group R1-5.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-3"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-2 vs Group R1-3.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-4"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-2 vs Group R1-4.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-2", "Group R1-5"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-2 vs Group R1-5.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-3", "Group R1-4"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-3 vs Group R1-4.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-3", "Group R1-5"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-3 vs Group R1-5.csv")
-
-s0 <- subset(testAB.integrated,idents=c("Group R1-4", "Group R1-5"),invert = FALSE)
-s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$ranse)
-results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
-write.csv(results0, file="Group R1-4 vs Group R1-5.csv")
-```
-
-
-Based on all the results, groups 1, 2, and 5 were included in the subsequent analysis
----
-
-```R
-load("C:/GEOANALYSIS/GSE232429/GSE232429 Neuron.Rdata")
-Idents(testAB.integrated) <- "Biaoqian"
-testAB.integrated <- subset(testAB.integrated,idents=c("R1-1","R1-2","R1-5"),invert = FALSE)
-cell_type_cols <- c("#6693b1","#a3caa9","#bd5c56")
-p2 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "ranse", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
-ggsave(filename = "Figure 3E-1.pdf", plot = p2, device = 'pdf', width = 26, height = 14, units = 'cm')
-```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-4.png" 
-     alt="Neuron-4.png" 
-     title="Neuron-4.png">
-
-
-Visualization
----
-
-```R
-p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
-ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
-save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
-```
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-5.png" 
-     alt="Neuron-5.png" 
-     title="Neuron-5.png">
 
 Perform pseudo-time inference on groups 1, 2, and 5
 ---
