@@ -435,6 +435,13 @@ ggsave(filename = "Figure 4A.pdf", plot = p3, device = 'pdf', width = 18, height
 save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 ```
 
+
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-6.png" 
+     alt="Neuron-6.png" 
+     title="Neuron-6.png">
+
+     
 Regroup 1, 2, and 5
 ---
 ```R
@@ -505,23 +512,22 @@ cell_type_cols <- c("#5a5098","#6693b1","#a3caa9","#deedad","#ffffcc","#efd695",
 p4 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "shijian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 4C-1.pdf", plot = p4, device = 'pdf', width = 21, height = 18, units = 'cm')
 ```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-6.png" 
-     alt="Neuron-6.png" 
-     title="Neuron-6.png">
-
      
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-7.png" 
+     alt="Neuron-7.png" 
+     title="Neuron-7.png">
+
 Visualization
 ---
 ```R
 p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 4C-2.pdf", plot = p5, device = 'pdf', width = 21, height = 18, units = 'cm')
 ```
-     
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-7.png" 
-     alt="Neuron-7.png" 
-     title="Neuron-7.png">
 
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-8.png" 
+     alt="Neuron-8.png" 
+     title="Neuron-8.png">
 
 Export cell proportions
 ---
@@ -535,10 +541,10 @@ ggsave(filename = "Figure 4E-1.pdf", plot = p5, device = 'pdf', width = 26, heig
 ```
 
 
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-8.png" 
-     alt="Neuron-8.png" 
-     title="Neuron-8.png">
 
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-9.png" 
+     alt="Neuron-9.png" 
+     title="Neuron-9.png">
 
 Visualization
 ---
@@ -547,9 +553,9 @@ p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", spli
 ggsave(filename = "Figure 4E-2.pdf", plot = p6, device = 'pdf', width = 26, height = 14, units = 'cm')
 ```
 
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-9.png" 
-     alt="Neuron-9.png" 
-     title="Neuron-9.png">
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-10.png" 
+     alt="Neuron-10.png" 
+     title="Neuron-10.png">
 
 Group Difference
 ---
@@ -591,10 +597,10 @@ ggplot(df,aes(x=Difference,y=-log10(pval),color=threshold))+
 ggsave("Figure 4G.pdf",width = 5,height = 3.8)
 ```
 
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-10.png" 
-     alt="Neuron-10.png" 
-     title="Neuron-10.png">
-
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-11.png" 
+     alt="Neuron-11.png" 
+     title="Neuron-11.png">
+     
 
 Do DEG analysis for regrouping results
 ---
@@ -727,10 +733,10 @@ ggsave(filename = "Figure 6A-1.pdf", plot = p5, device = 'pdf', width = 15, heig
 
 ```
 
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-11.png" 
-     alt="Neuron-11.png" 
-     title="Neuron-11.png">
-     
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-12.png" 
+     alt="Neuron-12.png" 
+     title="Neuron-12.png">
+
 Visualization
 ---
 ```R
@@ -738,12 +744,6 @@ p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.s
 ggsave(filename = "Figure 6A-2.pdf", plot = p6, device = 'pdf', width = 15, height = 12, units = 'cm')
 
 ```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-12.png" 
-     alt="Neuron-12.png" 
-     title="Neuron-12.png">
-
-
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-13.png" 
      alt="Neuron-13.png" 
