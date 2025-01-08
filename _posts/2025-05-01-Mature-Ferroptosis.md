@@ -364,10 +364,10 @@ weighting_result = weighting_decode + decode_result;
 hk = heatmap(weighting_result);
 hk.ColorLimits = [40, 50]
 
-writetable(count_result,"result/粗糙过滤1n13000_result.csv");
+writetable(count_result,"result/1n13000_result.csv");
 ```
 
-Group result generated in `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis\result\粗糙过滤1n13000_result.csv`.  
+Group result generated in `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis\result\1n13000_result.csv`.  
 
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)    
@@ -377,6 +377,8 @@ Group result generated in `[LittleSnowFox's Anaconda installation directory]\dat
 
 After analysis, import results from '1n13000_result.csv' into metadata
 ---
+
+Place `1n13000_result.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
 
 ```R
 load("C:/GEOANALYSIS/GSE232429/GSE232429 Neuron.Rdata")
@@ -773,6 +775,14 @@ orig_adata, loading_directory, distance_matrix = kl.preprocessing.kl_dense_matri
 # )
 print(loading_directory)
 print(choosen_sample)
+
+
+#需要区分dense和sparase
+save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
+
+#将要计算的文件保存到/result
+merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
+
 ```
 
 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)
@@ -844,7 +854,7 @@ h = heatmap(cluster_map_matrix);
 h.ColorLimits = [0.00005,0.0003]%
 
 %writetable(count_result, './result/result_group.csv');
-writetable(count_result,"result/pseudotime_map.csv");
+writetable(count_result,"result/pseudotime_map_R2.csv");
 
 
 
@@ -873,6 +883,8 @@ hk.ColorLimits = [26,27]
 
 Perform pseudo-time inference on groups 1, 2, and 5
 ---
+
+
 
 ```R
 load("C:/GEOANALYSIS/GSE232429/GSE232429 after removing 3 and 4.Rdata")
@@ -933,11 +945,13 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 Regroup 1, 2, and 5
 ---
 
+Place `pseudotime_map_R2.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
+
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
 #Import the new grouping results
 # Read CSV file
-result_data <- read.csv("pseudotime_map.csv", stringsAsFactors = FALSE)
+result_data <- read.csv("pseudotime_map_R2.csv", stringsAsFactors = FALSE)
 # Ensure the file contains columns 'Var1' and 'Result'; check file content
 head(result_data)
 # Check if all 'Var1' values exist in Seurat object's cell names
@@ -1239,7 +1253,17 @@ h5ad_path = os.path.join(updated_folder, "2024.10.30-有Health和GROUP8细分群
 
 print(h5ad_path)
 
+#需要区分dense和sparase
+save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
+
+#将要计算的文件保存到/result
+merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
+
 ```
+
+Check the coverage of genes.
+---
+
 ```python
 import anndata as ad
 adata = ad.read_h5ad(h5ad_path)
@@ -1356,11 +1380,11 @@ Afterward, execute the following file:
 
 %% Load data and Split to compute
 %% Load data and Split to compute
-MM0 = load('./result/r1n13000distance_matrix.mat');
+MM0 = load('./result/distance_matrix.mat');
 MM0 = MM0.distance_matrix;
 
 %% 读取要排序的对象
-count_=readtable('./result/r1n13000merged_data.csv');
+count_=readtable('./result/merged_data.csv');
 
 %% 得到边界划分点
 [p,splitlist] = binary_corr_sorting(MM0,20,300,5,5);
@@ -1416,7 +1440,7 @@ h = heatmap(cluster_map_matrix);
 h.ColorLimits = [0, 0.00007]
 
 
-%writetable(count_result,"result/pseudotime_map.csv");
+writetable(count_result,"result/pseudotime_map_R3.csv");
 
 %% 临近法激活
 corr_matrix = relevance_generate(0.00065,4,cluster_map_matrix);
@@ -1461,11 +1485,13 @@ Distinguish between ferroptosis and apoptosis
 Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis
 ---
 
+Place `pseudotime_map_R3.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
+
 ```R
 
 ####Then I got 15-21-result.csv, so I imported it
 # Read CSV file
-result_data <- read.csv("15-21-result.csv", stringsAsFactors = FALSE)
+result_data <- read.csv("pseudotime_map_R3.csv", stringsAsFactors = FALSE)
 # Make sure the columns in the file are named "Var3" and "Result", check the file contents
 head(result_data)
 # Check if all 'Var1' values exist in Seurat object's cell names
