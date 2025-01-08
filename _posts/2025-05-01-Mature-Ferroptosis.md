@@ -275,7 +275,7 @@ ggplot(df,aes(x=Difference,y=-log10(pval),color=threshold))+
   xlab('Difference')+  # Update X-axis label
   geom_vline(xintercept=c(0),lty=3,col="black",lwd=0.5)
 ggsave("Figure 3C.pdf",width = 5,height = 3.8)
-save(testAB.integrated,file = 'GSE232429_Neuron.Rdata')
+save(testAB.integrated,file = 'GSE232429 Neuron.Rdata')
 ```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-3.png" 
@@ -298,7 +298,7 @@ Start
 
 <br>
 
-Import `GSE232429_Neuron.Rdata` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis`.  
+Import `GSE232429 Neuron.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis\data\`.  
 
 ```python
 import numpy as np
@@ -615,7 +615,7 @@ Start
 
 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
 
-Import `GSE232429_after_removing_3_and_4.Rdata` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21`.  
+Import `` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21\data`.  
 
 <br>
 
