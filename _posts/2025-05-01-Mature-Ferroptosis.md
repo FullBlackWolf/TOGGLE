@@ -461,8 +461,11 @@ weighting_result = weighting_decode + decode_result;
 hk = heatmap(weighting_result);
 hk.ColorLimits = [40, 50]
 
-writetable(count_result,"result/pseudotime_map.csv");
+writetable(count_result,"result/粗糙过滤1n13000_result.csv");
 ```
+
+Group result generated in `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis\result\粗糙过滤1n13000_result.csv`.  
+
 
 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)    
 
