@@ -76,6 +76,7 @@ VlnPlot(CI, features = c("percent.mt", "nFeature_RNA", "nCount_RNA"), ncol = 3, 
 
 Remove cells with high mitochondrial gene expression or extreme values
 ---
+
 ```R
 # Parameters referenced from https://cloud.tencent.com/developer/article/2195816 and https://zhuanlan.zhihu.com/p/484804392
 # nFeature_RNA: Genes expressed in each cell > 300 and < 7000;
@@ -124,8 +125,11 @@ testAB.integrated@meta.data <- metadata
 # Check results
 head(testAB.integrated@meta.data)
 ```
+
 As per documentation, use 'integrated' for finding cluster markers and 'RNA' (normalized data) for differential analysis
 ---
+
+
 ```R
 # Set default matrix to 'integrated' for subsequent steps
 DefaultAssay(testAB.integrated) <- "integrated"
