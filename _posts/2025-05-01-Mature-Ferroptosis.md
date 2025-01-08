@@ -1069,7 +1069,24 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 ```
 
-
+Save .h5ad
+---
+```R
+testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
+Idents(testAB.integrated) <- "Biaoqian"
+testAB.integrated <- subset(testAB.integrated,idents=c("R2-2","R2-3"),invert = FALSE)
+Idents(testAB.integrated) <- "Group"
+testAB.integrated <- subset(testAB.integrated,idents=c("MCAO"),invert = FALSE)
+DefaultAssay(testAB.integrated) <- "RNA4"
+###First generate h5ad for further analysis###
+# Make sure you select a matrix that contains all genes
+sceasy::convertFormat(
+  testAB.integrated,
+  from = "seurat",
+  to = "anndata",
+  outFile = "Cells from Group R2-2 and Group R2-3.h5ad"
+)
+```
 
 
 --------------------------------------------
@@ -1085,6 +1102,9 @@ Start
 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
 
 <br>
+
+
+Import `Cells from Group R2-2 and Group R2-3.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\data\`.  
 
 ```python
 import numpy as np
@@ -1109,7 +1129,7 @@ print(current_folder)
 #选择要使用哪个样本
 choosen_sample = "Nerveferroptosis_19_21_Group8"
 #选择.h5ad文件
-h5ad_filename = "重画矩阵GSE232429_testAB.integrated.h5add"
+h5ad_filename = "Cells from Group R2-2 and Group R2-3.h5ad"
 #运行自带的示例，并获取稀疏矩阵
 #这里需要做非示例的函数进去
 current_folder_input = current_folder
@@ -1341,20 +1361,7 @@ Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further an
 ---
 
 ```R
-testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
-Idents(testAB.integrated) <- "Biaoqian"
-testAB.integrated <- subset(testAB.integrated,idents=c("R2-2","R2-3"),invert = FALSE)
-Idents(testAB.integrated) <- "Group"
-testAB.integrated <- subset(testAB.integrated,idents=c("MCAO"),invert = FALSE)
-DefaultAssay(testAB.integrated) <- "RNA4"
-###First generate h5ad for further analysis###
-# Make sure you select a matrix that contains all genes
-sceasy::convertFormat(
-  testAB.integrated,
-  from = "seurat",
-  to = "anndata",
-  outFile = "Cells from Group R2-2 and Group R2-3.h5ad"
-)
+
 ####Then I got 15-21-result.csv, so I imported it
 # Read CSV file
 result_data <- read.csv("15-21-result.csv", stringsAsFactors = FALSE)
