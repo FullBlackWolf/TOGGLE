@@ -631,37 +631,57 @@ p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", spli
 ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
 save(testAB.integrated,file = 'GSE232429_after_removing_3_and_4.Rdata')
 ```
+
+
 Save .h5ad
 ---
 ```R
-testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata')) 
-# Save the file as h5ad for further analysis in Python 
-library(sceasy) 
-# Ensure default assay is RNA 
-DefaultAssay(testAB.integrated) <- "RNA" 
-# Convert RNA assay to version 4 matrix format 
-testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay") 
-# Use FindVariableFeatures to select highly variable genes 
-testAB.integrated <- FindVariableFeatures( 
-  object = testAB.integrated, 
-  selection.method = "vst",  
-  nfeatures = 2000          
-) 
+################# Rdata to h5ad #########################
+library(SeuratDisk)
+convert_Rdata_to_H5AD <- function(rdata_path) {
+  file_dir <- dirname(rdata_path)
+  file_name <- tools::file_path_sans_ext(basename(rdata_path))
+  
+  load(rdata_path)
+  
+  object_names <- ls()
+  
+  # 检查是否为 Seurat 对象
+  for (obj_name in object_names) {
+    obj <- get(obj_name)
+    if (inherits(obj, "Seurat")) {
+      # 保存为 H5Seurat 格式
+      h5seurat_path <- file.path(file_dir, paste0(file_name, "_", obj_name, ".h5Seurat"))
+      SaveH5Seurat(obj, filename = h5seurat_path)
+      
+      # 转换为 H5AD 格式
+      h5ad_path <- file.path(file_dir, paste0(file_name, "_", obj_name, ".h5ad"))
+      Convert(h5seurat_path, dest = "h5ad")
+      
+      cat("Conversion complete for object", obj_name, ". H5AD file saved at:", h5ad_path, "/n")
+    }
+  }
+}
+################# Export H5AD #########################
+testAB.integrated=get(load(file = 'GSE232429 Neuron.Rdata'))
+Idents(testAB.integrated) <- "Biaoqian"
+testAB.integrated <- subset(testAB.integrated,idents=c("R1-1","R1-2","R1-5"),invert = FALSE)# Save the file as h5ad for further analysis in Python
+# Because the group was removed, UMAP and PCA were redrawn
+testAB.integrated = SCTransform(testAB.integrated,assay = 'RNA')
+testAB.integrated = RunPCA(testAB.integrated)
+ElbowPlot(testAB.integrated)
+testAB.integrated = RunUMAP(testAB.integrated,dims = 1:10)#调umap图的参数
+testAB.integrated[["integrated"]] <- NULL #删掉integrated
+save(testAB.integrated,file = 'For_H5AD_GSE232429 after removing 3 and 4.Rdata')
 
-high_var_genes <- VariableFeatures(testAB.integrated) # get the highly variable genes 
-data_high_var <- testAB.integrated@assays$RNA@data[high_var_genes, ]  # Extracting expression data of highly variable genes 
-# Create a new Seurat object containing only the highly variable genes 
-testAB_high_var <- subset( 
-  x = testAB.integrated, 
-  features = high_var_genes 
-) 
-# Export as h5ad file, ensuring inclusion of highly variable gene information 
-sceasy::convertFormat( 
-  testAB_high_var, 
-  from = "seurat", 
-  to = "anndata", 
-  outFile = "2024.10.28_Group15-21.h5ad" 
-) 
+#Export H5AD Files
+# args <- commandArgs(trailingOnly = TRUE)
+args <- "For_H5AD_GSE232429 after removing 3 and 4.Rdata"#工作路径下的Rdata文件
+if (length(args) == 0) {
+  stop("No .Rdata file path provided. Usage: Rscript script_name.R <path_to_Rdata>")
+}
+rdata_path <- args[1]
+convert_Rdata_to_H5AD(rdata_path) 
 ```
 
 
@@ -671,6 +691,7 @@ sceasy::convertFormat(
 
 Do not close R to ensure the subsequent programs can run.
 
+Get the file `For_H5AD_GSE232429 after removing 3 and 4_testAB.integrated.h5ad` and rename it to `2024.10.28_Group15-21.h5ad`   
 Import `2024.10.28_Group15-21.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21\data\`.  
 
 --------------------------------------------
@@ -819,7 +840,7 @@ h = heatmap(cluster_map_matrix);
 h.ColorLimits = [0.00005,0.0003]%
 
 %writetable(count_result, './result/result_group.csv');
-%writetable(count_result,"result/pseudotime_map.csv");
+writetable(count_result,"result/pseudotime_map.csv");
 
 
 
