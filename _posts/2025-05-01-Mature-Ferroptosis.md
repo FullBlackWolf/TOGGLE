@@ -643,6 +643,8 @@ sceasy::convertFormat(
 
 Do not close R to ensure the subsequent programs can run.
 
+Import `2024.10.28_Group15-21.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21\data\`.  
+
 --------------------------------------------
 
 
