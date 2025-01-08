@@ -209,6 +209,7 @@ print(df)
 
 Distinguish between ferroptosis and apoptosis
 ---
+
 ```python
 import cospar as cs
 import numpy as np
@@ -262,6 +263,7 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 
 DEG analysis for GSE232429
 ---
+
 ```R
 library(SingleCellExperiment)
 library(DEsingle)
@@ -270,6 +272,7 @@ testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "A
 
 Set active.ident to ranse
 ---
+
 ```R
 Idents(testAB.integrated) <- "ranse"
 DefaultAssay(testAB.integrated) <- "RNA"
@@ -277,6 +280,7 @@ DefaultAssay(testAB.integrated) <- "RNA"
 
 Perform pairwise comparisons
 ---
+
 ```R
 s0 <- subset(testAB.integrated,idents=c("Group R1-1", "Group R1-2"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
@@ -342,6 +346,7 @@ write.csv(results0, file="Group R1-4 vs Group R1-5.csv")
 
 Based on all the results, groups 1, 2, and 5 were included in the subsequent analysis
 ---
+
 ```R
 load("C:/GEOANALYSIS/GSE232429/GSE232429 Neuron.Rdata")
 Idents(testAB.integrated) <- "Biaoqian"
@@ -358,6 +363,7 @@ ggsave(filename = "Figure 3E-1.pdf", plot = p2, device = 'pdf', width = 26, heig
 
 Visualization
 ---
+
 ```R
 p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
@@ -384,6 +390,7 @@ UMAPPlot(testAB.integrated,group.by='ranse',label=T)
 
 Extract the matrix to make pseudo time
 ---
+
 ```R
 DefaultAssay(testAB.integrated) <- "RNA4"
 data <- as(as.matrix(testAB.integrated@assays$RNA4@counts), 'sparseMatrix')
@@ -427,6 +434,7 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
      
 Regroup 1, 2, and 5
 ---
+
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
 #Import the new grouping results
@@ -443,6 +451,7 @@ if (length(common_cells) < nrow(result_data)) {
 
 Map 'Result' values to Seurat object's metadata based on 'Var1'
 ---
+
 ```R
 # First, create a new column 'Result' and set it to NA
 testAB.integrated@meta.data$Result <- NA
@@ -468,18 +477,21 @@ metadata$shijian <- with(metadata,
 
 Build the Biaoqian column, remove the "Group" in shijian
 ---
+
 ```R
 metadata$Biaoqian <- gsub("^Group ", "", metadata$shijian)
 ```
 
 Assign updated metadata back to the Seurat object
 ---
+
 ```R
 testAB.integrated@meta.data <- metadata
 ```
 
 Check results
 ---
+
 ```R
 head(testAB.integrated@meta.data)
 #Save
@@ -489,6 +501,7 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 
 Plotting
 ---
+
 ```R
 #Figure 4C
 cell_type_cols <- c("#5a5098","#6693b1","#a3caa9","#deedad","#ffffcc","#efd695","#dd9667","#bd5c56","#842844")
@@ -502,6 +515,7 @@ ggsave(filename = "Figure 4C-1.pdf", plot = p4, device = 'pdf', width = 21, heig
 
 Visualization
 ---
+
 ```R
 p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 4C-2.pdf", plot = p5, device = 'pdf', width = 21, height = 18, units = 'cm')
@@ -514,6 +528,7 @@ ggsave(filename = "Figure 4C-2.pdf", plot = p5, device = 'pdf', width = 21, heig
 
 Export cell proportions
 ---
+
 ```R
 
 Table1 <- table(testAB.integrated$newresults)
@@ -531,6 +546,7 @@ ggsave(filename = "Figure 4E-1.pdf", plot = p5, device = 'pdf', width = 26, heig
 
 Visualization
 ---
+
 ```R
 p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 4E-2.pdf", plot = p6, device = 'pdf', width = 26, height = 14, units = 'cm')
@@ -542,6 +558,7 @@ ggsave(filename = "Figure 4E-2.pdf", plot = p6, device = 'pdf', width = 26, heig
 
 Group Difference
 ---
+
 ```R
 Table1 <- table(testAB.integrated$Group, testAB.integrated$shijian2)
 write.table(Table1, file = "The cell proportion of the new grouping result-group.txt", sep ="\t")
@@ -636,8 +653,10 @@ group0 <- factor(s0$shijian2)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-2 vs Group R2-4.csv")
 ```
+
 After determining the head and tail, we will find the differential genes of the head and tail cell groups
 ---
+
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
 DefaultAssay(testAB.integrated) <- "RNA" 
@@ -652,6 +671,7 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis
 ---
+
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
 Idents(testAB.integrated) <- "Biaoqian"
@@ -706,6 +726,7 @@ save(testAB.integrated,file = 'Cells from Group R2-2 and Group R2-3.Rdata')
 
 Drawing
 ---
+
 ```R
 cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
 testAB.integrated = RunPCA(testAB.integrated)
@@ -722,6 +743,7 @@ ggsave(filename = "Figure 6A-1.pdf", plot = p5, device = 'pdf', width = 15, heig
 
 Visualization
 ---
+
 ```R
 p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 6A-2.pdf", plot = p6, device = 'pdf', width = 15, height = 12, units = 'cm')
