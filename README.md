@@ -9,6 +9,3 @@ Password:fl1n09
 
 Install(Python 3.9.18):
 pip install LittleSnowFox
-
-We are doing the final checking
-This page will be finished at 2025-Jan-06
