@@ -16,44 +16,57 @@ Start
 import numpy as np
 import os
 import kailin as kl
-#import matlab.engine
-#eng = matlab.engine.start_matlab()
 
 print(kl.__version__)
-# Initialization function to switch Kailin to the working directory. 
-# If it has been initialized before, running def kl_initialize(0) again 
-# will reject reinitialization to avoid recursion. 
-# Running def kl_initialize(1) will forcibly reinitialize.
 kl.kl_initialize(0)
-
-# Retrieve the root directory where Kailin works
 parent_directory_origin = kl.kl_settings.parent_directory_origin
 print(parent_directory_origin)
 
 current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
 print(current_folder)
+current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
+print(current_folder)
 
-# Select which sample to use
+#选择要使用哪个样本
 choosen_sample = "Nerveferroptosis"
-# Select the .h5ad file
-h5ad_filename = "GSE232429deatd_粗糙过滤_testAB.integrated"
-# Run the built-in example and obtain the sparse matrix
-# Here, a non-example function needs to be included
-current_folder_input = current_folder
-orig_adata, loading_directory, distance_matrix = kl.preprocessing.kl_dense_matrix(
-    choosen_sample, 
-    h5ad_filename, 
-    "draw", 
-    current_folder_input, 
-    1, 
-    13000, 
-    0.1, 
-    0.001, 
-    True
-)
 
-print(loading_directory)
-print(choosen_sample)
+#选择.h5ad文件
+h5ad_filename = "GSE232429取少量细胞进行推算的单细胞数据_testAB.h5ad"
+
+
+#运行自带的示例，并获取稀疏矩阵
+#这里需要做非示例的函数进去
+current_folder_input = current_folder
+
+
+orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix_sample(
+    choosen_sample,
+    h5ad_filename,
+    "draw",
+    current_folder_input,
+    round_of_smooth=1,
+    neighbor_N=20,
+    beta=0.1,
+    truncation_threshold=0.001,
+    save_subset=True,
+    use_existing_KNN_graph=False,
+    compute_new_Smatrix=True,
+    use_full_Smatrix = True,
+    )
+#orig_adata,loading_directory,distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
+
+#运行自带的示例，并获取非稀疏矩阵
+#这里需要做非示例的函数进去
+#current_folder_input = current_folder
+#loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input)
+
+orig_adata.obs['orig.ident']
+orig_adata
+
+#需要区分dense和sparase
+save_list = ["orig_adata.obs['orig.ident']", "orig_adata.obsm['X_umap']"]
+#将要计算的文件保存到/result
+merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
 ```
 
 Load required packages
