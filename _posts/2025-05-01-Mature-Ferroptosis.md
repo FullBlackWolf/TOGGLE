@@ -7,6 +7,70 @@ tags:
   - Samples
 ---
 
+Identify cells undergoing programmed ferroptosis.
+---
+
+```Python
+import cospar as cs
+import numpy as np
+import os
+import kailin as kl
+#import matlab.engine
+#eng = matlab.engine.start_matlab()
+
+print(kl.__version__)
+# Initialization function to switch Kailin to the working directory. 
+# If it has been initialized before, running def kl_initialize(0) again 
+# will reject reinitialization to avoid recursion. 
+# Running def kl_initialize(1) will forcibly reinitialize.
+kl.kl_initialize(0)
+
+# Retrieve the root directory where Kailin works
+parent_directory_origin = kl.kl_settings.parent_directory_origin
+print(parent_directory_origin)
+
+current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
+print(current_folder)
+
+# Select which sample to use
+choosen_sample = "Nerveferroptosis"
+# Select the .h5ad file
+h5ad_filename = "GSE232429deatd_粗糙过滤_testAB.integrated"
+# Run the built-in example and obtain the sparse matrix
+# Here, a non-example function needs to be included
+current_folder_input = current_folder
+orig_adata, loading_directory, distance_matrix = kl.preprocessing.kl_dense_matrix(
+    choosen_sample, 
+    h5ad_filename, 
+    "draw", 
+    current_folder_input, 
+    1, 
+    13000, 
+    0.1, 
+    0.001, 
+    True
+)
+# orig_adata, loading_directory, distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(
+#     choosen_sample, 
+#     h5ad_filename, 
+#     "draw", 
+#     current_folder_input
+# )
+# Run the built-in example and obtain the non-sparse matrix
+# Here, a non-example function needs to be included
+# current_folder_input = current_folder
+# loading_directory, distance_matrix = kl.preprocessing.kl_dense_matrix(
+#     choosen_sample, 
+#     h5ad_filename, 
+#     "draw", 
+#     current_folder_input
+# )
+print(loading_directory)
+print(choosen_sample)
+```
+
+
+
 Distinguish the stages of ferroptosis in cells. Due to shared RNA pathways, many cells undergoing apoptosis are mixed in.
 ---
 
@@ -35,7 +99,7 @@ print(current_folder)
 # Select which sample to use
 choosen_sample = "Nerveferroptosis_15_21"
 # Select the .h5ad file
-h5ad_filename = "15-21 data from 2024.10.28.h5ad"
+h5ad_filename = "2024.10.28的15-21数据.h5ad"
 # Run the built-in example and obtain the sparse matrix
 # Here, a non-example function needs to be included
 current_folder_input = current_folder
@@ -95,7 +159,7 @@ print(current_folder)
 #选择要使用哪个样本
 choosen_sample = "Nerveferroptosis_19_21_Group8"
 #选择.h5ad文件
-h5ad_filename = "2024.10.30-有Health和GROUP8细分群的数据.h5ad"
+h5ad_filename = "重画矩阵GSE232429_testAB.integrated.h5add"
 #运行自带的示例，并获取稀疏矩阵
 #这里需要做非示例的函数进去
 current_folder_input = current_folder
