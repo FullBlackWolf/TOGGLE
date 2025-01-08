@@ -146,20 +146,23 @@ DefaultAssay(testAB.integrated) <- "RNA"
 testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
 # Use FindVariableFeatures to select highly variable genes
 testAB.integrated <- FindVariableFeatures(
-  object = testAB.integrated,
-  selection.method = "vst", 
-  nfeatures = 2000          
+ object = testAB.integrated,
+ selection.method = "vst", 
+ nfeatures = 2000         
 )
-# Check if highly variable genes were correctly selected
-variable_genes <- VariableFeatures(testAB.integrated)
-cat("Number of variable genes selected:", length(variable_genes), "\n")
-head(variable_genes)
+high_var_genes <- VariableFeatures(testAB.integrated) # get the highly variable genes
+data_high_var <- testAB.integrated@assays$RNA@data[high_var_genes, ]  # Extracting expression data of highly variable genes
+# Create a new Seurat object containing only the highly variable genes
+testAB_high_var <- subset(
+ x = testAB.integrated,
+ features = high_var_genes
+)
 # Export as h5ad file, ensuring inclusion of highly variable gene information
 sceasy::convertFormat(
-  testAB.integrated,
-  from = "seurat",
-  to = "anndata",
-  outFile = "GSE232429 Neuron.h5ad"
+ testAB_high_var,
+ from = "seurat",
+ to = "anndata",
+ outFile = " GSE232429 Neuron.h5ad"
 )
 ```
 
