@@ -18,36 +18,31 @@ import kailin as kl
 #eng = matlab.engine.start_matlab()
 
 print(kl.__version__)
-
-
 kl.kl_initialize(0)
-
-#Get the work path
 parent_directory_origin = kl.kl_settings.parent_directory_origin
 print(parent_directory_origin)
+
 current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
 print(current_folder)
 ```
 
 Generate similarity matrix
 ```python
-#选择要使用哪个样本
-choosen_sample = "Hematopoiesis"
-
-#选择.h5ad文件
-h5ad_filename = "Hematopoiesis_progenitor.h5ad"
+choosen_sample = "Reprogramming"
 
 
-#运行自带的示例，并获取稀疏矩阵
-#这里需要做非示例的函数进去
+h5ad_filename = "reprogramming_1.h5ad"
+
+
 current_folder_input = current_folder
-orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
+orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input,3,100,0.1,0.001,True)
 #orig_adata,loading_directory,distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
 
-#运行自带的示例，并获取非稀疏矩阵
-#这里需要做非示例的函数进去
+
 #current_folder_input = current_folder
 #loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input)
+print(loading_directory)
+print(choosen_sample)
 ```
 
 
@@ -77,119 +72,84 @@ clear;clc;
 
 %% Load data  and  Split to compute
 %% Load data and Split to compute
-MM0 = load('result/r1n30distance_matrix.mat');
-%Input the Umap XY and Label
+MM0 = load('result/distance_matrix.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
 count_=readtable(['result/merged_data.csv']);
-%count_=readtable('result/combined_monocle2.csv');
 
 %computing
-MM0 = MM0.distance_matrix;
-MM0=MM0(contains(count_.Var4,'_prog'),contains(count_.Var4,'_prog'));
-count_=count_(contains(count_.Var4,'_prog'),:);
 
+MM0=MM0(contains(count_.Var2,'_prog'),contains(count_.Var2,'_prog'));
+count_=count_(contains(count_.Var2,'_prog'),:);
 
-%% MM0矩阵
-%% Iterations_Number求解次数
-%% Cell_Resolutio：length(M)<Cell_Resolution ，每个簇细胞数目不能小于Cell_Resolution，否则就不分了
-%% Min_Wrong：split<Min_Wrong ，split是负相关性的数目，负相关性不能少于Min_Wrong个，否则就不分了
-%% Min_Right：length(M)-split<5 正相关性不能少于5个，否则就不分了
-%binary_corr_sorting(M,Iterations_Number,Cell_Resolution,Min_Wrong,Min_Right)
+%% 得到边界划分点
 [p,splitlist] = binary_corr_sorting(MM0,20,100,5,5);
+%[p,splitlist] = binary_corr_sorting(MM0,5,80,5,5);
+
+%% 对划分点去重
 [uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
 MM=MM0(p,p);
 split=[];
+
+%% 重排count_result
 count_result=count_(p,:);
 split_simple=uniqueList;
+
+%% 第一个起始位点置为1
 split_simple(1)=1;
 split_simple=[split_simple,length(MM0)]
+
+%% 计算均值矩阵
 [simple_label,simple_matrix]=sample_computing(count_result,split_simple,MM);
+
+%% 计算acc
 [acc]=acc_computing(split_simple,count_result);
+
+%% 给出结果
 [predict_result]=predict_computing(count_,simple_label,split_simple);
 count_result_out=[count_result,predict_result];
-writetable(count_result_out,'result/map_draw_blood.csv')
+[simple_label_result,simple_matrix_result]=cluster_map(simple_label,simple_matrix);
+writetable(count_result_out,"result/Reprogramming_prog.csv");
 
-[p,splitlist] = binary_corr_sorting(MM0,3,300,5,5);
-[uniqueList, ~, ~] = unique(splitlist, 'stable');
-MM=MM0(p,p);
-split=[];
-count_result=count_(p,:);
-split_simple=uniqueList;
-split_simple(1)=1;
-split_simple=[split_simple,length(MM0)]
-[simple_label,simple_matrix]=sample_computing(count_result,split_simple,MM);
-
-
-[predict_result]=predict_computing(count_,simple_label,split_simple);
-count_result_out=[count_result,predict_result];
-%[simple_label_result,simple_matrix_result]=cluster_map(simple_label,simple_matrix);
-%writecell(simple_label_result,'result/Figure_c_label_blood.csv')
-%writematrix(simple_matrix_result,'result/Figure_c_matrix_blood.csv')
-
-
-
-%重排小矩阵
+%% 重排小矩阵
 [cluster_map_label,cluster_map_matrix] = genetic_encoder( ...
     simple_label, ...
     simple_matrix, ...
-    60, ...% nPop = 50;  % 种群规模大小为30
+    100, ...% nPop = 50;  % 种群规模大小为30
     1, ...% nPc = 1; % 子代规模的比例0.8
     200, ...% maxIt = 200; % 最大迭代次数
-    5 ...% cycletimes = 200; % 循环计算次数
+    7 ...% cycletimes = 200; % 循环计算次数
     );
-%genetic_encoder(simple_label,simple_matrix,nPop,nPc,maxIt,cycletimes)
-% nVar = 100; % x的长度
 
 
-%重拍小矩阵方案2
-% 创建行和列标签（示例）
+%% 绘图
 row_labels = cluster_map_label;
 column_labels = cluster_map_label;
 % 使用 heatmap 函数并传递相应参数
-h = heatmap(cluster_map_matrix);
-h.YDisplayLabels = row_labels; % 设置行标签
-h.XDisplayLabels = column_labels; % 设置列标签
-h.ColorLimits = [0, 0.0007]
-
-%对小矩阵进行排序
-%计算pesudotime，两种计算模式，mean和median
-[pesudotime_info] = pesudotime_combine(split_simple,count_.Pst,"mean",cluster_map_label)
-%使用sigmoid函数处理伪时间
-pesudotime_info_sigmoid = sigmoid(pesudotime_info,45,12,1000);
-% 使用 heatmap 函数并传递相应参数
-
-column_labels = pesudotime_info_sigmoid;
-row_labels = cluster_map_label;
-h = heatmap(cluster_map_matrix);
-h.YDisplayLabels = row_labels; % 设置行标签
-h.XDisplayLabels = column_labels; % 设置列标签
-h.ColorLimits = [0, 0.0007]
+hh = heatmap(cluster_map_matrix);
+hh.YDisplayLabels = row_labels; % 设置行标签
+hh.XDisplayLabels = column_labels; % 设置列标签
 
 
-% %% 处理得到时间矩阵
-% cluster_map_matrix_debug = zeros(length(cluster_map_matrix),length(cluster_map_matrix));
-% for itimes = 1:1:length(pesudotime_info_sigmoid)
-%     cluster_map_matrix_debug(itimes,:) = pesudotime_info_sigmoid(itimes).*cluster_map_matrix(itimes,:);
-%     cluster_map_matrix_debug(:,itimes) = pesudotime_info_sigmoid(itimes).*cluster_map_matrix(:,itimes);
-% end
-% column_labels = pesudotime_info_sigmoid;
-% row_labels = cluster_map_label;
-% h = heatmap(cluster_map_matrix_debug);
-% h.YDisplayLabels = row_labels; % 设置行标签
-% h.XDisplayLabels = column_labels; % 设置列标签
-% h.ColorLimits = [0, 0.0007]
-% 
-% simple_label_str_result = cluster_map_label;
+%% 写入文件
+
 
 
 %% 临近法激活
-corr_matrix = relevance_generate(0.00029,2,cluster_map_matrix);
+%corr_matrix = relevance_generate(0.00085,3,cluster_map_matrix);
+%corr_matrix = relevance_generate(0.00087,3,cluster_map_matrix);
+%corr_matrix = relevance_generate(0.00093,3,cluster_map_matrix);
+corr_matrix = relevance_generate(0.0011,4,cluster_map_matrix);
 hi = heatmap(corr_matrix);
 hi.YDisplayLabels = row_labels; % 设置行标签
 hi.XDisplayLabels = column_labels; % 设置列标签
 
 
 %% 编码
-encode_result = encoder_corr_matrix(0.00026,0.00030,10,3,cluster_map_matrix);
+encode_result = encoder_corr_matrix(0.0012,0.0009,10,4,cluster_map_matrix);
 figure(2)
 hj = heatmap(encode_result);
 hj.YDisplayLabels = row_labels; % 设置行标签
@@ -200,11 +160,12 @@ figure(3)
 [weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
 weighting_result = weighting_decode + decode_result;
 hk = heatmap(weighting_result);
-hk.ColorLimits = [16,17]
+hk.ColorLimits = [19,20]
 hk.YDisplayLabels = row_labels; % 设置行标签
 hk.XDisplayLabels = column_labels; % 设置列标签
+
 ```
-Use `.\[LittleSnowFox's Anaconda installation directory]\R_processing\Hematopoiesis_prog.R` to generate the picture.
+Use `.\[LittleSnowFox's Anaconda installation directory]\R_processing\Reprogramming_prog.R` to generate the picture.
 
 ```R
 library(ggplot2)
@@ -222,14 +183,13 @@ if (!exists("first_run_flag")) {
 print(current_dir)
 database_dir <- file.path(current_dir, "database")
 Tracing_dir <- file.path(database_dir, "Tracing_sample")
-Hematopoiesis_dir <- file.path(Tracing_dir, "Hematopoiesis")
-Hematopoiesis_result_dir <- file.path(Hematopoiesis_dir, "result")
-Hematopoiesis_map <- file.path(Hematopoiesis_result_dir, "map_draw_blood.csv")
+Reprogramming_dir <- file.path(Tracing_dir, "Reprogramming")
+Reprogramming_result_dir <- file.path(Reprogramming_dir, "result")
+Reprogramming_map <- file.path(Reprogramming_result_dir, "Reprogramming_prog.csv")
 
-repro <- read.csv(Hematopoiesis_map)
+repro <- read.csv(Reprogramming_map)
 
-ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
-ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
+ggplot(repro,aes(x=Var3,y=Var4,color=Var5))+geom_point()
 ```
 
 
@@ -244,118 +204,87 @@ clear;clc;
 
 %% Load data  and  Split to compute
 %% Load data and Split to compute
-MM0 = load('result/r1n30distance_matrix.mat');
-%Input the Umap XY and Label
+MM0 = load('result/distance_matrix.mat');
+MM0 = MM0.distance_matrix;
+
+%MM0 = load('data/program2k_matrix.mat');
+
+%% 读取要排序的对象
 count_=readtable(['result/merged_data.csv']);
-%count_=readtable('result/combined_monocle2.csv');
 
 %computing
-MM0 = MM0.distance_matrix;
-%MM0=MM0(contains(count_.Var4,'_prog'),contains(count_.Var4,'_prog'));
-%count_=count_(contains(count_.Var4,'_prog'),:);
 
+%MM0=MM0(contains(count_.label,'_prog'),contains(count_.label,'_prog'));
+%count_=count_(contains(count_.label,'_prog'),:);
 
-%% MM0矩阵
-%% Iterations_Number求解次数
-%% Cell_Resolutio：length(M)<Cell_Resolution ，每个簇细胞数目不能小于Cell_Resolution，否则就不分了
-%% Min_Wrong：split<Min_Wrong ，split是负相关性的数目，负相关性不能少于Min_Wrong个，否则就不分了
-%% Min_Right：length(M)-split<5 正相关性不能少于5个，否则就不分了
-%binary_corr_sorting(M,Iterations_Number,Cell_Resolution,Min_Wrong,Min_Right)
-[p,splitlist] = binary_corr_sorting(MM0,20,100,5,5);
+%% 得到边界划分点
+% [p,splitlist] = binary_corr_sorting(MM0,20,250,5,5);
+% [p,splitlist] = binary_corr_sorting(MM0,20,100,5,5);
+[p,splitlist] = binary_corr_sorting(MM0,5,100,5,5);
+
+%% 对划分点去重
 [uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
 MM=MM0(p,p);
 split=[];
+
+%% 重排count_result
 count_result=count_(p,:);
 split_simple=uniqueList;
+
+%% 第一个起始位点置为1
 split_simple(1)=1;
 split_simple=[split_simple,length(MM0)]
+
+%% 计算均值矩阵
 [simple_label,simple_matrix]=sample_computing(count_result,split_simple,MM);
+
+%% 计算acc
 [acc]=acc_computing(split_simple,count_result);
+
+%% 给出结果
 [predict_result]=predict_computing(count_,simple_label,split_simple);
 count_result_out=[count_result,predict_result];
-writetable(count_result_out,'result/all_map_blood.csv')
+[simple_label_result,simple_matrix_result]=cluster_map(simple_label,simple_matrix);
+writetable(count_result_out,'result/umap_reprog.csv')
 
-[p,splitlist] = binary_corr_sorting(MM0,3,300,5,5);
-[uniqueList, ~, ~] = unique(splitlist, 'stable');
-MM=MM0(p,p);
-split=[];
-count_result=count_(p,:);
-split_simple=uniqueList;
-split_simple(1)=1;
-split_simple=[split_simple,length(MM0)]
-[simple_label,simple_matrix]=sample_computing(count_result,split_simple,MM);
-
-
-[predict_result]=predict_computing(count_,simple_label,split_simple);
-count_result_out=[count_result,predict_result];
-%[simple_label_result,simple_matrix_result]=cluster_map(simple_label,simple_matrix);
-%writecell(simple_label_result,'result/Figure_c_label_blood.csv')
-%writematrix(simple_matrix_result,'result/Figure_c_matrix_blood.csv')
-%writetable(count_result_out,'result/umap_blood.csv')
-
-
-%重排小矩阵
+%% 重排小矩阵
 [cluster_map_label,cluster_map_matrix] = genetic_encoder( ...
     simple_label, ...
     simple_matrix, ...
-    60, ...% nPop = 50;  % 种群规模大小为30
+    100, ...% nPop = 50;  % 种群规模大小为30
     1, ...% nPc = 1; % 子代规模的比例0.8
     200, ...% maxIt = 200; % 最大迭代次数
-    5 ...% cycletimes = 200; % 循环计算次数
+    7 ...% cycletimes = 200; % 循环计算次数
     );
-%genetic_encoder(simple_label,simple_matrix,nPop,nPc,maxIt,cycletimes)
-% nVar = 100; % x的长度
 
 
-%重拍小矩阵方案2
-% 创建行和列标签（示例）
+%% 绘图
 row_labels = cluster_map_label;
 column_labels = cluster_map_label;
-% 使用 heatmap 函数并传递相应参数
 h = heatmap(cluster_map_matrix);
 h.YDisplayLabels = row_labels; % 设置行标签
 h.XDisplayLabels = column_labels; % 设置列标签
-h.ColorLimits = [0, 0.0007]
-
-%对小矩阵进行排序
-%计算pesudotime，两种计算模式，mean和median
-[pesudotime_info] = pesudotime_combine(split_simple,count_.Pst,"mean",cluster_map_label)
-%使用sigmoid函数处理伪时间
-pesudotime_info_sigmoid = sigmoid(pesudotime_info,45,12,1000);
-% 使用 heatmap 函数并传递相应参数
-row_labels = pesudotime_info_sigmoid;
-column_labels = cluster_map_label;
-h = heatmap(cluster_map_matrix);
-h.YDisplayLabels = row_labels; % 设置行标签
-h.XDisplayLabels = column_labels; % 设置列标签
-h.ColorLimits = [0, 0.0007]
+h.ColorLimits = [0.0007, 0.0008]
 
 
-%% 处理得到时间矩阵
-cluster_map_matrix_debug = zeros(length(cluster_map_matrix),length(cluster_map_matrix));
-for itimes = 1:1:length(pesudotime_info_sigmoid)
-    cluster_map_matrix_debug(itimes,:) = pesudotime_info_sigmoid(itimes).*cluster_map_matrix(itimes,:);
-    cluster_map_matrix_debug(:,itimes) = pesudotime_info_sigmoid(itimes).*cluster_map_matrix(:,itimes);
-end
-row_labels = pesudotime_info_sigmoid;
-column_labels = cluster_map_label;
-h = heatmap(cluster_map_matrix_debug);
-h.YDisplayLabels = row_labels; % 设置行标签
-h.XDisplayLabels = column_labels; % 设置列标签
-h.ColorLimits = [0.000005,0.00001]
-
-simple_label_str_result = cluster_map_label;
+% 
+% 
+% writecell(simple_label_result,'result/Figure_c_label_blood.csv')
+% writematrix(simple_matrix_result,'result/Figure_c_matrix_blood.csv')
+% writetable(count_result_out,'result/umap_reprog.csv')
 
 
 %% 临近法激活
-corr_matrix = relevance_generate(0.0003,3,cluster_map_matrix);
+corr_matrix = relevance_generate(0.00069,2,cluster_map_matrix);
 hi = heatmap(corr_matrix);
-hi.YDisplayLabels = row_labels; % 设置行标签
-hi.XDisplayLabels = column_labels; % 设置列标签
+hi.YDisplayLabels = cluster_map_label; % 设置行标签
+hi.XDisplayLabels = cluster_map_label; % 设置列标签
 
 
 %% 编码
-encode_result = encoder_corr_matrix(0.00029,0.00031,10,3,cluster_map_matrix);
+encode_result = encoder_corr_matrix(0.00069,0.00071,10,2,cluster_map_matrix);
 figure(2)
 hj = heatmap(encode_result);
 hj.YDisplayLabels = row_labels; % 设置行标签
@@ -365,9 +294,36 @@ hj.XDisplayLabels = column_labels; % 设置列标签
 figure(3)
 [weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
 weighting_result = weighting_decode + decode_result;
-hk = heatmap(weighting_result);
-hk.ColorLimits = [19,20]
+hk = heatmap(decode_result);
+hk.ColorLimits = [15,16]
 hk.YDisplayLabels = row_labels; % 设置行标签
 hk.XDisplayLabels = column_labels; % 设置列标签
+
 ```
-Use `.\[LittleSnowFox's Anaconda installation directory]\R_processing\Hematopoiesis_all.R` to generate the picture.
+
+Use `.\[LittleSnowFox's Anaconda installation directory]\R_processing\Reprogramming_all.R` to generate the picture.
+
+```R
+library(ggplot2)
+
+if (!exists("first_run_flag")) {
+  setwd("..")
+  current_dir <- getwd()
+  print("Switched to the parent directory.")
+  current_dir
+  first_run_flag <- TRUE
+} else {
+  print("Not the first run, skipping setwd.")
+}
+
+print(current_dir)
+database_dir <- file.path(current_dir, "database")
+Tracing_dir <- file.path(database_dir, "Tracing_sample")
+Reprogramming_dir <- file.path(Tracing_dir, "Reprogramming")
+Reprogramming_result_dir <- file.path(Reprogramming_dir, "result")
+Reprogramming_map <- file.path(Reprogramming_result_dir, "umap_reprog.csv")
+
+repro <- read.csv(Reprogramming_map)
+
+ggplot(repro,aes(x=Var3,y=Var4,color=Var5))+geom_point()
+```
