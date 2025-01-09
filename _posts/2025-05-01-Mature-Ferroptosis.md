@@ -264,8 +264,13 @@ orig_adata
 
 #需要区分dense和sparase
 save_list = ["orig_adata.obs['orig.ident']", "orig_adata.obsm['X_umap']"]
+
+import scipy.sparse
+distance_matrix_sparse = scipy.sparse.csr_matrix(distance_matrix)
+
 #将要计算的文件保存到/result
-merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
+merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix_sparse,save_list,orig_adata)
+
 ```
 
 2.2 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)
@@ -282,6 +287,7 @@ Afterward, execute the following file:
 %% Load data and Split to compute
 MM0 = load('./result/粗糙过滤r1n13000distance_matrix.mat');
 MM0 = MM0.distance_matrix;
+MM0=full(MM0);
 
 %% 读取要排序的对象
 count_=readtable('./result/粗糙过滤r1n13000merged_data.csv');
