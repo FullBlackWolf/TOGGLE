@@ -6,7 +6,7 @@ author_profile: true
 
 
 
-Dependencies
+1.Dependencies
 ---
 Python = `3.9.18`(No compatibility testing performed)  
 Matlab = `R2024a`(In theory, all versions are supported, because Matlab is backward compatible)   
@@ -14,30 +14,17 @@ R = `4.3.2`
 Anaconda/Miniconda (Highly recommend)  
   
   
-PIP Install
+2.PIP Install
 ---
 ```python
 pip install LittleSnowFox
 ```  
 
 
-Download the database
+3.Download the database
 ---
-```python
-https://biocomputing.cowtransfer.com/s/b7f5aa9cc9ee4e  
-```  
-Password  
-```python
-fl1n09
-```   
-When installing TOGGLE (KALIN) using Anaconda, the path is typically:  
-```python
-./anaconda3/envs/[Your Environment Name]/Lib/site-packages/LittleSnowFox
-```
-Overwrite the files in 
-```python
-./LittleSnowFox/
-```
+
+
 After installing **LittleSnowFox** using `pip install LittleSnowFox`, the Matlab program will be successfully downloaded. However, the package does not include the accompanying data files. To avoid potential errors in downloading data files through the Python component, you need to manually download the data files. You can directly download the entire `database` folder.
 
 If the folder is placed correctly, you will be prompted with "Do you want to overwrite the `database` folder?" Select "Yes" to write the data files. Ensure that the data directory is correctly overwritten in the Anaconda environment during the process.
@@ -73,7 +60,45 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
        ---tracing.ipynb #First step for tracing analysis
 ```   
 
-Cover Letter
+
+3.1.Database & Matlab processing codes
+
+```python
+#link
+https://biocomputing.cowtransfer.com/s/b7f5aa9cc9ee4e
+
+#Password  
+fl1n09
+```
+
+When installing TOGGLE (KALIN) using Anaconda, the path is typically:  
+
+```python
+./anaconda3/envs/[Your Environment Name]/Lib/site-packages/LittleSnowFox
+```
+
+Overwrite the files in 
+
+```python
+./LittleSnowFox/
+```
+
+
+3.2.R_processing
+
+```python
+#link
+https://biocomputing.cowtransfer.com/s/398461ded9d64e
+
+#password
+a94dbx
+```
+
+
+We provide GEO dataset backup and R language library file backup
+
+
+4.Cover Letter
 ---  
 𝑩𝒊𝒐𝒍𝒐𝒈𝒚 𝑪𝒉𝒂𝒍𝒍𝒆𝒏𝒈𝒆𝒔:    
 Terminally differentiated cells undergo programmed cell death through distinct molecular pathways, including ferroptosis, apoptosis, and pyroptosis. However, identifying specific types remains challenging due to the complexity of signaling pathways, marker genes, and the limitations of current tools.   
@@ -105,7 +130,7 @@ Discover of Biology:
 
 
   
-Raw data
+5.Raw data
 ---
 We provide a format-converted dataset on the cloud drive.  
 If you wish to access the original dataset, you can do so through the following link.  
@@ -123,10 +148,10 @@ https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE99915
 https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183614  
   
     
-**Rat Myocardial Infarction (MI) model**  
+**Rat Myocardial Infarction (MI) model (GSE253578)**  
 https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE253578  
 
-**Programmed Cell Death Trajectories Prediction in Neurons**   
+**Programmed Cell Death Trajectories Prediction in Neurons (GSE232429)**   
 https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE232429  
   
 
