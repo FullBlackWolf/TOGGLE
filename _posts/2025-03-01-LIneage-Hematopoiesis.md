@@ -218,8 +218,8 @@ Hematopoiesis_map <- file.path(Hematopoiesis_result_dir, "map_draw_blood.csv")
 
 repro <- read.csv(Hematopoiesis_map)
 
-ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
-ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
+ggplot(repro,aes(x=Var1,y=Var2,color=Var5))+geom_point()
+ggplot(repro,aes(x=Var1,y=Var2,color=Var5))+geom_point()
 ```
 
 
@@ -384,6 +384,6 @@ Hematopoiesis_map <- file.path(Hematopoiesis_result_dir, "all_map_blood.csv")
 
 repro <- read.csv(Hematopoiesis_map)
 
-ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
-ggplot(repro,aes(x=Var1,y=Var2,color=Var6))+geom_point()
+ggplot(repro,aes(x=Var1,y=Var2,color=Var5))+geom_point()
+ggplot(repro,aes(x=Var1,y=Var2,color=Var5))+geom_point()
 ```
