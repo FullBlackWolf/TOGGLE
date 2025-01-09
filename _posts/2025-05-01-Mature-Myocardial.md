@@ -538,3 +538,195 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-4.png" 
      alt="Myocardial-4.png" 
      title="Myocardial-4.png">
+
+
+3.Take MI's ImmuneCell and merge it with FibroblastCell to make Cell communication
+---
+
+```R
+load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell-8000.Rdata")
+#Take out the FibroblastCell from the myocardial infarction group
+Idents(testAB.integrated) <- "Fenqun"
+Fib_seurat <- subset(testAB.integrated,idents=c("FibR1-G5", "FibR1-G6", "FibR1-G7"),invert = FALSE)
+Idents(Fib_seurat) <- "Group"
+Fib_seurat <- subset(Fib_seurat,idents=c("MI"),invert = FALSE)
+Fib_seurat[["RNA"]] <- as(object = Fib_seurat[["RNA"]], Class = "Assay")
+```
+
+3.1.Take out the ImmuneCell from the previous Cell's MI group
+---
+
+```R
+load("C:/GEOANALYSIS/GSE253768/MI Cell-15 clusters.Rdata")
+Idents(testAB.integrated) <- "Group"
+Immu_seurat <- subset(testAB.integrated,idents=c("MI"),invert = FALSE)
+Idents(Immu_seurat) <- "clusters2"
+Immu_seurat <- subset(Immu_seurat,idents=c("Macrophages", "T cells"),invert = FALSE)
+Immu_seurat[["RNA"]] <- as(object = Immu_seurat[["RNA"]], Class = "Assay")
+```
+
+3.2.Merge the two matrices and keep the Cell type data
+---
+
+```R
+# Get the expression matrix of Fib_seurat and Immu_seurat
+Fib_expr <- Fib_seurat@assays$RNA@counts
+Immu_expr <- Immu_seurat@assays$RNA@counts
+# Get metadata
+Fib_meta <- Fib_seurat@meta.data
+Immu_meta <- Immu_seurat@meta.data
+# Add a new column Source to metadata to mark the source of data
+Fib_meta$Source <- "Fib"
+Immu_meta$Source <- "Immu"
+# Merge expression matrix
+combined_expr <- cbind(Fib_expr, Immu_expr)
+# Merge metadata
+combined_meta <- bind_rows(
+  mutate(Fib_meta, Cell_Barcode = rownames(Fib_meta)),
+  mutate(Immu_meta, Cell_Barcode = rownames(Immu_meta))
+)
+# Ensure that the Cell barcode and expression matrix column names are consistent
+combined_meta <- combined_meta %>% filter(Cell_Barcode %in% colnames(combined_expr))
+# Create a new Seurat object
+combined_seurat <- CreateSeuratObject(
+  counts = combined_expr,
+  meta.data = combined_meta
+)
+# View the column names in metadata
+colnames(combined_seurat@meta.data)
+# View the first few rows of metadata to ensure that the correct columns are included
+head(combined_seurat@meta.data)
+# Ensure that the Source column has been created correctly
+print(head(combined_seurat$Source))
+# Make sure the Fenqun and clusters2 columns have data
+print(head(combined_seurat$Fenqun))
+print(head(combined_seurat$clusters2))
+# Create a cell_type column and view the results
+combined_seurat$cell_type <- dplyr::case_when(
+  combined_seurat$Source == "Fib" ~ as.character(combined_seurat$Fenqun),
+  combined_seurat$Source == "Immu" ~ as.character(combined_seurat$clusters2),
+  TRUE ~ NA_character_
+)
+```
+
+3.3.View the combined Seurat
+---
+
+```R
+# View the newly created cell_type column
+print(head(combined_seurat$cell_type))
+# View the combined Seurat object
+combined_seurat
+combined_seurat$Sample <- NULL
+combined_seurat$Group <- NULL
+combined_seurat$Result <- NULL
+combined_seurat$Fenqun <- NULL
+combined_seurat$RNA_snn_res.0.18 <- NULL
+combined_seurat$seurat_clusters <- NULL
+combined_seurat$clusters1 <- NULL
+combined_seurat$clusters2 <- NULL
+#do umap
+combined_seurat <- SCTransform(combined_seurat,assay = 'RNA')
+combined_seurat <- RunPCA(combined_seurat)
+ElbowPlot(combined_seurat)
+combined_seurat <- RunUMAP(combined_seurat, dims = 1:10)
+UMAPPlot(combined_seurat,group.by='cell_type',label=T)
+cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
+```
+
+3.4.View the result
+---
+
+```R
+p1 <- DimPlot(combined_seurat, reduction = "umap", group.by = "cell_type", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "UMAP of ImmuneCell and grouped FibroblastCell.pdf", plot = p1, device = 'pdf', width = 18, height = 15, units = 'cm')
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-5.png" 
+     alt="Myocardial-5.png" 
+     title="Myocardial-5.png">
+
+Cell signaling
+---
+
+```R
+# Save
+save(combined_seurat, file = "ImmuneCell and grouped FibroblastCell files.Rdata")
+
+
+#####Start CCC analysis
+library(CellChat)
+DefaultAssay(combined_seurat) <- "RNA"
+combined_seurat <- NormalizeData(combined_seurat, 
+                               normalization.method = "LogNormalize", 
+                               scale.factor = 10000)
+#Propose the required data
+data.input  <- combined_seurat@assays$RNA$data
+identity = data.frame(group =combined_seurat$cell_type, row.names = names(combined_seurat$cell_type)) 
+unique(identity$group) # check the cell labels
+
+#Create a cellchat object
+cellchat <- createCellChat(object = data.input)
+
+#Add metadata information to the CellChat object
+cellchat <- addMeta(cellchat, meta = identity, meta.name = "labels")
+cellchat <- setIdent(cellchat, ident.use = "labels") # set "labels" as default cell identity
+levels(cellchat@idents) # show factor levels of the cell labels
+groupSize <- as.numeric(table(cellchat@idents))
+
+#Load and set the required CellChatDB database
+CellChatDB <- CellChatDB.mouse
+cellchat@DB <- CellChatDB # set the used database in the object
+
+#Preprocess expression data for cell-to-cell interaction analysis
+cellchat <- subsetData(cellchat) # subset the expression data of signaling genes for saving computation cost
+cellchat <- identifyOverExpressedGenes(cellchat)
+cellchat <- identifyOverExpressedInteractions(cellchat)
+cellchat <- projectData(cellchat, PPI.mouse)
+#Infer the interaction network between cells and analyze
+cellchat <- computeCommunProb(cellchat, raw.use = T)
+cellchat <- filterCommunication(cellchat, min.cells = 10)#Filter cells with less communication
+cellchat <- computeCommunProbPathway(cellchat)
+cellchat <- aggregateNet(cellchat)
+#Get all ligand-receptor pairs and their communication probabilities
+df.net <- subsetCommunication(cellchat)
+#Extract communication information by pathway
+df.pathway = subsetCommunication(cellchat, slot.name = "netP")
+write.csv(df.net, "Fib and ImmuneCell Interaction.csv", quote = F, sep = ',')
+write.csv(df.pathway, "Fib and ImmuneCell Interactions - Characterized by Pathways.csv",quote = F,sep = ',')
+#Analyze intercellular communication network
+cellchat <- netAnalysis_computeCentrality(cellchat)
+saveRDS(cellchat, file = "cellchat-Fib and ImmuneCell.rds")
+#Drawing
+Fib = c("FibR1-G7", "FibR1-G5", "FibR1-G6")
+Immu = c("Macrophages", "T cells")
+library(patchwork)
+#Save graph function
+par(mfrow=c(1,2),xpd=T)
+#netVisual_circle(cellchat@net$count, vertex.weight = groupSize, weight.scale = T,
+#                 label.edge= F, title.name = "Number of interactions")
+netVisual_circle(cellchat@net$weight, vertex.weight = groupSize, weight.scale = T,
+                 label.edge= F, title.name = "Fibroblasts as Targets", 
+                 sources.use = Immu,
+                 targets.use = Fib)
+netVisual_circle(cellchat@net$weight, vertex.weight = groupSize, weight.scale = T,
+                 label.edge= F, title.name = "Immune cells as Targets",
+                 sources.use = Fib,
+                 targets.use = Immu)
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-6.png" 
+     alt="Myocardial-6.png" 
+     title="Myocardial-6.png">
+
+
+```R
+#Make Cell communication bubble chart
+p1 <- netVisual_bubble(cellchat, sources.use = Immu, targets.use = Fib, title.name = "Fibroblasts as Targets", remove.isolate = T) 
+p2 <- netVisual_bubble(cellchat, sources.use = Fib, targets.use = Immu,title.name = "Immune cells as Targets", remove.isolate = T)
+p1 + p2
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-7.png" 
+     alt="Myocardial-7.png" 
+     title="Myocardial-7.png">
