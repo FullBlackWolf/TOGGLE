@@ -54,6 +54,10 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 ```
 The files are saved in `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Hematopoiesis\result\` as `merged_data.csv` and `distance_matrix.mat`.
 
+
+----------------------------------------------------
+
+
 Unsupervised learning for only progenitor cells
 ---
 
@@ -226,6 +230,9 @@ ggplot(repro,aes(x=Var1,y=Var2,color=Var5))+geom_point()
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Hematopoiesis_prog.png" 
      alt="Hematopoiesis_prog.png" 
      title="Hematopoiesis_prog.png">
+
+----------------------------------------------------
+
 
 Unsupervised learning for whole cells
 ---
