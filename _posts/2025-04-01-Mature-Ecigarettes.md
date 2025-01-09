@@ -12,7 +12,7 @@ tags:
 
 
 
-Adult mice-e-cigarette-only e-cigarette and air-only difference in genes
+Main: Adult mice-e-cigarette-only e-cigarette and air-only difference in genes
 ---
 
 Calculate the correlation of RNA.
@@ -215,7 +215,10 @@ hk.ColorLimits = [9,11]
 
 We selected a set shown in the article for testing, but there are actually many other ways to use it. Here are some examples that were not included in the article due to space limitations.
 
+----------------------------------------------------
 
+Other potential experiments.
+---
 
 Adult mice-Electronic cigarette
 ---
