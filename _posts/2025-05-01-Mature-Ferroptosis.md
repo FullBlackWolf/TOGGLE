@@ -33,14 +33,14 @@ library(ComplexHeatmap)
 library(ggrepel)
 ```
 
-Create vector to read files
+Create vector to read files (R)
 ---
 
 ```R
 setwd("C:/GEOANALYSIS/GSE232429")
 ```
 
-Read data
+Read data (R)
 ---
 
 ```R
@@ -49,7 +49,7 @@ MCAO1<- Read10X(data.dir = "MCAO1")
 MCAO2<- Read10X(data.dir = "MCAO2")
 ```
 
-Create Seurat object and filter. Add code to filter out cells with fewer than 200 genes (min.features = 200) and genes covered by fewer than 3 cells (min.cells = 3)
+Create Seurat object and filter. Add code to filter out cells with fewer than 200 genes (min.features = 200) and genes covered by fewer than 3 cells (min.cells = 3) (R)
 ---
 
 ```R
@@ -74,7 +74,7 @@ VlnPlot(CI, features = c("percent.mt", "nFeature_RNA", "nCount_RNA"), ncol = 3, 
 VlnPlot(CI, features = c("percent.mt", "nFeature_RNA", "nCount_RNA"), ncol = 3, pt.size=0.5)#Quality control plot3
 ```
 
-Remove cells with high mitochondrial gene expression or extreme values
+Remove cells with high mitochondrial gene expression or extreme values (R)
 ---
 
 ```R
@@ -89,7 +89,7 @@ MCAO2<- subset(MCAO2, subset = nFeature_RNA > 300 & nFeature_RNA < 7000 &
                  percent.mt < 25)
 ```
 
-Perform CCA integration
+Perform CCA integration (R)
 ---
 ```R
 myfunction1 <- function(testA.seu){
@@ -102,7 +102,7 @@ MCAO1<- myfunction1(MCAO1)
 MCAO2<- myfunction1(MCAO2)
 ```
 
-Integration
+Integration (R)
 ---
 ```R
 list <- list (Sham1, MCAO1, MCAO2)
@@ -110,7 +110,7 @@ testAB.anchors <- FindIntegrationAnchors(object.list = list, dims = 1:20)
 testAB.integrated <- IntegrateData(anchorset = testAB.anchors, dims = 1:20)
 ```
 
-Add sample and group information
+Add sample and group information (R)
 ---
 ```R
 # Retrieve metadata
@@ -126,7 +126,7 @@ testAB.integrated@meta.data <- metadata
 head(testAB.integrated@meta.data)
 ```
 
-As per documentation, use 'integrated' for finding cluster markers and 'RNA' (normalized data) for differential analysis
+As per documentation, use 'integrated' for finding cluster markers and 'RNA' (normalized data) for differential analysis (R)
 ---
 
 
@@ -144,7 +144,7 @@ save(testAB.integrated, file = "GSE232429 Neuron.Rdata")
 ```
 
 
-Save the file as h5ad for further analysis in Python
+Save the file as h5ad for further analysis in Python (R)
 ---
 ```R
 library(SeuratDisk)
@@ -375,7 +375,7 @@ Group result generated in `[LittleSnowFox's Anaconda installation directory]\dat
 <br>
 
 
-After analysis, import results from '1n13000_result.csv' into metadata
+After analysis, import results from '1n13000_result.csv' into metadata (R)
 ---
 
 Place `1n13000_result.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
@@ -415,7 +415,7 @@ testAB.integrated@meta.data <- metadata
 head(testAB.integrated@meta.data)
 ```
 
-Visualization
+Visualization (R)
 ---
 ```R
 cell_type_cols <- c("#6693b1","#a3caa9","#deedad","#dd9667","#bd5c56")
@@ -437,21 +437,21 @@ ggsave(filename = "Figure 3A-2.pdf", plot = p2, device = 'pdf', width = 26, heig
      title="Neuron-2.png">
 
 
-Export cell proportions
+Export cell proportions (R)
 ---
 ```R
 Table1 <- table(testAB.integrated$Group, testAB.integrated$ranse)
 write.table(Table1, file = "Cell counts-group.txt", sep ="\t")
 ```
 
-Plot cells elevated compared to MCAO group
+Plot cells elevated compared to MCAO group (R)
 ---
 ```R
 tb <- data.frame(table(testAB.integrated$ranse,testAB.integrated$Sample, testAB.integrated$Group))
 tb=tb[,c(1,3,4)]
 ```
 
-Calculate Percentages
+Calculate Percentages (R)
 ---
 ```R
 tb$Total <- apply(tb,1,function(x)sum(tb[tb$Var3 == x[2],3]))
@@ -464,7 +464,7 @@ head(tb)
 
 
 
-Perform t-Tests
+Perform t-Tests (R)
 ---
 ```R
 df= do.call(rbind,
@@ -475,7 +475,7 @@ df= do.call(rbind,
             }))
 ```
 
-Add Threshold Labels
+Add Threshold Labels (R)
 ---
 ```R
 colnames(df) = c("pval","Difference")
@@ -483,7 +483,7 @@ df = as.data.frame(df)
 df$threshold = factor(ifelse(df$Difference > 0 ,'Down','Up'))
 ```
 
-Visualization
+Visualization (R)
 ---
 
 ```R
@@ -508,7 +508,7 @@ save(testAB.integrated,file = 'GSE232429 Neuron.Rdata')
 
 
 
-Load required packages
+Load required packages (R)
 ---
 ```R
 library(Seurat)
@@ -529,7 +529,7 @@ library(ComplexHeatmap)
 library(ggrepel)
 ```
 
-DEG analysis for GSE232429
+DEG analysis for GSE232429 (R)
 ---
 
 ```R
@@ -538,7 +538,7 @@ library(DEsingle)
 testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
 ```
 
-Set active.ident to ranse
+Set active.ident to ranse (R)
 ---
 
 ```R
@@ -546,7 +546,7 @@ Idents(testAB.integrated) <- "ranse"
 DefaultAssay(testAB.integrated) <- "RNA"
 ```
 
-Perform pairwise comparisons
+Perform pairwise comparisons (R)
 ---
 
 ```R
@@ -612,7 +612,7 @@ write.csv(results0, file="Group R1-4 vs Group R1-5.csv")
 ```
 
 
-Based on all the results, groups 1, 2, and 5 were included in the subsequent analysis
+Based on all the results, groups 1, 2, and 5 were included in the subsequent analysis (R)
 ---
 
 ```R
@@ -629,7 +629,7 @@ ggsave(filename = "Figure 3E-1.pdf", plot = p2, device = 'pdf', width = 26, heig
      title="Neuron-4.png">
 
 
-Visualization
+Visualization (R)
 ---
 
 ```R
@@ -639,7 +639,7 @@ save(testAB.integrated,file = 'GSE232429_after_removing_3_and_4.Rdata')
 ```
 
 
-Save .h5ad
+Save .h5ad (R)
 ---
 ```R
 ################# Rdata to h5ad #########################
@@ -881,7 +881,7 @@ hk.ColorLimits = [26,27]
 
 <br>
 
-Perform pseudo-time inference on groups 1, 2, and 5
+Perform pseudo-time inference on groups 1, 2, and 5 (R)
 ---
 
 
@@ -898,7 +898,7 @@ testAB.integrated = RunUMAP(testAB.integrated,dims = 1:10)
 UMAPPlot(testAB.integrated,group.by='ranse',label=T)
 ```
 
-Extract the matrix to make pseudo time
+Extract the matrix to make pseudo time (R)
 ---
 
 ```R
@@ -942,7 +942,7 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
      title="Neuron-6.png">
 
      
-Regroup 1, 2, and 5
+Regroup 1, 2, and 5 (R)
 ---
 
 Place `pseudotime_map_R2.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
@@ -961,7 +961,7 @@ if (length(common_cells) < nrow(result_data)) {
 }
 ```
 
-Map 'Result' values to Seurat object's metadata based on 'Var1'
+Map 'Result' values to Seurat object's metadata based on 'Var1' (R)
 ---
 
 ```R
@@ -987,21 +987,21 @@ metadata$shijian <- with(metadata,
 )
 ```
 
-Build the Biaoqian column, remove the "Group" in shijian
+Build the Biaoqian column, remove the "Group" in time (R)
 ---
 
 ```R
 metadata$Biaoqian <- gsub("^Group ", "", metadata$shijian)
 ```
 
-Assign updated metadata back to the Seurat object
+Assign updated metadata back to the Seurat object (R)
 ---
 
 ```R
 testAB.integrated@meta.data <- metadata
 ```
 
-Check results
+Check results (R)
 ---
 
 ```R
@@ -1011,7 +1011,7 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 ```
 
 
-Plotting
+Plotting (R)
 ---
 
 ```R
@@ -1025,7 +1025,7 @@ ggsave(filename = "Figure 4C-1.pdf", plot = p4, device = 'pdf', width = 21, heig
      alt="Neuron-7.png" 
      title="Neuron-7.png">
 
-Visualization
+Visualization (R)
 ---
 
 ```R
@@ -1038,7 +1038,7 @@ ggsave(filename = "Figure 4C-2.pdf", plot = p5, device = 'pdf', width = 21, heig
      alt="Neuron-8.png" 
      title="Neuron-8.png">
 
-Export cell proportions
+Export cell proportions (R)
 ---
 
 ```R
@@ -1056,7 +1056,7 @@ ggsave(filename = "Figure 4E-1.pdf", plot = p5, device = 'pdf', width = 26, heig
      alt="Neuron-9.png" 
      title="Neuron-9.png">
 
-Visualization
+Visualization (R)
 ---
 
 ```R
@@ -1068,7 +1068,7 @@ ggsave(filename = "Figure 4E-2.pdf", plot = p6, device = 'pdf', width = 26, heig
      alt="Neuron-10.png" 
      title="Neuron-10.png">
 
-Group Difference
+Group Difference (R)
 ---
 
 ```R
@@ -1114,7 +1114,7 @@ ggsave("Figure 4G.pdf",width = 5,height = 3.8)
      title="Neuron-11.png">
      
 
-Do DEG analysis for regrouping results
+Do DEG analysis for regrouping results (R)
 ---
 
 ```R
@@ -1166,7 +1166,7 @@ results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-2 vs Group R2-4.csv")
 ```
 
-After determining the head and tail, we will find the differential genes of the head and tail cell groups
+After determining the head and tail, we will find the differential genes of the head and tail cell groups (R)
 ---
 
 ```R
@@ -1181,7 +1181,7 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 ```
 
-Save .h5ad
+Save .h5ad (R)
 ---
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
@@ -1261,7 +1261,7 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 
 ```
 
-Check the coverage of genes.
+Check the coverage of genes. (R)
 ---
 
 ```python
@@ -1482,7 +1482,7 @@ hk = heatmap(weighting_result);
 Distinguish between ferroptosis and apoptosis
 ---
 
-Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis
+Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis (R)
 ---
 
 Place `pseudotime_map_R3.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
@@ -1526,7 +1526,7 @@ head(testAB.integrated@meta.data)
 save(testAB.integrated,file = 'Cells from Group R2-2 and Group R2-3.Rdata')
 ```
 
-Drawing
+Drawing (R)
 ---
 
 ```R
@@ -1543,7 +1543,7 @@ ggsave(filename = "Figure 6A-1.pdf", plot = p5, device = 'pdf', width = 15, heig
      alt="Neuron-12.png" 
      title="Neuron-12.png">
 
-Visualization
+Visualization (R)
 ---
 
 ```R
