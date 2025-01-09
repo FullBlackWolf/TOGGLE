@@ -8,6 +8,8 @@ tags:
 ---
 
 
+
+
 Load required R packages
 ---
 ```R
@@ -196,3 +198,147 @@ ggsave(filename = "Preliminary grouping of MI - overall.pdf", plot = p1, device 
      alt="Myocardial-1.png" 
      title="Myocardial-1.png">
 
+Generate the UMAP Plot
+---
+```R
+p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "clusters2", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Preliminary grouping of MI - split by group.pdf", plot = p2, device = 'pdf', width = 38, height = 18, units = 'cm')
+```
+
+Extract Fibroblast Cells
+---
+
+```R
+# Extract and save fibroblasts
+testAB.integrated <- subset(testAB.integrated,idents=c("Fibroblasts","Myofibroblast"),invert = FALSE)
+testAB.integrated$RNA_snn_res.0.18 <- NULL
+testAB.integrated$clusters1 <- NULL
+testAB.integrated$clusters2 <- NULL
+testAB.integrated$seurat_clusters <- NULL
+```
+
+Re-normalize and Identify Highly Variable Genes
+---
+
+```R
+#Re-finding highly variable genes
+testAB.integrated <- NormalizeData(testAB.integrated) %>% 
+  FindVariableFeatures(selection.method = "vst",nfeatures = 3000) %>% 
+  ScaleData() %>% 
+  RunPCA(npcs = 30, verbose = T)
+# Save
+save(testAB.integrated, file = "MI-FibroblastCell.Rdata")
+```
+
+Export as AnnData Format
+---
+
+```R
+# Export as h5ad version
+high_var_genes <- VariableFeatures(testAB.integrated)  
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
+data_high_var <- testAB.integrated@assays$RNA@data[high_var_genes, ]
+# Create a new Seurat object containing only highly variable genes
+testAB_high_var <- subset(
+  x = testAB.integrated,
+  features = high_var_genes
+)
+#Convert to AnnData format and save
+sceasy::convertFormat(
+  testAB_high_var,
+  from = "seurat",
+  to = "anndata",
+  outFile = "MI-FibroblastCell.h5ad"
+)
+```
+
+Load and Integrate Additional Data
+---
+
+```R
+
+#reload
+load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
+# Import the results
+index_result <- read.csv("result_DEG.csv")
+## Ensure that the table's Index is consistent with the Cell name of the Seurat object
+## Set the Index to the row name to facilitate subsequent operations
+rownames(index_result) <- index_result$Index
+##Match the Result column to the metadata of the Seurat object according to the Index
+metadata <- testAB.integrated@meta.data # Get the metadata of the Seurat object
+metadata$Result <- index_result[rownames(metadata), "Result"]
+##Update the metadata of the Seurat object
+testAB.integrated@meta.data <- metadata
+```
+
+Filter Cells Based on Metadata
+---
+
+```R
+##Check the updated metadata
+head(testAB.integrated@meta.data)
+##Filter the cells in the metadata with Result column from 1 to 57
+cells_to_keep <- rownames(testAB.integrated@meta.data[testAB.integrated@meta.data$Result >= 1 &
+                                                        testAB.integrated@meta.data$Result <= 57, ])
+##Extract these cells and form a new Seurat object
+testAB.integrated <- subset(testAB.integrated, cells = cells_to_keep)
+## Save
+save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
+```
+
+Group Cells into Categories
+---
+
+```R
+#Add new columns in metadata to group these
+testAB.integrated@meta.data <- testAB.integrated@meta.data %>%
+  mutate(Fenqun = case_when(
+    Result >= 1 & Result <= 2 ~ "FibR1-G1",
+    Result >= 3 & Result <= 7 ~ "FibR1-G2",
+    Result >= 8 & Result <= 15 ~ "FibR1-G3",
+    Result >= 16 & Result <= 26 ~ "FibR1-G4",
+    Result >= 27 & Result <= 40 ~ "FibR1-G5",
+    Result >= 41 & Result <= 48 ~ "FibR1-G6",
+    Result >= 49 & Result <= 57 ~ "FibR1-G7",
+    TRUE ~ NA_character_ 
+  ))
+```
+
+Reprocess and Visualize
+---
+
+```R
+# Redraw UMAP
+testAB.integrated <- SCTransform(testAB.integrated,assay = 'RNA')
+testAB.integrated <- RunPCA(testAB.integrated)
+ElbowPlot(testAB.integrated)
+testAB.integrated <- RunUMAP(testAB.integrated, dims = 1:10)
+UMAPPlot(testAB.integrated,group.by='Fenqun',label=T)
+## Save
+save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
+```
+
+Export Cluster Markers
+---
+
+```R
+# Export markers for different groups
+Idents(testAB.integrated) <- "Fenqun"
+CI.markers <- FindAllMarkers(testAB.integrated, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+write.csv(CI.markers, file="FibroblastCell markers.csv")
+```
+
+Save and Export UMAP Plot
+---
+
+```R
+
+## Visualize and export
+cell_type_cols <- c("#5a5098","#6693b1","#a3caa9","#deedad","#ffffcc","#efd695","#dd9667","#bd5c56","#842844")
+p1 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "FibroblastCell-1.pdf", plot = p1, device = 'pdf', width = 15, height = 12, units = 'cm')
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-2.png" 
+     alt="Myocardial-2.png" 
+     title="Myocardial-2.png">
