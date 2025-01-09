@@ -12,10 +12,10 @@ tags:
 
 
 
-Main: Adult mice-e-cigarette-only e-cigarette and air-only difference in genes
+1.Main: Adult mice-e-cigarette-only e-cigarette and air-only difference in genes
 ---
 
-Calculate the correlation of RNA.
+1.1.Calculate the correlation of RNA.
 ---
 
 ```python
@@ -109,7 +109,7 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
-Cluster RNA using unsupervised methods.
+1.2.Cluster RNA using unsupervised methods.
 ---
 
 ```matlab
@@ -173,7 +173,7 @@ writetable(count_result, filename);
 
 ```
 
-Obtain group segmentation results.
+1.3.Obtain group segmentation results.
 ---
 
 ```matlab
@@ -217,7 +217,7 @@ We selected a set shown in the article for testing, but there are actually many 
 
 ----------------------------------------------------
 
-Other potential experiments.
+2.Other potential experiments.
 ---
 
 Adult mice-Electronic cigarette
