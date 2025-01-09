@@ -7,18 +7,11 @@ tags:
   - Samples
 ---
 
----
-title: "Rawdata Preprocessing: Myocardial Infarction"
-date: 2024-12-04T15:34:30-04:00
-categories:
-  - Blog
-tags:
-  - Preprocessing & Quality Control
----
 
 
-Load required R packages
+1.Load required R packages
 ---
+
 ```R
 # Load required packages
 library(Seurat)
@@ -32,7 +25,7 @@ library(harmony)
 library(RColorBrewer)
 ```
 
-Read file names and set the working directory
+2.Read file names and set the working directory
 ---
 
 ```R
@@ -51,8 +44,9 @@ dir_name
 ##"MI1.csv"   "MI2.csv" "Sham1.csv" "Sham2.csv" 
 ```
 
-Batch read data and create Seurat objects
+3.Batch read data and create Seurat objects
 ---
+
 ```R
 ## Batch data processing
 scRNAlist <- list()
@@ -71,8 +65,9 @@ for (i in 1:length(dir_name)) {
 }
 ```
 
-Calculate mitochondrial and red blood cell proportions
+4.Calculate mitochondrial and red blood cell proportions
 ---
+
 ```R
 # Check the Seurat object list
 scRNAlist
@@ -95,8 +90,9 @@ for(i in 1:length(scRNAlist)){
 }
 ```
 
-Quality control and preliminary merging
+5.Quality control and preliminary merging
 ---
+
 ```R
 # Perform a simple merge and then plot quality control (QC)
 CI <- merge(scRNAlist[[1]], y=c(scRNAlist[[2]], scRNAlist[[3]], scRNAlist[[4]]))
@@ -110,8 +106,9 @@ VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent
 VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent"), ncol = 4, pt.size=0.5)# QC plot 3
 ```
 
-Filter cells
+6.Filter cells
 ---
+
 ```R
 # Filter cells in batch
 scRNAlist <- lapply(X = scRNAlist, FUN = function(x){
@@ -122,8 +119,9 @@ scRNAlist <- lapply(X = scRNAlist, FUN = function(x){
                 nCount_RNA < quantile(nCount_RNA,0.97))})
 ```
 
-Data normalization, feature selection, and dimensionality reduction
+7.Data normalization, feature selection, and dimensionality reduction
 --- 
+
 ```R
 # Merge Seurat objects
 scRNAlist <- merge(scRNAlist[[1]], y=c(scRNAlist[[2]], scRNAlist[[3]], scRNAlist[[4]]))
@@ -134,8 +132,9 @@ scRNAlist <- NormalizeData(scRNAlist) %>%
   RunPCA(npcs = 30, verbose = T)
 ```
 
-Harmony integration analysis
+8.Harmony integration analysis
 ---
+
 ```R
 # Integrate using Harmony
 testAB.integrated <- RunHarmony(scRNAlist, group.by.vars = "orig.ident")
@@ -146,8 +145,9 @@ testAB.integrated@meta.data$Group <- gsub("[0-9]", "", testAB.integrated@meta.da
 ```
 
 
-Clustering and dimensionality reduction visualization
+9.Clustering and dimensionality reduction visualization
 ---
+
 ```R
 # Check the updated metadata
 head(testAB.integrated@meta.data)
@@ -170,8 +170,9 @@ CI.markers <- FindAllMarkers(testAB.integrated, only.pos = TRUE, min.pct = 0.25,
 write.csv(CI.markers, file="MI Cell marker.csv")
 ```
 
-Annotation and cluster labeling
+10.Annotation and cluster labeling
 ---
+
 ```R
 # Naming the 15 clusters
 new.cluster.ids <- c("Fibroblasts", "Cardiomyocytes", "Endothelial cells",
@@ -185,8 +186,10 @@ testAB.integrated$clusters2 <- testAB.integrated@active.ident
 
 save(testAB.integrated, metadata, file = "MI Cell-15 clusters.Rdata")
 ```
-Export results and visualization
+
+11.Export results and visualization
 ---
+
 ```R
 # Export the count of each cluster
 Table1 <- table(testAB.integrated$Group, testAB.integrated$clusters2)
@@ -205,14 +208,18 @@ ggsave(filename = "Preliminary grouping of MI - overall.pdf", plot = p1, device 
      alt="Myocardial-1.png" 
      title="Myocardial-1.png">
 
-Generate the UMAP Plot
+11.Generate the UMAP Plot
 ---
+
 ```R
 p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "clusters2", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Preliminary grouping of MI - split by group.pdf", plot = p2, device = 'pdf', width = 38, height = 18, units = 'cm')
 ```
 
-Extract Fibroblast Cells
+12.
+---
+
+12.Extract Fibroblast Cells
 ---
 
 ```R
@@ -224,7 +231,7 @@ testAB.integrated$clusters2 <- NULL
 testAB.integrated$seurat_clusters <- NULL
 ```
 
-Re-normalize and Identify Highly Variable Genes
+13.Re-normalize and Identify Highly Variable Genes
 ---
 
 ```R
@@ -237,7 +244,7 @@ testAB.integrated <- NormalizeData(testAB.integrated) %>%
 save(testAB.integrated, file = "MI-FibroblastCell.Rdata")
 ```
 
-Export as AnnData Format
+14.Export as AnnData Format
 ---
 
 ```R
@@ -259,7 +266,7 @@ sceasy::convertFormat(
 )
 ```
 
-Load and Integrate Additional Data
+15.Load and Integrate Additional Data
 ---
 
 ```R
@@ -278,7 +285,7 @@ metadata$Result <- index_result[rownames(metadata), "Result"]
 testAB.integrated@meta.data <- metadata
 ```
 
-Filter Cells Based on Metadata
+16.Filter Cells Based on Metadata
 ---
 
 ```R
@@ -293,7 +300,7 @@ testAB.integrated <- subset(testAB.integrated, cells = cells_to_keep)
 save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
 ```
 
-Group Cells into Categories
+17.Group Cells into Categories
 ---
 
 ```R
@@ -311,7 +318,7 @@ testAB.integrated@meta.data <- testAB.integrated@meta.data %>%
   ))
 ```
 
-Reprocess and Visualize
+18.Reprocess and Visualize
 ---
 
 ```R
@@ -325,7 +332,7 @@ UMAPPlot(testAB.integrated,group.by='Fenqun',label=T)
 save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
 ```
 
-Export Cluster Markers
+19.Export Cluster Markers
 ---
 
 ```R
@@ -335,7 +342,7 @@ CI.markers <- FindAllMarkers(testAB.integrated, only.pos = TRUE, min.pct = 0.25,
 write.csv(CI.markers, file="FibroblastCell markers.csv")
 ```
 
-Save and Export UMAP Plot
+20.Save and Export UMAP Plot
 ---
 
 ```R
@@ -350,8 +357,9 @@ ggsave(filename = "FibroblastCell-1.pdf", plot = p1, device = 'pdf', width = 15,
      alt="Myocardial-2.png" 
      title="Myocardial-2.png">
 
-UMAP
+21.UMAP
 ---
+
 ```R
 p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24, height = 12, units = 'cm')
@@ -361,8 +369,7 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
      alt="Myocardial-3.png" 
      title="Myocardial-3.png">
      
-UMAP
----
+
 ```R
 p2 <- DimPlot(testAB.integrated, reduction = "umap", split.by = "Group", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24, height = 12, units = 'cm')
