@@ -133,6 +133,68 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
+```matlab
+
+
+%% Load data and Split to compute
+MM0 = load('./result/Adult_mice-Electronic_cigarette.mat');
+MM0 = MM0.cigarette_matrix_dense;
+
+%% 读取要排序的对象
+count_=readtable('./result/Adult_mice-Electronic_cigarette.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,25,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.00007]
+
+filename = fullfile('result', 'Adult_mice-Electronic_cigarette_result.csv');
+%writetable(count_result, filename);
+
+```
 
 Adult_mice-Electronic_freshair
 ---
@@ -228,6 +290,69 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
+```matlab
+
+
+%% Load data and Split to compute
+%% Load data and Split to compute
+MM0 = load('./result/Adult_mice-Electronic_freshair.mat');
+MM0 = MM0.cigarette_matrix_dense;
+
+%% 读取要排序的对象
+count_=readtable('./result/Adult_mice-Electronic_freshair.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,25,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.00007]
+
+filename = fullfile('result', 'Adult_mice-Electronic_freshair_result.csv');
+%writetable(count_result, filename);
+
+```
 Adult mice-e-cigarette-only e-cigarette and air-only difference in genes
 ---
 
@@ -321,6 +446,90 @@ current_save_path_csv = os.path.join(current_save_path, 'Adult mice - e-cigarett
 # 保存为 CSV 文件
 pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
+```
+
+```matlab
+
+
+
+%% Load data and Split to compute
+MM0 = load('./result/Adult mice - e-cigarette and air only.mat');
+MM0 = MM0.cigarette_matrix_dense;
+
+%% 读取要排序的对象
+count_=readtable('./result/Adult mice - e-cigarette and air only.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,10,2,2);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.03]
+
+%filename = fullfile('result', 'Adult mice - e-cigarette and air only.csv');
+%writetable(count_result, filename);
+
+%% 临近法激活
+figure(4)
+corr_matrix = relevance_generate(0.0140,4,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.0141,0.0139,10,2,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = weighting_decode + decode_result;
+hk = heatmap(decode_result);
+hk.ColorLimits = [9,11]
+
+
+
 ```
 
 Fresh air in children vs adults - Child mice - E-cigarettes
@@ -417,7 +626,87 @@ current_save_path_csv = os.path.join(current_save_path, 'Child mice - aVc_c.csv'
 pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
+```matlab
 
+
+%% Load data and Split to compute
+MM0 = load('./result/Child mice - aVc_c.mat');
+MM0 = MM0.cigarette_matrix_dense;
+
+%% 读取要排序的对象
+count_=readtable('./result/Child mice - aVc_c.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,10,2,2);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.002]
+
+filename = fullfile('result', 'Child mice - aVc_c.csv');
+%writetable(count_result, filename);
+
+%% 临近法激活
+figure(4)
+corr_matrix = relevance_generate(0.00035,2,cluster_map_matrix);
+corr_matrix = relevance_generate(0.0004,2,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.00091,0.00080,10,2,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = decode_result;
+hk = heatmap(decode_result);
+hk.ColorLimits = [23,25]
+
+```
 
 Child vs adult electronic cigarettes - Child mice - electronic cigarettes
 ---
@@ -514,7 +803,92 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
-Electronic cigarettes vs. fresh air - young mice - electronic cigarettes
+```matlab
+
+
+%% Load data and Split to compute
+MM0 = load('./result/Child mice - c_c.mat');
+MM0 = MM0.cigarette_matrix_dense;
+
+%% 读取要排序的对象
+count_=readtable('./result/Child mice - c_c.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,25,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.0003]
+
+filename = fullfile('result', 'Child mice - c_c.csv');
+%writetable(count_result, filename);
+
+
+%% 临近法激活
+figure(4)
+corr_matrix = relevance_generate(0.00035,2,cluster_map_matrix);
+corr_matrix = relevance_generate(0.0004,2,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.00051,0.00050,10,2,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = decode_result;
+hk = heatmap(decode_result);
+hk.ColorLimits = [35,37]
+```
+
+
+
+
+Electronic cigarettes vs. fresh air - adult mice - electronic cigarettes
 ---
 aVc_c
 ---
@@ -607,4 +981,86 @@ current_save_path_csv = os.path.join(current_save_path, 'aVc_c.csv')
 # 保存为 CSV 文件
 pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
+```
+
+
+```matlab
+
+
+
+%% Load data and Split to compute
+MM0 = load('./result/aVc_c.mat');
+MM0 = MM0.cigarette_matrix_dense;
+
+%% 读取要排序的对象
+count_=readtable('./result/aVc_c.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,25,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.0003]
+
+filename = fullfile('result', 'aVc_c.csv');
+%writetable(count_result, filename);
+
+%% 临近法激活
+figure(4)
+corr_matrix = relevance_generate(0.0005,2,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.0005,0.00049,10,1,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = decode_result;
+hk = heatmap(decode_result);
+hk.ColorLimits = [36,38]
 ```
