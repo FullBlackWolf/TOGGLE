@@ -285,15 +285,15 @@ Afterward, execute the following file:
 
 %% Load data and Split to compute
 %% Load data and Split to compute
-MM0 = load('./result/粗糙过滤r1n13000distance_matrix.mat');
+MM0 = load('./result/distance_matrix.mat');
 MM0 = MM0.distance_matrix;
 MM0=full(MM0);
 
 %% 读取要排序的对象
-count_=readtable('./result/粗糙过滤r1n13000merged_data.csv');
+count_=readtable('./result/merged_data.csv');
 
 %% 得到边界划分点
-[p,splitlist] = binary_corr_sorting(MM0,20,300,5,5);
+[p,splitlist] = binary_corr_sorting(MM0,20,500,5,5);
 
 %% 对划分点去重
 [uniqueList, ~, ~] = unique(splitlist, 'stable');
