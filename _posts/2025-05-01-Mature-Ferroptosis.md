@@ -244,7 +244,7 @@ orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix_
     "draw",
     current_folder_input,
     round_of_smooth=1,
-    neighbor_N=20,
+    neighbor_N=13000,
     beta=0.1,
     truncation_threshold=0.001,
     save_subset=True,
