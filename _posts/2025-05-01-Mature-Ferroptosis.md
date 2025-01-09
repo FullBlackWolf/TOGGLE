@@ -14,6 +14,7 @@ The default GEO data file is located at `C:/GEOANALYSIS/GSE232429`.
 
 Load required packages (R Studio)
 ---
+
 ```R
 library(Seurat)
 library(multtest)
@@ -91,6 +92,7 @@ MCAO2<- subset(MCAO2, subset = nFeature_RNA > 300 & nFeature_RNA < 7000 &
 
 Perform CCA integration (R)
 ---
+
 ```R
 myfunction1 <- function(testA.seu){
   testA.seu <- NormalizeData(testA.seu, normalization.method = "LogNormalize", scale.factor = 10000)
@@ -104,6 +106,7 @@ MCAO2<- myfunction1(MCAO2)
 
 Integration (R)
 ---
+
 ```R
 list <- list (Sham1, MCAO1, MCAO2)
 testAB.anchors <- FindIntegrationAnchors(object.list = list, dims = 1:20)
@@ -112,6 +115,7 @@ testAB.integrated <- IntegrateData(anchorset = testAB.anchors, dims = 1:20)
 
 Add sample and group information (R)
 ---
+
 ```R
 # Retrieve metadata
 metadata <- testAB.integrated@meta.data
@@ -146,6 +150,7 @@ save(testAB.integrated, file = "GSE232429 Neuron.Rdata")
 
 Save the file as h5ad for further analysis in Python (R)
 ---
+
 ```R
 library(SeuratDisk)
 convert_Rdata_to_H5AD <- function(rdata_path) {
@@ -183,7 +188,10 @@ convert_Rdata_to_H5AD(rdata_path)
 )
 ```
 H5ad saved as `GSE232429 Neuron_testAB.integrated.h5ad`. Because the automatically generated file name is too long, change it to `GSE232429 Neuron.h5ad`  
+
 Do not close R to ensure the subsequent programs can run.
+
+----------------------------------------------------
 
 
 Round 1
@@ -259,6 +267,7 @@ save_list = ["orig_adata.obs['orig.ident']", "orig_adata.obsm['X_umap']"]
 #将要计算的文件保存到/result
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
 ```
+
 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)
 
 <br>
@@ -417,6 +426,8 @@ head(testAB.integrated@meta.data)
 
 Visualization (R)
 ---
+
+
 ```R
 cell_type_cols <- c("#6693b1","#a3caa9","#deedad","#dd9667","#bd5c56")
 p1 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "ranse", split.by = "Group", pt.size=0.5, label = T, repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
@@ -439,6 +450,8 @@ ggsave(filename = "Figure 3A-2.pdf", plot = p2, device = 'pdf', width = 26, heig
 
 Export cell proportions (R)
 ---
+
+
 ```R
 Table1 <- table(testAB.integrated$Group, testAB.integrated$ranse)
 write.table(Table1, file = "Cell counts-group.txt", sep ="\t")
@@ -446,6 +459,8 @@ write.table(Table1, file = "Cell counts-group.txt", sep ="\t")
 
 Plot cells elevated compared to MCAO group (R)
 ---
+
+
 ```R
 tb <- data.frame(table(testAB.integrated$ranse,testAB.integrated$Sample, testAB.integrated$Group))
 tb=tb[,c(1,3,4)]
@@ -453,6 +468,8 @@ tb=tb[,c(1,3,4)]
 
 Calculate Percentages (R)
 ---
+
+
 ```R
 tb$Total <- apply(tb,1,function(x)sum(tb[tb$Var3 == x[2],3]))
 tb<- tb %>% mutate(Percentage = round(Freq/Total,3) * 100)
@@ -466,6 +483,8 @@ head(tb)
 
 Perform t-Tests (R)
 ---
+
+
 ```R
 df= do.call(rbind,
             lapply(split(tb,tb$Var1), function(x){
@@ -477,6 +496,8 @@ df= do.call(rbind,
 
 Add Threshold Labels (R)
 ---
+
+
 ```R
 colnames(df) = c("pval","Difference")
 df = as.data.frame(df)
@@ -510,6 +531,8 @@ save(testAB.integrated,file = 'GSE232429 Neuron.Rdata')
 
 Load required packages (R)
 ---
+
+
 ```R
 library(Seurat)
 library(multtest)
@@ -641,6 +664,8 @@ save(testAB.integrated,file = 'GSE232429_after_removing_3_and_4.Rdata')
 
 Save .h5ad (R)
 ---
+
+
 ```R
 ################# Rdata to h5ad #########################
 library(SeuratDisk)
@@ -1183,6 +1208,7 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 Save .h5ad (R)
 ---
+
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
 Idents(testAB.integrated) <- "Biaoqian"
