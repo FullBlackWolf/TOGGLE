@@ -196,6 +196,10 @@ hk.XDisplayLabels = column_labels; % 设置列标签
 ```
 Use `.\[LittleSnowFox's Anaconda installation directory]\R_processing\Hematopoiesis_prog.R` to generate the picture.
 
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Hematopoiesis_prog.png" 
+     alt="Hematopoiesis_prog.png" 
+     title="Hematopoiesis_prog.png">
+
 ```R
 library(ggplot2)
 
@@ -387,3 +391,7 @@ repro <- read.csv(Hematopoiesis_map)
 ggplot(repro,aes(x=Var1,y=Var2,color=Var5))+geom_point()
 ggplot(repro,aes(x=Var1,y=Var2,color=Var5))+geom_point()
 ```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Hematopoiesis_all.png" 
+     alt="Hematopoiesis_all.png" 
+     title="Hematopoiesis_all.png">
