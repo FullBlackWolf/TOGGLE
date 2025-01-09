@@ -526,3 +526,6 @@ p1 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Fenqun", pt.siz
 ggsave(filename = "FibroblastCell-1.pdf", plot = p1, device = 'pdf', width = 15, height = 12, units = 'cm')
 ```
 
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-3.png" 
+     alt="Myocardial-3.png" 
+     title="Myocardial-3.png">
