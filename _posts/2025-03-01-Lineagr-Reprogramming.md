@@ -59,6 +59,9 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 ```
 The files are saved in `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Hematopoiesis\result\` as `merged_data.csv` and `distance_matrix.mat`.
 
+----------------------------------------------------
+
+
 Unsupervised learning for only progenitor cells
 ---
 
@@ -167,6 +170,9 @@ hk.XDisplayLabels = column_labels; % 设置列标签
 ```
 Use `.\[LittleSnowFox's Anaconda installation directory]\R_processing\Reprogramming_prog.R` to generate the picture.
 
+
+
+
 ```R
 library(ggplot2)
 
@@ -191,9 +197,13 @@ repro <- read.csv(Reprogramming_map)
 
 ggplot(repro,aes(x=Var3,y=Var4,color=Var5))+geom_point()
 ```
+
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Reprogramming_prog.png" 
      alt="Reprogramming_prog.png" 
      title="Reprogramming_prog.png">
+
+
+----------------------------------------------------
 
 Unsupervised learning for whole cells
 ---
