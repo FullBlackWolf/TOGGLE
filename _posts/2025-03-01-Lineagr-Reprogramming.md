@@ -191,7 +191,9 @@ repro <- read.csv(Reprogramming_map)
 
 ggplot(repro,aes(x=Var3,y=Var4,color=Var5))+geom_point()
 ```
-
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Reprogramming_prog.png" 
+     alt="Reprogramming_prog.png" 
+     title="Reprogramming_prog.png">
 
 Unsupervised learning for whole cells
 ---
@@ -327,3 +329,6 @@ repro <- read.csv(Reprogramming_map)
 
 ggplot(repro,aes(x=Var3,y=Var4,color=Var5))+geom_point()
 ```
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Reprogramming_all.png" 
+     alt="Reprogramming_all.png" 
+     title="Reprogramming_all.png">
