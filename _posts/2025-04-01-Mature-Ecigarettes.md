@@ -15,6 +15,8 @@ tags:
 Adult mice-e-cigarette-only e-cigarette and air-only difference in genes
 ---
 
+Calculate the correlation of RNA.
+---
 
 ```python
 import cospar as cs
@@ -107,10 +109,10 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
+Cluster RNA using unsupervised methods.
+---
+
 ```matlab
-
-
-
 %% Load data and Split to compute
 MM0 = load('./result/Adult mice - e-cigarette and air only.mat');
 MM0 = MM0.cigarette_matrix_dense;
@@ -167,7 +169,14 @@ h = heatmap(cluster_map_matrix);
 h.ColorLimits = [0, 0.03]
 
 %filename = fullfile('result', 'Adult mice - e-cigarette and air only.csv');
-%writetable(count_result, filename);
+writetable(count_result, filename);
+
+```
+
+Obtain group segmentation results.
+---
+
+```matlab
 
 %% 临近法激活
 figure(4)
@@ -186,7 +195,6 @@ figure(3)
 weighting_result = weighting_decode + decode_result;
 hk = heatmap(decode_result);
 hk.ColorLimits = [9,11]
-
 ```
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Figure 3A.png" 
