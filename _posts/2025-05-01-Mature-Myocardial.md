@@ -457,7 +457,7 @@ hk = heatmap(weighting_result);
 hk.ColorLimits = [30,31]
 ```
 
-Use the group information
+2.4.Use the group information
 ---
 
 ```R
@@ -491,7 +491,8 @@ testAB.integrated <- subset(testAB.integrated, cells = cells_to_keep)
 ## Save
 save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
 ```
-Generate groups
+
+2.5.Generate groups
 ---
 
 ```R
