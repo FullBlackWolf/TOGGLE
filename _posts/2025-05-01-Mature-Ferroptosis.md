@@ -10,7 +10,8 @@ tags:
 1 Preprocessing
 ---
 
-The default GEO data file is located at `C:/GEOANALYSIS/GSE232429`.
+The default GEO data file is located at `C:/GEOANALYSIS/GSE232429`.  
+Change the working directory in R to: `C:/GEOANALYSIS/GSE232429`.
 
 1.1 Load required packages (R Studio)
 ---
