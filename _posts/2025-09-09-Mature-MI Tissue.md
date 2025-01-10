@@ -16,10 +16,10 @@ The prerequisite analysis `Mature Functions: Function Difference of Myocardial` 
 ---
 
 ```python
-import cospar as cs
+
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
@@ -135,7 +135,7 @@ df_orig_adata.to_csv(csv_path, index=False)
 ```python
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
