@@ -1553,7 +1553,7 @@ sceasy::convertFormat(
 
 ```python
 
-import cospar as cs
+
 import numpy as np
 import os
 import LittleSnowFox as kl
