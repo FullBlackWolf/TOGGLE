@@ -1628,7 +1628,7 @@ for i, value in enumerate(check_list):
 
 ```
 
-4.5 Print the result
+4.5 Print the result (Python)
 ---
 
 ```python
