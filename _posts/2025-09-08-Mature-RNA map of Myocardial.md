@@ -83,6 +83,7 @@ sceasy::convertFormat(
 ```
 
 2.Calculate functional mapping.
+---
 
 ```python
 #选择要使用哪个样本
@@ -146,6 +147,7 @@ df_orig_adata.to_csv(csv_path, index=False)
 ```
 
 3.Unsupervised learning
+---
 
 ```matlab
 
