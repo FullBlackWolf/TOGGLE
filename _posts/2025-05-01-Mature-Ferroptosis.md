@@ -844,7 +844,7 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 
 
 Afterward, execute the following file:
-`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
+`[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
 
 ```matlab
 
@@ -1275,7 +1275,7 @@ Start
 <br>
 
 
-Import `Group R2-2 R2-3.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\data\Group R2-2 R2-3.h5ad`.  
+Import `Group R2-2 R2-3.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21\data\Group R2-2 R2-3.h5ad`.  
 
 ```python
 import numpy as np
@@ -1304,10 +1304,10 @@ h5ad_filename = "Group R2-2 R2-3.h5ad"
 #运行自带的示例，并获取稀疏矩阵
 #这里需要做非示例的函数进去
 current_folder_input = current_folder
-updated_folder = os.path.join(current_folder, "Nerveferroptosis_19_21_Group8/data")
-h5ad_path = os.path.join(updated_folder, "2024.10.30-有Health和GROUP8细分群的数据.h5ad")
+orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input,1,13000,0.1,0.001,True)
+print(loading_directory)
+print(choosen_sample)
 
-print(h5ad_path)
 
 #需要区分dense和sparase
 save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
@@ -1317,7 +1317,187 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 
 ```
 
-4.2 Check the coverage of genes. (R)
+
+4.2 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)  
+
+<br>
+
+Afterward, execute the following file:
+`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
+
+```matlab
+clc;clear
+
+%% Load data and Split to compute
+%% Load data and Split to compute
+MM0 = load('./result/distance_matrix.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
+count_=readtable('./result/merged_data.csv');
+
+%% 得到边界划分点
+%[p,splitlist] = binary_corr_sorting(MM0,20,125,5,5);
+[p,splitlist] = binary_corr_sorting(MM0,20,100,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0.00005,0.0003]%
+
+%writetable(count_result, './result/result_group.csv');
+writetable(count_result,"result/pseudotime_map_R3.csv");
+
+
+
+%% 临近法激活
+corr_matrix = relevance_generate(0.00065,4,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.0007,0.0006,1,4,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = weighting_decode + decode_result;
+hk = heatmap(decode_result);
+hk.ColorLimits = [26,27]
+
+```
+
+
+
+
+4.3 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)   
+
+<br>
+
+Distinguish between ferroptosis and apoptosis
+---
+
+Read variable table as `Round2.Rdata` to continue. OR: You didn't closed R.
+
+
+4.3.1 Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis (R)
+---
+
+Place `pseudotime_map_R3.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
+
+```R
+
+####Then I got 15-21-result.csv, so I imported it
+# Read CSV file
+result_data <- read.csv("pseudotime_map_R3.csv", stringsAsFactors = FALSE)
+# Make sure the columns in the file are named "Var3" and "Result", check the file contents
+head(result_data)
+# Check if all 'Var1' values exist in Seurat object's cell names
+common_cells <- intersect(result_data$Var3, rownames(testAB.integrated@meta.data))
+if (length(common_cells) < nrow(result_data)) {
+  warning("Some cells in '15-21-result.csv' are not found in testAB.integrated metadata!")
+}
+# Map 'Result' values to Seurat object's metadata based on 'Var1'
+# First, create a new column 'Result' and set it to NA
+testAB.integrated@meta.data$Result <- NA
+# Use match() to merge corresponding values
+matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var3)
+testAB.integrated@meta.data$Result <- result_data$Result[matching_indices]
+## Group based on 'Result'
+# get metadata
+metadata <- testAB.integrated@meta.data
+# Create a new column fenqun1 based on the value of the Result column
+metadata$fenqun1 <- with(metadata, 
+                         ifelse(Result >= 1 & Result <= 6, "Group R3-1",
+                                ifelse(Result >= 7 & Result <= 12, "Group R3-2",
+                                       ifelse(Result >= 13 & Result <= 19, "Group R3-3",
+                                              ifelse(Result >= 20 & Result <= 27, "Group R3-4",
+                                                     ifelse(Result >= 28 & Result <= 34, "Group R3-5", NA))))))
+# Build the Biaoqian column and remove "Group" from fenqun1
+metadata$Biaoqian <- gsub("^Group ", "", metadata$fenqun1)
+
+# Assign updated metadata back to the Seurat object
+testAB.integrated@meta.data <- metadata
+# Check results
+head(testAB.integrated@meta.data)
+#Save
+save(testAB.integrated,file = 'Cells from Group R2-2 and Group R2-3.Rdata')
+```
+
+4.3.2 Drawing (R)
+---
+
+```R
+cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
+testAB.integrated = RunPCA(testAB.integrated)
+ElbowPlot(testAB.integrated)
+testAB.integrated = RunUMAP(testAB.integrated,dims = 1:20)
+p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "fenqun1", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 6A-1.pdf", plot = p5, device = 'pdf', width = 15, height = 12, units = 'cm')
+
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-12.png" 
+     alt="Neuron-12.png" 
+     title="Neuron-12.png">
+
+4.3.3 Visualization (R)
+---
+
+```R
+p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "Figure 6A-2.pdf", plot = p6, device = 'pdf', width = 15, height = 12, units = 'cm')
+
+```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-13.png" 
+     alt="Neuron-13.png" 
+     title="Neuron-13.png">
+
+
+4.4 Check the coverage of genes. (Python)
 ---
 
 ```python
@@ -1422,192 +1602,3 @@ for i, value in enumerate(check_list):
 print(df)
 
 ```
-
-
-4.3 𝐒𝐭𝐞𝐩 𝟐: 𝐔𝐬𝐞 𝐮𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐥𝐞𝐚𝐫𝐧𝐢𝐧𝐠. (Matlab)  
-
-<br>
-
-Afterward, execute the following file:
-`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
-
-```matlab
-
-
-%% Load data and Split to compute
-%% Load data and Split to compute
-MM0 = load('./result/distance_matrix.mat');
-MM0 = MM0.distance_matrix;
-
-%% 读取要排序的对象
-count_=readtable('./result/merged_data.csv');
-
-%% 得到边界划分点
-[p,splitlist] = binary_corr_sorting(MM0,20,300,5,5);
-
-%% 对划分点去重
-[uniqueList, ~, ~] = unique(splitlist, 'stable');
-
-%% 对相似度矩阵排序
-MM=MM0(p,p);
-split=[];
-
-%% 重排count_result
-count_result=count_(p,:);
-split_simple=uniqueList;
-
-%% 第一个起始位点置为1
-split_simple(1)=1;
-split_simple=[split_simple,length(MM0)];
-
-%% 计算均值矩阵
-[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
-
-
-
-%% 合并成小矩阵
-ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
-count_result.Result = ClusterReslut;
-
-
-%重排小矩阵
-[cluster_map_matrix] = genetic_encoder( ...
-    simple_matrix, ...
-    60, ...% nPop = 50;  % 种群规模大小为30
-    1, ...% nPc = 1; % 子代规模的比例0.8
-    200, ...% maxIt = 200; % 最大迭代次数
-    5 ...% cycletimes = 200; % 循环计算次数
-    );
-
-
-%重拍小矩阵方案2
-% 创建行和列标签（示例）
-%row_labels = cluster_map_label;
-%column_labels = cluster_map_label;
-% 使用 heatmap 函数并传递相应参数
-h = heatmap(cluster_map_matrix);
-%h.YDisplayLabels = row_labels; % 设置行标签
-%h.XDisplayLabels = column_labels; % 设置列标签
-h.ColorLimits = [0, 0.00007]
-
-%----------------------------
-figure(1)
-h = heatmap(cluster_map_matrix);
-h.ColorLimits = [0, 0.00007]
-
-
-writetable(count_result,"result/pseudotime_map_R3.csv");
-
-%% 临近法激活
-corr_matrix = relevance_generate(0.00065,4,cluster_map_matrix);
-hi = heatmap(corr_matrix);
-
-
-
-%% 编码
-encode_result = encoder_corr_matrix(0.0007,0.0006,1,4,cluster_map_matrix);
-figure(2)
-hj = heatmap(encode_result);
-
-
-
-%% 解码
-figure(3)
-[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
-weighting_result = weighting_decode + decode_result;
-hk = heatmap(weighting_result);
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-4.4 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)   
-
-<br>
-
-Distinguish between ferroptosis and apoptosis
----
-
-4.4.1 Cells from Group R2-2 and Group R2-3 of the MCAO group were taken for further analysis (R)
----
-
-Place `pseudotime_map_R3.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
-
-```R
-
-####Then I got 15-21-result.csv, so I imported it
-# Read CSV file
-result_data <- read.csv("pseudotime_map_R3.csv", stringsAsFactors = FALSE)
-# Make sure the columns in the file are named "Var3" and "Result", check the file contents
-head(result_data)
-# Check if all 'Var1' values exist in Seurat object's cell names
-common_cells <- intersect(result_data$Var3, rownames(testAB.integrated@meta.data))
-if (length(common_cells) < nrow(result_data)) {
-  warning("Some cells in '15-21-result.csv' are not found in testAB.integrated metadata!")
-}
-# Map 'Result' values to Seurat object's metadata based on 'Var1'
-# First, create a new column 'Result' and set it to NA
-testAB.integrated@meta.data$Result <- NA
-# Use match() to merge corresponding values
-matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var3)
-testAB.integrated@meta.data$Result <- result_data$Result[matching_indices]
-## Group based on 'Result'
-# get metadata
-metadata <- testAB.integrated@meta.data
-# Create a new column fenqun1 based on the value of the Result column
-metadata$fenqun1 <- with(metadata, 
-                         ifelse(Result >= 1 & Result <= 6, "Group R3-1",
-                                ifelse(Result >= 7 & Result <= 12, "Group R3-2",
-                                       ifelse(Result >= 13 & Result <= 19, "Group R3-3",
-                                              ifelse(Result >= 20 & Result <= 27, "Group R3-4",
-                                                     ifelse(Result >= 28 & Result <= 34, "Group R3-5", NA))))))
-# Build the Biaoqian column and remove "Group" from fenqun1
-metadata$Biaoqian <- gsub("^Group ", "", metadata$fenqun1)
-
-# Assign updated metadata back to the Seurat object
-testAB.integrated@meta.data <- metadata
-# Check results
-head(testAB.integrated@meta.data)
-#Save
-save(testAB.integrated,file = 'Cells from Group R2-2 and Group R2-3.Rdata')
-```
-
-4.4.2 Drawing (R)
----
-
-```R
-cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
-testAB.integrated = RunPCA(testAB.integrated)
-ElbowPlot(testAB.integrated)
-testAB.integrated = RunUMAP(testAB.integrated,dims = 1:20)
-p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "fenqun1", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
-ggsave(filename = "Figure 6A-1.pdf", plot = p5, device = 'pdf', width = 15, height = 12, units = 'cm')
-
-```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-12.png" 
-     alt="Neuron-12.png" 
-     title="Neuron-12.png">
-
-4.4.3 Visualization (R)
----
-
-```R
-p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
-ggsave(filename = "Figure 6A-2.pdf", plot = p6, device = 'pdf', width = 15, height = 12, units = 'cm')
-
-```
-
-<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-13.png" 
-     alt="Neuron-13.png" 
-     title="Neuron-13.png">
