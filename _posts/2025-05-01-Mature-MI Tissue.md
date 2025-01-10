@@ -260,3 +260,18 @@ seurat_object@meta.data$point_size <- ifelse(seurat_object@meta.data$Fenqun4 %in
 p1 <- DimPlot(seurat_object, reduction = "umap", group.by = "Fenqun4", pt.size = seurat_object@meta.data$point_size, label = TRUE, repel = TRUE, raster = FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme( panel.border = element_rect(fill = NA, color = "black", size = 1, linetype = "solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "UMAP diagram highlighting MI and Sham points.pdf", plot = p1, device = 'pdf', width = 21, height = 18, units = 'cm') 
 ```
+
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Myocardial-8.png" 
+     alt="Myocardial-8.png" 
+     title="Myocardial-8.png">
+
+Save the result
+---
+
+```R
+save(seurat_object, file = "MI-FibroblastCell-mixed with whole transcriptome data.Rdata")
+# Export markers
+Idents(seurat_object) <- "Fenqun"
+CI.markers <- FindAllMarkers(seurat_object, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+write.csv(CI.markers, file="8000 Cells mixed with normal transcriptome markers.csv")
+```
