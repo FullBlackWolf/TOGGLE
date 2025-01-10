@@ -1626,8 +1626,13 @@ for i, value in enumerate(check_list):
     df.loc[i, 'Rate'] = rate
     
 
+```
+
+4.5 Print the result
+---
+
+```python
 
 # 打印最终的 DataFrame
 print(df)
-
 ```
