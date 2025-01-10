@@ -38,7 +38,26 @@ library(ggrepel)
 ---
 
 ```R
+#Download link:  https://biocomputing.cowtransfer.com/s/2df0081e282147
+#Password: ufurmd
 setwd("C:/GEOANALYSIS/GSE232429")
+
+#File Structure
+# ---[C:\]
+#   ---[GEOANALYSIS]
+#     ---[GSE232429]
+#       ---[Sham1]
+#           ---matrix.mtx.gz
+#           ---features.tsv.gz
+#           ---barcodes.tsv.gz
+#       ---[MCAO1]
+#           ---matrix.mtx.gz
+#           ---features.tsv.gz
+#           ---barcodes.tsv.gz
+#       ---[MCAO2]
+#           ---matrix.mtx.gz
+#           ---features.tsv.gz
+#           ---barcodes.tsv.gz
 ```
 
 1.3 Read data (R)
