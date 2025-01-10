@@ -731,27 +731,3 @@ p1 + p2
      alt="Myocardial-7.png" 
      title="Myocardial-7.png">
 
-5.Perform mixed analysis of the common transcriptome
----
-
-5.1.Combine 
-
-```python
-import cospar as cs
-import numpy as np
-import os
-import kailin as kl
-#import matlab.engine
-#eng = matlab.engine.start_matlab()
-
-print(kl.__version__)
-#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
-#则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
-kl.kl_initialize(0)
-#获取kailin工作的根目录
-parent_directory_origin = kl.kl_settings.parent_directory_origin
-
-#改进：
-#添加一个cluster模式
-#选择进行Lineage Tracing还是Cluster，并给出可用的列表
-current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Clustering',1) 
