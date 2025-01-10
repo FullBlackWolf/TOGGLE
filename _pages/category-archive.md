@@ -85,7 +85,7 @@ Overwrite the files in
 ```
 
 
-3.2.R_processing
+3.2.R code
 
 ```python
 #link
@@ -95,6 +95,15 @@ https://biocomputing.cowtransfer.com/s/398461ded9d64e
 a94dbx
 ```
 
+3.2.R package
+
+```python
+#link
+https://biocomputing.cowtransfer.com/s/98c161eafc904a
+
+#password
+zhejud
+```
 
 We provide GEO dataset backup and R language library file backup
 
