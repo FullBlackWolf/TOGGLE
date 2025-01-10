@@ -13,6 +13,19 @@ tags:
 
 The default data file storage directory is `C:/GEOANALYSIS/GSE253768`
 
+```Python
+#File Structure
+# ---[C:\]
+#   ---[GEOANALYSIS]
+#     ---[GSE232429]
+#       ---Sham1.csv
+#       ---Sham2.csv
+#       ---MI1.csv
+#       ---MI2.csv
+
+```
+```
+
 1.1.Load required R packages (R)
 ---
 
