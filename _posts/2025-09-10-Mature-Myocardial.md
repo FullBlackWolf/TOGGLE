@@ -257,6 +257,7 @@ sceasy::convertFormat(
   outFile = "Myocardial_infarction_hypermutable_gene.h5ad" #心梗-高变基因.h5ad
 ) 
 ```
+Save the R variable table as `variables.Rdata`.   
 
 2.2.Calculating similarity between cells (Python)
 ---
@@ -411,12 +412,9 @@ split_simple=[split_simple,length(MM0)];
 %% 计算均值矩阵
 [simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
 
-
-
 %% 合并成小矩阵
 ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
 count_result.Result = ClusterReslut;
-
 
 %重排小矩阵
 [cluster_map_matrix] = genetic_encoder( ...
@@ -426,7 +424,6 @@ count_result.Result = ClusterReslut;
     200, ...% maxIt = 200; % 最大迭代次数
     5 ...% cycletimes = 200; % 循环计算次数
     );
-
 
 %重拍小矩阵方案2
 % 创建行和列标签（示例）
@@ -439,7 +436,7 @@ h = heatmap(cluster_map_matrix);
 h.ColorLimits = [0,0.0001]%
 
 %if you want to save that
-writetable(count_result, './result/Myocardial_difference.csv'); #导入R
+writetable(count_result, './result/result_diff.csv'); #导入R
 
 
 %% 临近法激活
@@ -463,16 +460,19 @@ hk.ColorLimits = [30,31]
 2.4.Use the group information (R)
 ---
 
+Open the R variable table as `variables.Rdata`.
+
+
 ```R
 #reload
 load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
 ```
 
-`Myocardial_difference.csv`的原始位置位于`[Package path of LittleSnowFox]\database\Clustering_sample\fibroblasts\result\Myocardial_difference.csv`
+The original location of `result_diff.csv` is `[Package path of LittleSnowFox]\database\Clustering_sample\fibroblasts\result\result_diff.csv`.
 
 ```R
 # Import the results
-index_result <- read.csv("result_DEG.csv")
+index_result <- read.csv("result_diff.csv")
 ```
 
 ```R
