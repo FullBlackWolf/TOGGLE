@@ -209,7 +209,7 @@ convert_Rdata_to_H5AD(rdata_path)
 ```
 H5ad saved as `GSE232429 Neuron_testAB.integrated.h5ad`. Because the automatically generated file name is too long, change it to `GSE232429 Neuron.h5ad`  
 
-Do not close R to ensure the subsequent programs can run.
+Save the variable table as `Round0.Rdata`. OR: Do not close R to ensure the subsequent programs can run.
 
 ----------------------------------------------------
 
@@ -409,9 +409,11 @@ Group result generated in `[LittleSnowFox's Anaconda installation directory]\dat
 
 <br>
 
+Open variable table `Round0.Rdata` to continue. OR: You didn't closed R Studio.
 
 2.3.1 After analysis, import results from '1n13000_result.csv' into metadata (R)
 ---
+
 
 Place `1n13000_result.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
 
@@ -746,10 +748,10 @@ convert_Rdata_to_H5AD(rdata_path)
      alt="Neuron-5.png" 
      title="Neuron-5.png">
 
-Do not close R to ensure the subsequent programs can run.
+Save variable table as `Round1.Rdata` to continue. OR: Do not close R to ensure the subsequent programs can run.
 
 Get the file `For_H5AD_GSE232429 after removing 3 and 4_testAB.integrated.h5ad` and rename it to `2024.10.28_Group15-21.h5ad`   
-Import `2024.10.28_Group15-21.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21\data\`.  
+
 
 --------------------------------------------
 
@@ -766,7 +768,7 @@ Start
 
 3.1 𝐒𝐭𝐞𝐩 𝟏: 𝐀𝐜𝐭𝐢𝐯𝐚𝐭𝐞 𝐮𝐬𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐱𝐢𝐦𝐢𝐭𝐲 𝐦𝐞𝐭𝐡𝐨𝐝. (Python)
 
-Import `` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21\data`.  
+Import `2024.10.28_Group15-21.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\data\2024.10.28_Group15-21.h5ad`.  
 
 <br>
 
@@ -792,7 +794,7 @@ current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage
 print(current_folder)
 
 # Select which sample to use
-choosen_sample = "Nerveferroptosis_15_21"
+choosen_sample = "Nerveferroptosis_remove_R1_3_4"
 # Select the .h5ad file
 h5ad_filename = "2024.10.28_Group15-21.h5ad"
 # Run the built-in example and obtain the sparse matrix
@@ -842,10 +844,10 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 
 
 Afterward, execute the following file:
-`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
+`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
 
 ```matlab
-clc;clear
+
 
 %% Load data and Split to compute
 %% Load data and Split to compute
@@ -856,8 +858,7 @@ MM0 = MM0.distance_matrix;
 count_=readtable('./result/merged_data.csv');
 
 %% 得到边界划分点
-%[p,splitlist] = binary_corr_sorting(MM0,20,125,5,5);
-[p,splitlist] = binary_corr_sorting(MM0,20,100,5,5);
+[p,splitlist] = binary_corr_sorting(MM0,20,300,5,5);
 
 %% 对划分点去重
 [uniqueList, ~, ~] = unique(splitlist, 'stable');
@@ -877,12 +878,9 @@ split_simple=[split_simple,length(MM0)];
 %% 计算均值矩阵
 [simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
 
-
-
 %% 合并成小矩阵
 ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
 count_result.Result = ClusterReslut;
-
 
 %重排小矩阵
 [cluster_map_matrix] = genetic_encoder( ...
@@ -902,17 +900,18 @@ count_result.Result = ClusterReslut;
 h = heatmap(cluster_map_matrix);
 %h.YDisplayLabels = row_labels; % 设置行标签
 %h.XDisplayLabels = column_labels; % 设置列标签
-h.ColorLimits = [0.00005,0.0003]%
+h.ColorLimits = [0, 0.00007]
 
-%writetable(count_result, './result/result_group.csv');
-writetable(count_result,"result/pseudotime_map_R2.csv");
+%----------------------------
+figure(1)
+h = heatmap(cluster_map_matrix);
+h.ColorLimits = [0, 0.00007]
 
-
+%writetable(count_result,"result/pseudotime_map.csv");
 
 %% 临近法激活
 corr_matrix = relevance_generate(0.00065,4,cluster_map_matrix);
 hi = heatmap(corr_matrix);
-
 
 %% 编码
 encode_result = encoder_corr_matrix(0.0007,0.0006,1,4,cluster_map_matrix);
@@ -923,14 +922,17 @@ hj = heatmap(encode_result);
 figure(3)
 [weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
 weighting_result = weighting_decode + decode_result;
-hk = heatmap(decode_result);
-hk.ColorLimits = [26,27]
+hk = heatmap(weighting_result);
 
+writetable(count_result,"result/pseudotime_map_R2.csv");
 ```
 
 3.3 𝐒𝐭𝐞𝐩 𝟑: 𝐏𝐞𝐫𝐟𝐨𝐫𝐦 𝐨𝐦𝐢𝐜𝐬 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬. (R)   
 
 <br>
+
+Open variable table as `Round1.Rdata` to continue. OR: You didn't closed R.
+
 
 3.3.1 Perform pseudo-time inference on groups 1, 2, and 5 (R)
 ---
@@ -996,7 +998,8 @@ save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 3.3.3 Regroup 1, 2, and 5 (R)
 ---
 
-Place `pseudotime_map_R2.csv` in the R working directory. File is usuallly located at `C:/GEOANALYSIS/GSE232429/`
+Place `pseudotime_map_R2.csv` in the R working directory.   
+File is usuallly located at `C:/GEOANALYSIS/GSE232429/pseudotime_map_R2.csv`
 
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
@@ -1248,9 +1251,10 @@ sceasy::convertFormat(
   testAB.integrated,
   from = "seurat",
   to = "anndata",
-  outFile = "Cells from Group R2-2 and Group R2-3.h5ad"
+  outFile = "Group R2-2 R2-3.h5ad"
 )
 ```
+Save variable table as `Round2.Rdata` to continue. OR: Do not close R to ensure the subsequent programs can run.
 
 
 --------------------------------------------
@@ -1271,7 +1275,7 @@ Start
 <br>
 
 
-Import `Cells from Group R2-2 and Group R2-3.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\data\`.  
+Import `Group R2-2 R2-3.h5ad` into `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\data\Group R2-2 R2-3.h5ad`.  
 
 ```python
 import numpy as np
@@ -1294,9 +1298,9 @@ current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage
 print(current_folder)
 
 #选择要使用哪个样本
-choosen_sample = "Nerveferroptosis_19_21_Group8"
+choosen_sample = "Nerveferroptosis_15_21"
 #选择.h5ad文件
-h5ad_filename = "Cells from Group R2-2 and Group R2-3.h5ad"
+h5ad_filename = "Group R2-2 R2-3.h5ad"
 #运行自带的示例，并获取稀疏矩阵
 #这里需要做非示例的函数进去
 current_folder_input = current_folder
