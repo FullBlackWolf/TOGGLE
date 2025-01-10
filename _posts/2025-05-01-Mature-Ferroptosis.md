@@ -847,6 +847,64 @@ Afterward, execute the following file:
 `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_remove_R1_3_4\main_v3_matlab_run_me.m`
 
 ```matlab
+%% Load data and Split to compute
+MM0 = load('./result/distance_matrix.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
+count_=readtable('./result/merged_data.csv');
+
+%% 得到边界划分点
+[p,splitlist] = binary_corr_sorting(MM0,20,500,5,5);%350:72 真实：68
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0, 0.00007]
+
+%----------------------------
+figure(1)
+h = heatmap(cluster_map_matrix);
+h.ColorLimits = [0, 0.00007]
+
+
 %writetable(count_result,"result/pseudotime_map.csv");
 
 %% 临近法激活
