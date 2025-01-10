@@ -23,10 +23,17 @@ library(tidyverse)
 library(future)
 library(harmony)
 library(RColorBrewer)
+```
 
+Set the working directory in R to `C:/GEOANALYSIS/GSE253768`.
+
+```R
 # Use highly variable genes
 # Create a vector to read files
 setwd("C:/GEOANALYSIS/GSE253768")
+```
+
+```R
 # Load data
 load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
 # Downgrade the matrix to an older version if necessary
