@@ -13,7 +13,7 @@ tags:
 
 The default data file storage directory is `C:/GEOANALYSIS/GSE253768`
 
-1.1.Load required R packages
+1.1.Load required R packages (R)
 ---
 
 ```R
@@ -29,7 +29,7 @@ library(harmony)
 library(RColorBrewer)
 ```
 
-1.2.Read file names and set the working directory
+1.2.Read file names and set the working directory (R)
 ---
 
 ```R
@@ -48,7 +48,7 @@ dir_name
 ##"MI1.csv"   "MI2.csv" "Sham1.csv" "Sham2.csv" 
 ```
 
-1.3.Batch read data and create Seurat objects
+1.3.Batch read data and create Seurat objects (R)
 ---
 
 ```R
@@ -69,7 +69,7 @@ for (i in 1:length(dir_name)) {
 }
 ```
 
-1.4.Calculate mitochondrial and red blood cell proportions
+1.4.Calculate mitochondrial and red blood cell proportions (R)
 ---
 
 ```R
@@ -94,7 +94,7 @@ for(i in 1:length(scRNAlist)){
 }
 ```
 
-1.5.Quality control and preliminary merging
+1.5.Quality control and preliminary merging (R)
 ---
 
 ```R
@@ -110,7 +110,7 @@ VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent
 VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent"), ncol = 4, pt.size=0.5)# QC plot 3
 ```
 
-1.6.Filter cells
+1.6.Filter cells (R)
 ---
 
 ```R
@@ -123,7 +123,7 @@ scRNAlist <- lapply(X = scRNAlist, FUN = function(x){
                 nCount_RNA < quantile(nCount_RNA,0.97))})
 ```
 
-1.7.Data normalization, feature selection, and dimensionality reduction
+1.7.Data normalization, feature selection, and dimensionality reduction (R)
 --- 
 
 ```R
@@ -136,7 +136,7 @@ scRNAlist <- NormalizeData(scRNAlist) %>%
   RunPCA(npcs = 30, verbose = T)
 ```
 
-1.8.Harmony integration analysis
+1.8.Harmony integration analysis (R)
 ---
 
 ```R
@@ -149,7 +149,7 @@ testAB.integrated@meta.data$Group <- gsub("[0-9]", "", testAB.integrated@meta.da
 ```
 
 
-1.9.Clustering and dimensionality reduction visualization
+1.9.Clustering and dimensionality reduction visualization (R)
 ---
 
 ```R
@@ -174,7 +174,7 @@ CI.markers <- FindAllMarkers(testAB.integrated, only.pos = TRUE, min.pct = 0.25,
 write.csv(CI.markers, file="MI Cell marker.csv")
 ```
 
-1.10.Annotation and cluster labeling
+1.10.Annotation and cluster labeling (R)
 ---
 
 ```R
@@ -191,7 +191,7 @@ testAB.integrated$clusters2 <- testAB.integrated@active.ident
 save(testAB.integrated, metadata, file = "MI Cell-15 clusters.Rdata")
 ```
 
-1.11.Export results and visualization
+1.11.Export results and visualization (R)
 ---
 
 ```R
@@ -212,7 +212,7 @@ ggsave(filename = "Preliminary grouping of MI - overall.pdf", plot = p1, device 
      alt="Myocardial-1.png" 
      title="Myocardial-1.png">
 
-1.12.Generate the UMAP Plot
+1.12.Generate the UMAP Plot (R)
 ---
 
 ```R
@@ -223,7 +223,7 @@ ggsave(filename = "Preliminary grouping of MI - split by group.pdf", plot = p2, 
 2.Calculating similarity between cells
 ---
 
-2.1.Exporting Data
+2.1.Exporting Data (R)
 ---
 
 ```R
@@ -258,7 +258,7 @@ sceasy::convertFormat(
 ) 
 ```
 
-2.2.Calculating similarity between cells
+2.2.Calculating similarity between cells (Python)
 ---
 
 Move the generated `Myocardial_infarction_hypermutable_gene.h5ad` in the folder to `[LittleSnowFox library file address]\Lib\site-packages\kailin\database\Clustering_sample\fibroblasts\data\`
@@ -372,7 +372,7 @@ df_orig_adata.to_csv(csv_path, index=False)
 ```
 
 
-2.3.Unsupervised learning process
+2.3.Unsupervised learning process (Matlab)
 ---
 
 ```matlab
@@ -457,7 +457,7 @@ hk = heatmap(weighting_result);
 hk.ColorLimits = [30,31]
 ```
 
-2.4.Use the group information
+2.4.Use the group information (R)
 ---
 
 ```R
@@ -492,7 +492,7 @@ testAB.integrated <- subset(testAB.integrated, cells = cells_to_keep)
 save(testAB.integrated, file = "MI-FibroblastCell-8000.Rdata")
 ```
 
-2.5.Generate groups
+2.5.Generate groups (R)
 ---
 
 ```R
@@ -540,7 +540,7 @@ ggsave(filename = "FibroblastCell-2.pdf", plot = p2, device = 'pdf', width = 24,
      title="Myocardial-4.png">
 
 
-3.Take MI's ImmuneCell and merge it with FibroblastCell to make Cell communication
+3.Take MI's ImmuneCell and merge it with FibroblastCell to make Cell communication (R)
 ---
 
 ```R
@@ -553,7 +553,7 @@ Fib_seurat <- subset(Fib_seurat,idents=c("MI"),invert = FALSE)
 Fib_seurat[["RNA"]] <- as(object = Fib_seurat[["RNA"]], Class = "Assay")
 ```
 
-3.1.Take out the ImmuneCell from the previous Cell's MI group
+3.1.Take out the ImmuneCell from the previous Cell's MI group (R)
 ---
 
 ```R
@@ -565,7 +565,7 @@ Immu_seurat <- subset(Immu_seurat,idents=c("Macrophages", "T cells"),invert = FA
 Immu_seurat[["RNA"]] <- as(object = Immu_seurat[["RNA"]], Class = "Assay")
 ```
 
-3.2.Merge the two matrices and keep the Cell type data
+3.2.Merge the two matrices and keep the Cell type data (R)
 ---
 
 ```R
@@ -609,7 +609,7 @@ combined_seurat$cell_type <- dplyr::case_when(
 )
 ```
 
-3.3.View the combined Seurat
+3.3.View the combined Seurat (R)
 ---
 
 ```R
@@ -634,7 +634,7 @@ UMAPPlot(combined_seurat,group.by='cell_type',label=T)
 cell_type_cols <- c("#6693b1","#a3caa9","#efd695","#dd9667","#bd5c56")
 ```
 
-3.4.View the result
+3.4.View the result (R)
 ---
 
 ```R
@@ -646,7 +646,7 @@ ggsave(filename = "UMAP of ImmuneCell and grouped FibroblastCell.pdf", plot = p1
      alt="Myocardial-5.png" 
      title="Myocardial-5.png">
 
-4.Cell signaling
+4.Cell signaling (R)
 ---
 
 ```R
