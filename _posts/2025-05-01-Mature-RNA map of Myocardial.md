@@ -75,4 +75,173 @@ sceasy::convertFormat(
 )
 ```
 
-2.
+2.Calculate functional mapping.
+
+```python
+#选择要使用哪个样本
+choosen_sample = "fibroblasts"
+
+#选择.h5ad文件
+h5ad_filename = "FibroblastCellMatrix Transposition of MI.h5ad"
+
+
+#运行自带的示例，并获取稀疏矩阵
+#这里需要做非示例的函数进去
+current_folder_input = current_folder
+
+
+orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix_sample(
+    choosen_sample,
+    h5ad_filename,
+    "draw",
+    current_folder_input,
+    round_of_smooth=1,
+    neighbor_N=13000,
+    beta=0.1,
+    truncation_threshold=0.001,
+    save_subset=True,
+    use_existing_KNN_graph=False,
+    compute_new_Smatrix=True,
+    use_full_Smatrix = True,
+    )
+#orig_adata,loading_directory,distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
+
+#运行自带的示例，并获取非稀疏矩阵
+#这里需要做非示例的函数进去
+#current_folder_input = current_folder
+#loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input)
+
+```
+
+3.Unsupervised learning
+
+```matlab
+
+
+%% Load data and Split to compute
+%% Load data and Split to compute
+MM0 = load('./result/distance_matrix_RNA.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
+count_=readtable('./result/orig_ident_RNA.csv');
+
+%% 得到边界划分点
+%[p,splitlist] = binary_corr_sorting(MM0,20,125,5,5);
+[p,splitlist] = binary_corr_sorting(MM0,20,50,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0,0.001]%
+% writetable(count_result, './result/result_RNA.csv');
+
+%% 临近法激活
+corr_matrix = relevance_generate(0.0001,1,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+% encode_result = encoder_corr_matrix(0.0011,0.001,10,10,cluster_map_matrix);
+encode_result = encoder_corr_matrix(0.00011,0.00010,10,1,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = decode_result + 2*weighting_decode;
+hk = heatmap(weighting_result);
+hk.ColorLimits = [60,65]
+```
+
+
+4.Generate RNA map
+---
+
+```R
+# Import the results
+index_result <- read.csv("result_RNA.csv")
+## Ensure the 'Index' in the table matches the cell names in the Seurat object
+## Set 'Index' as row names for easier operations
+rownames(index_result) <- index_result$Index
+## Map the 'Result' column to the metadata of the Seurat object using 'Index'
+metadata <- testAB.integrated_MI@meta.data  # Get the metadata of the Seurat object
+metadata$Result <- index_result[rownames(metadata), "Result"]
+## Update the metadata of the Seurat object
+testAB.integrated_MI@meta.data <- metadata
+## Check the updated metadata
+head(testAB.integrated_MI@meta.data)
+# Get the metadata of the Seurat object
+metadata <- testAB.integrated_MI@meta.data
+# Create a 'Fenqun' column and group based on 'Result' column values
+metadata$Fenqun <- NA  # Initialize the 'Fenqun' column
+# Use conditional statements to group 'Result' column values by ranges
+metadata$Fenqun[metadata$Result >= 1 & metadata$Result <= 16] <- "RNA-G1"
+metadata$Fenqun[metadata$Result >= 17 & metadata$Result <= 20] <- "RNA-G2"
+metadata$Fenqun[metadata$Result >= 21 & metadata$Result <= 35] <- "RNA-G3"
+metadata$Fenqun[metadata$Result >= 36 & metadata$Result <= 41] <- "RNA-G4"
+metadata$Fenqun[metadata$Result >= 42 & metadata$Result <= 61] <- "RNA-G5"
+metadata$Fenqun[metadata$Result >= 62 & metadata$Result <= 65] <- "RNA-G6"
+metadata$Fenqun[metadata$Result >= 66 & metadata$Result <= 72] <- "RNA-G7"
+metadata$Fenqun[metadata$Result >= 73 & metadata$Result <= 92] <- "RNA-G8"
+# Update the modified metadata into the Seurat object
+testAB.integrated_MI@meta.data <- metadata
+# View results
+head(testAB.integrated_MI@meta.data$Fenqun)
+
+# Plotting
+cell_type_cols <- c("#B383B9", "#EE934E","#F5D2A8","#7DBFA7","#fced82","#D2EBC8","#AECDE1","#3c77af")
+p1 <- DimPlot(testAB.integrated_MI, reduction = "umap", group.by = "Fenqun", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
+ggsave(filename = "RNA clustering UMAP of MI.pdf", plot = p1, device = 'pdf', width = 21, height = 18, units = 'cm')
+```
+
+
+Save
+---
+
+```R
+metadata <- testAB.integrated_MI@meta.data
+write.csv(metadata, file="Myocardial Fibroblast Cell RNA Clustering Results.csv")
+```
+
