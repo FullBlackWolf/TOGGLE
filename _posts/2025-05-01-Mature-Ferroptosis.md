@@ -1495,6 +1495,7 @@ sceasy::convertFormat(
 
 ```python
 
+import cospar as cs
 import numpy as np
 import os
 import kailin as kl
@@ -1522,72 +1523,292 @@ h5ad_filename = "2024_GROUP4_5.h5ad"
 #这里需要做非示例的函数进去
 current_folder_input = current_folder
 updated_folder = os.path.join(current_folder, "Nerveferroptosis_19_21/data")
+result_folder = os.path.join(current_folder, "Nerveferroptosis_19_21/result")
 h5ad_path = os.path.join(updated_folder, "2024_GROUP4_5.h5ad")
 
 print(h5ad_path)
-```
-
-```python
 
 import anndata as ad
 adata = ad.read_h5ad(h5ad_path)
 
-adata.obs['nFeature_RNA']
-adata.obs['fenqun1']
-
-adata_Health_RNA = adata[adata.obs['fenqun1'] == 'Health'].var.index.tolist()
+adata_Health_RNA = adata[adata.obs['Extract'] == 'Health'].var.index.tolist()
 # 获取特定层的形状
 length_of_adata_Healt_RNA = len(adata_Health_RNA)
 print(adata.X.shape)
 print(length_of_adata_Healt_RNA)
 
-print(tarc_column)
-adata_Death_RNA = adata[adata.obs['fenqun1'] != 'Health'].var.index.tolist()
+
+
+adata_Death_RNA = adata[adata.obs['Extract'] != 'Health'].var.index.tolist()
 # 获取特定层的形状
 length_of_adata_Death_RNA= len(adata_Death_RNA)
 print(adata.X.shape)
 print(length_of_adata_Death_RNA)
 
-#
+#Group 4-1
 import pandas as pd
+
 # 初始化 check_list 和一个空的 DataFrame
-check_list = ['Smad7', 
-              'Pex2', 
-              'Far1', 
-              'Mtch1', 
-              'Lpin1', 
-              'Nras', 
-              'Agps', 
-              'Wipi1', 
-              'Hmgb1', 
-              'Mapk3', 
-              'Cd82', 
-              'Elovl5', 
-              'Scp2', 
-              'Lgmn', 
-              'Adam23', 
-              'Emc2', 
-              'Ulk2', 
-              'Hddc3', 
-              'Gstz1', 
-              'Map3k11', 
-              'Cirbp']
+check_list = ['Abcc1',
+'Acadsb',
+'Aco1',
+'Acsf2',
+'Acsl1',
+'Acsl4',
+'Adam23',
+'Aebp2',
+'Agpat3',
+'Agps',
+'Alox12',
+'Alox15',
+'Alox15B',
+'Alox5',
+'Aloxe3',
+'Amn',
+'Ano6',
+'Aqp3',
+'Aqp5',
+'Aqp8',
+'Arhgef26-As1',
+'Asmtl-As1',
+'Atf3',
+'Atg13',
+'Atg16L1',
+'Atg3',
+'Atg4D',
+'Atg5',
+'Atg7',
+'Atm',
+'Atp5Mc3',
+'Bach1',
+'Bap1',
+'Becn1',
+'Bid',
+'Brd7',
+'Brpf1',
+'Cars1',
+'Ccdc6',
+'Cd82',
+'Cdca3',
+'Cdkn2A',
+'Cdo1',
+'Cfl1',
+'Cgas',
+'Chac1',
+'Chp1',
+'Cirbp',
+'Circkdm4C',
+'Circpsen1',
+'Cltrn',
+'Cox4I2',
+'Cpeb1',
+'Cs',
+'Ctsb',
+'Cyb5R1',
+'Cybb',
+'Cygb',
+'Cyp4F8',
+'Dcaf7',
+'Ddr2',
+'Dld',
+'Dnajb6',
+'Dpep1',
+'Dpp4',
+'Duox1',
+'Duox2',
+'Egfr',
+'Egln2',
+'Egr1',
+'Elavl1',
+'Elovl5',
+'Emc2',
+'Epas1',
+'Ept1',
+'Fads1',
+'Far1',
+'Fbxw7',
+'Flt3',
+'Foxo4',
+'G6Pdx',
+'Gabarapl1',
+'Gabarapl2',
+'Gja1',
+'Gls2',
+'Gpat4',
+'Gria3',
+'Gsk3B',
+'Gstz1',
+'H19',
+'Hddc3',
+'Hilpda',
+'Hmgb1',
+'Hotair',
+'Hras',
+'Hsa_Circ_0008367',
+'Idh1',
+'Ido1',
+'Ifna1',
+'Ifna10',
+'Ifna13',
+'Ifna14',
+'Ifna16',
+'Ifna17',
+'Ifna2',
+'Ifna21',
+'Ifna4',
+'Ifna5',
+'Ifna6',
+'Ifna7',
+'Ifna8',
+'Ifng',
+'Il1B',
+'Ints2',
+'Ireb2',
+'Kdm5A',
+'Kdm5C',
+'Kdm6B',
+'Keap1',
+'Klf2',
+'Kmt2D',
+'Kras',
+'Lce2C',
+'Lgmn',
+'Lifr',
+'Lig3',
+'Linc00472',
+'Linc00618',
+'Lncrna Aabr07017145.1',
+'Lonp1',
+'Lpcat3',
+'Lpin1',
+'Lyrm1',
+'Map1Lc3A',
+'Map3K11',
+'Map3K14',
+'Mapk1',
+'Mapk14',
+'Mapk3',
+'Mapk8',
+'Mapk9',
+'Mdm2',
+'Mdm4',
+'Meg3',
+'Mettl14',
+'Mfn2',
+'Mib1',
+'Mib2',
+'Micu1',
+'Miox',
+'Mir135B',
+'Mir15A',
+'Mir-182-5P',
+'Mir302A',
+'Mir324',
+'Mir335',
+'Mir375',
+'Mir-378A-3P',
+'Mir5096',
+'Mir539',
+'Mir6852',
+'Mir761',
+'Mllt1',
+'Mmd',
+'Mt1Dp',
+'Mtch1',
+'Mtdh',
+'Myb',
+'Mycn',
+'Ncoa4',
+'Ndrg1',
+'Nox1',
+'Nox3',
+'Nox4',
+'Nox5',
+'Nr1D1',
+'Nr1D2',
+'Nras',
+'Osbpl9',
+'Panx1',
+'Paqr3',
+'Pebp1',
+'Pex10',
+'Pex12',
+'Pex2',
+'Pex3',
+'Pex6',
+'Pgd',
+'Pgrmc1',
+'Phf21A',
+'Phkg2',
+'Piezo1',
+'Pom121L12',
+'Por',
+'Pparg',
+'Prkaa1',
+'Prkca',
+'Pten',
+'Ptgs2',
+'Ptpn6',
+'Pvt1',
+'Qsox1',
+'Rpl8',
+'Sat1',
+'Scp2',
+'Slc11A2',
+'Slc1A5',
+'Slc25A28',
+'Slc38A1',
+'Slc39A14',
+'Slc39A7',
+'Smad7',
+'Smg9',
+'Snca',
+'Snx4',
+'Snx5',
+'Socs1',
+'Sting1',
+'Tafazzin',
+'Tbk1',
+'Tfr2',
+'Tgfb1',
+'Tgfbr1',
+'Timm9',
+'Timp1',
+'Tlr4',
+'Tnfaip3',
+'Tor2A',
+'Trim21',
+'Trim26',
+'Trim46',
+'Tsc1',
+'Ttpa',
+'Ulk1',
+'Ulk2',
+'Usp7',
+'Wipi1',
+'Wipi2',
+'Wwtr1',
+'Yap1',
+'Ythdc2',
+#'Yy1Ap1',
+'Zeb1',
+'Zfas1']
 
 df = pd.DataFrame(columns=['Value', 'Average', 'Rate'])  # 定义一个空的 DataFrame
 
 # 读取数据有多少个
-nras_expression = adata[adata.obs['fenqun1'] != 'Health'][:, check_list[1]].X
-total_num = adata[adata.obs['fenqun1'] != 'Health'].X.shape[0]
+nras_expression = adata[adata.obs['Extract'] != 'Health'][:, check_list[1]].X
+total_num = adata[adata.obs['Extract'] != 'Health'].X.shape[0]
 print('表达数据的行数为:', total_num)
 
 
 
-num_rows = adata[adata.obs['fenqun1'] != 'Health'].n_obs
+num_rows = adata[adata.obs['Extract'] != 'Health'].n_obs
 # 打印行数
 print('adata_Death_RNA 的行数为:', num_rows)
 #读取adata中
 
-num_rows_1 = adata[adata.obs['fenqun1'] == 'Health'].n_obs
+num_rows_1 = adata[adata.obs['Extract'] == 'Health'].n_obs
 # 打印行数
 print('adata_Health_RNA 的行数为:', num_rows_1)
 #读取adata中
@@ -1596,43 +1817,73 @@ print('adata_Health_RNA 的行数为:', num_rows_1)
 # 循环遍历 check_list，将每个值保存到 DataFrame 中
 for i, value in enumerate(check_list):
     df.loc[i, 'Value'] = value  # 只给 'Value' 列赋值
-    
+
     #取check_list中的Gene
     Chosen_computing = check_list[i]
     #print(Chosen_computing)
-    
-    #选取健康细胞作为参照值
-    #adata[adata.obs['fenqun1'] != 'Health']
-    tarc_column = adata[:, adata.var.index == Chosen_computing].X
-    
+
+
+
+    #取出这个基因对应的健康样本数目
+    #取列
+    select_index = adata.var.index == Chosen_computing 
+    #取行
+    health_index = adata.obs['Extract'] == 'Health'
+    tarc_column = adata[health_index,select_index].X
+    # 提取非零元素并计算其数量
+    tarc_column_total =  tarc_column.shape[0]
+    #print("Number of non-zero elements:", tarc_column)
+
     #取出平均值
-    tarc_mean = np.median(tarc_column.toarray())
+    tarc_result = tarc_column.toarray()
+    tarc_mean = tarc_result.mean()
     df.loc[i, 'Average'] = tarc_mean
-    
+
+
+
+    #取出这个基因对应的疾病样本数
+    select_index = adata.var.index == Chosen_computing 
+    #取行
+    death_index = adata.obs['Extract'] != 'Health'
+    death_tarc_column = adata[death_index,select_index].X
+    # 提取非零元素并计算其数量
+    death_tarc_column_total =  death_tarc_column.shape[0]
+
+
+
+
     #把要计算的基因样本抽出来
-    compare_expression = adata[adata.obs['fenqun1'] != 'Health'][:, check_list[1]].X.toarray()
+
+    try:
+        compare_expression = adata[adata.obs['Extract'] != 'Health'][:, check_list[i]].X.toarray()
     #print('compare_expression:',compare_expression )
-    average_standa = df.loc[i, 'Average']
-    
+        average_standa = df.loc[i, 'Average']
     #计算比较总数
-    count_number = sum(value >= average_standa for value in compare_expression)
+        count_number = np.sum(compare_expression > average_standa)
+
     #count_number = sum(compare_expression >= df.loc[i, 'Average'])
     #print('Sum:',count_number)
-    
     #计算比率
-    rate = count_number/total_num
-    
+        rate = count_number/death_tarc_column_total
+    except:
+        rate == 0
+        continue
     #保存比率
     df.loc[i, 'Rate'] = rate
-    
 
-```
 
-4.5 Print the result (Python)
----
-
-```python
 
 # 打印最终的 DataFrame
 print(df)
+
+
+filename = "Check.csv"
+file_path = os.path.join(result_folder, filename)
+# Ensure the directory exists
+os.makedirs(result_folder, exist_ok=True)
+# Save the DataFrame to the specified CSV file
+df.to_csv(file_path, index=False)
+
 ```
+
+Result file saved at  `[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_19_21\result\`.
