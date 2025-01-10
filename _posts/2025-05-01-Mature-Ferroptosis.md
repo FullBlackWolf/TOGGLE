@@ -1373,31 +1373,34 @@ Place `pseudotime_map_R3.csv` in the R working directory. File is usuallly locat
 ####Then I got 15-21-result.csv, so I imported it
 # Read CSV file
 result_data <- read.csv("pseudotime_map_R3.csv", stringsAsFactors = FALSE)
-# Make sure the columns in the file are named "Var3" and "Result", check the file contents
+
+
+# Make sure the columns in the file are named "Var1" and "Result", check the file contents
 head(result_data)
-# Check if all 'Var1' values exist in Seurat object's cell names
-common_cells <- intersect(result_data$Var3, rownames(testAB.integrated@meta.data))
+# Check if all Var1 have corresponding cell names in the Seurat object
+common_cells <- intersect(result_data$Var1, rownames(testAB.integrated@meta.data))
 if (length(common_cells) < nrow(result_data)) {
   warning("Some cells in '15-21-result.csv' are not found in testAB.integrated metadata!")
 }
-# Map 'Result' values to Seurat object's metadata based on 'Var1'
-# First, create a new column 'Result' and set it to NA
+# Import Result into the metadata of the Seurat object according to Var1
+# First create a new column "Result" and assign it to NA
 testAB.integrated@meta.data$Result <- NA
-# Use match() to merge corresponding values
-matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var3)
+# Use match() to merge the corresponding relationships
+matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var1)
 testAB.integrated@meta.data$Result <- result_data$Result[matching_indices]
-## Group based on 'Result'
-# get metadata
+##Group by Result
+# Get metadata 
 metadata <- testAB.integrated@meta.data
 # Create a new column fenqun1 based on the value of the Result column
 metadata$fenqun1 <- with(metadata, 
-                         ifelse(Result >= 1 & Result <= 6, "Group R3-1",
-                                ifelse(Result >= 7 & Result <= 12, "Group R3-2",
-                                       ifelse(Result >= 13 & Result <= 19, "Group R3-3",
+                         ifelse(Result >= 1 & Result <= 5, "Group R3-1",
+                                ifelse(Result >= 6 & Result <= 11, "Group R3-2",
+                                       ifelse(Result >= 12 & Result <= 19, "Group R3-3",
                                               ifelse(Result >= 20 & Result <= 27, "Group R3-4",
-                                                     ifelse(Result >= 28 & Result <= 34, "Group R3-5", NA))))))
-# Build the Biaoqian column and remove "Group" from fenqun1
-metadata$Biaoqian <- gsub("^Group ", "", metadata$fenqun1)
+                                                     ifelse(Result >= 28 & Result <= 34, "Group R3-5", NA)))))) 
+# Construct the Biaoqian column and remove the "Group" in fenqun1
+metadata$Biaoqian <- gsub("^Group ", "", metadata$fenqun1) 
+
 
 # Assign updated metadata back to the Seurat object
 testAB.integrated@meta.data <- metadata
@@ -1432,20 +1435,106 @@ p6 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", pt.s
 ggsave(filename = "Figure 6A-2.pdf", plot = p6, device = 'pdf', width = 15, height = 12, units = 'cm')
 
 ```
+Read variable table as `Round2.Rdata` to continue. OR: You didn't closed R.
+
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Neuron-13.png" 
      alt="Neuron-13.png" 
      title="Neuron-13.png">
 
+4.3.4 Save .h5ad (R)
+---
+
+```R
+#############Take out Group R3-4 and Group R3-5 and merge them with healthy cells #############
+R2_cell_data=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))#Get the data of round 2
+R3_cell_data=get(load(file = 'Cells from Group R2-2 and Group R2-3.Rdata'))#get the data of round 3
+# Extract the shijian column from the metadata of R2_cell_data
+R2_metadata <- R2_cell_data@meta.data
+R2_metadata$Extract <- "Other" # Create a new column Extract and initialize it to "Other"
+
+# Set Group R2-8 and Group R2-9 in the shijian to "Health"
+R2_metadata$Extract[R2_metadata$shijian %in% c("Group R2-8", "Group R2-9")] <- "Health"
+
+# Extract the fenqun1 column from the metadata of R3_cell_data
+R3_metadata <- R3_cell_data@meta.data
+
+# Find the names of the cells in Group R3-4 and Group R3-5 in R3
+group_R3_4_cells <- rownames(R3_metadata[R3_metadata$fenqun1 == "Group R3-4", ])
+group_R3_5_cells <- rownames(R3_metadata[R3_metadata$fenqun1 == "Group R3-5", ])
+
+# Label the cell names of Group R3-4 and Group R3-5 in R3 in the Extract column in R2
+R2_metadata$Extract[rownames(R2_metadata) %in% group_R3_4_cells] <- "Group R3-4"
+R2_metadata$Extract[rownames(R2_metadata) %in% group_R3_5_cells] <- "Group R3-5"
+
+# Update the metadata of R2_cell_data
+R2_cell_data@meta.data <- R2_metadata
+
+#Check
+table(R2_cell_data@meta.data$Extract)
+
+##Get Health, Group R3-4 and Group R3-5
+Idents(R2_cell_data) <- "Extract"
+Health_4_5 <- subset(R2_cell_data,idents=c("Health","Group R3-5","Group R3-4"),invert = FALSE)
+DefaultAssay(Health_4_5) <- "RNA"
+Health_4_5[["integrated"]] <- NULL
+Health_4_5[["SCT"]] <- NULL
+Health_4_5[["RNA"]] <- as(object = Health_4_5[["RNA"]], Class = "Assay")#Convert to version 4 matrix
+sceasy::convertFormat(
+  Health_4_5,
+  from = "seurat",
+  to = "anndata",
+  outFile = "2024_GROUP4_5.h5ad"
+) 
+
+
+```
 
 4.4 Check the coverage of genes. (Python)
 ---
 
 ```python
+
+import numpy as np
+import os
+import kailin as kl
+#import matlab.engine
+#eng = matlab.engine.start_matlab()
+
+print(kl.__version__)
+#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
+#则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
+kl.kl_initialize(0)
+#获取kailin工作的根目录
+parent_directory_origin = kl.kl_settings.parent_directory_origin
+print(parent_directory_origin)
+#改进：
+#添加一个cluster模式
+#选择进行Lineage Tracing还是Cluster，并给出可用的列表
+current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Lineage',1)
+print(current_folder)
+
+#选择要使用哪个样本
+choosen_sample = "Nerveferroptosis_19_21"
+#选择.h5ad文件
+h5ad_filename = "2024_GROUP4_5.h5ad"
+#运行自带的示例，并获取稀疏矩阵
+#这里需要做非示例的函数进去
+current_folder_input = current_folder
+updated_folder = os.path.join(current_folder, "Nerveferroptosis_19_21_Group8/data")
+h5ad_path = os.path.join(updated_folder, "2024_GROUP4_5.h5ad")
+
+print(h5ad_path)
+```
+
+```python
+
 import anndata as ad
 adata = ad.read_h5ad(h5ad_path)
+
 adata.obs['nFeature_RNA']
 adata.obs['fenqun1']
+
 adata_Health_RNA = adata[adata.obs['fenqun1'] == 'Health'].var.index.tolist()
 # 获取特定层的形状
 length_of_adata_Healt_RNA = len(adata_Health_RNA)
@@ -1461,7 +1550,6 @@ print(length_of_adata_Death_RNA)
 
 #
 import pandas as pd
-
 # 初始化 check_list 和一个空的 DataFrame
 check_list = ['Smad7', 
               'Pex2', 
