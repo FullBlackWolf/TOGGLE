@@ -6,3 +6,72 @@ categories:
 tags:
   - Samples
 ---
+
+
+1.Generate an h5ad file.
+---
+
+```R
+# Load required packages
+library(Seurat)
+library(multtest)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(tidyverse)
+library(future)
+library(harmony)
+library(RColorBrewer)
+
+# Use highly variable genes
+# Create a vector to read files
+setwd("C:/GEOANALYSIS/GSE253768")
+# Load data
+load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
+# Downgrade the matrix to an older version if necessary
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
+# Extract fibroblasts from the myocardial infarction group
+testAB.integrated_MI <- subset(testAB.integrated,idents=c("Fibroblasts"),invert = FALSE)
+Idents(testAB.integrated) <- "Group"
+testAB.integrated_MI <- subset(testAB.integrated,idents=c("MI"),invert = FALSE)
+# Recalculate highly variable genes
+testAB.integrated_MI <- NormalizeData(testAB.integrated_MI) %>% 
+  FindVariableFeatures(selection.method = "vst",nfeatures = 3000) %>% 
+  ScaleData() %>% 
+  RunPCA(npcs = 30, verbose = T)
+
+# Extract the expression matrix of highly variable genes
+# Extract the expression matrix of highly variable genes from the data slot
+hvg_genes <- VariableFeatures(testAB.integrated_MI)  # Get the names of highly variable genes
+hvg_matrix <- testAB.integrated_MI@assays$RNA@data[hvg_genes, ]  # Extract the expression data of these highly variable genes
+# Transpose the matrix
+hvg_matrix_transposed <- t(hvg_matrix)
+# Create a new Seurat object and save the transposed matrix into it
+testAB.integrated_MI <- CreateSeuratObject(counts = hvg_matrix_transposed)
+
+# Select highly variable genes and perform dimensionality reduction
+testAB.integrated_MI <- NormalizeData(testAB.integrated_MI) %>% 
+  FindVariableFeatures(selection.method = "vst",nfeatures = 3000) %>% 
+  ScaleData() %>% 
+  RunPCA(npcs = 30, verbose = T)
+# Perform UMAP dimensionality reduction
+# Smaller n.neighbors: tighter clusters; larger n.neighbors: more uniform distribution
+# Smaller min.dist: tighter clusters; larger min.dist: more uniform distribution
+# Smaller spread: more concentrated plot; larger spread: better separation between clusters
+testAB.integrated_MI <- RunUMAP(testAB.integrated_MI, dims = 1:15, 
+                                spread = 2, n.neighbors = 100, min.dist = 0.8)# This separates gene groups into 3 distinct clusters
+UMAPPlot(testAB.integrated_MI,label=T)
+# Save
+save(testAB.integrated_MI, file = "FibroblastCellMatrix Transposition of MI.Rdata")
+### Ensure the matrix includes all cells
+DefaultAssay(testAB.integrated_MI) <- "RNA"
+testAB.integrated_MI[["RNA"]] <- as(object = testAB.integrated_MI[["RNA"]], Class = "Assay")# Convert to version 4 matrix
+sceasy::convertFormat(
+  testAB.integrated_MI,
+  from = "seurat",
+  to = "anndata",
+  outFile = "FibroblastCellMatrix Transposition of MI.h5ad"
+)
+```
+
+2.
