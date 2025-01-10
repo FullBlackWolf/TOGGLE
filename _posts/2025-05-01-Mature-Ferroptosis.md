@@ -1521,7 +1521,7 @@ h5ad_filename = "2024_GROUP4_5.h5ad"
 #运行自带的示例，并获取稀疏矩阵
 #这里需要做非示例的函数进去
 current_folder_input = current_folder
-updated_folder = os.path.join(current_folder, "Nerveferroptosis_19_21_Group8/data")
+updated_folder = os.path.join(current_folder, "Nerveferroptosis_19_21/data")
 h5ad_path = os.path.join(updated_folder, "2024_GROUP4_5.h5ad")
 
 print(h5ad_path)
