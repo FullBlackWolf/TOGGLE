@@ -13,7 +13,7 @@ Import external libraries.
 ```python
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 
 
 print(kl.__version__)
