@@ -234,7 +234,7 @@ Import `GSE232429 Neuron.h5ad` into `[LittleSnowFox's Anaconda installation dire
 ```python
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 
 print(kl.__version__)
 kl.kl_initialize(0)
@@ -298,7 +298,7 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 <br>
 
 Afterward, execute the following file:
-`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis\main_v3_matlab_run_me.m`
+`[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis\main_v3_matlab_run_me.m`
 
 ```matlab
 
@@ -775,7 +775,7 @@ Import `2024.10.28_Group15-21.h5ad` into `[LittleSnowFox's Anaconda installation
 ```python
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
@@ -1279,12 +1279,12 @@ Import `Group R2-2 R2-3.h5ad` into `[LittleSnowFox's Anaconda installation direc
 ```python
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
 print(kl.__version__)
-#初始化函数，将kailin转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
+#初始化函数，将LittleSnowFox转至工作目录。如果此前初始化过，那么在再次运行def kl_initialize(0)时，
 #则拒绝初始化，避免套娃。运行def kl_initialize(1)时，强制重新初始化。
 kl.kl_initialize(0)
 #获取kailin工作的根目录
@@ -1322,7 +1322,7 @@ merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen
 <br>
 
 Afterward, execute the following file:
-`[LittleSnowFox's Anaconda installation directory]\kailin\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
+`[LittleSnowFox's Anaconda installation directory]\database\Tracing_sample\Nerveferroptosis_15_21\main_v3_matlab_run_me_15_21.m`
 
 ```matlab
 clc;clear
@@ -1556,7 +1556,7 @@ sceasy::convertFormat(
 import cospar as cs
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
