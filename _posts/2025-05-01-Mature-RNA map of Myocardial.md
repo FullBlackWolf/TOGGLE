@@ -8,7 +8,7 @@ tags:
 ---
 
 
-1.Generate an h5ad file.
+1.Generate an h5ad file. (R)
 ---
 
 
@@ -71,7 +71,7 @@ sceasy::convertFormat(
   testAB.integrated_MI,
   from = "seurat",
   to = "anndata",
-  outFile = "FibroblastCellMatrix Transposition of MI.h5ad"
+  outFile = "MI_fiberRNA.h5ad"
 )
 ```
 
@@ -82,7 +82,7 @@ sceasy::convertFormat(
 choosen_sample = "fibroblasts"
 
 #选择.h5ad文件
-h5ad_filename = "FibroblastCellMatrix Transposition of MI.h5ad"
+h5ad_filename = "MI_fiberRNA.h5ad"
 
 
 #运行自带的示例，并获取稀疏矩阵
@@ -106,10 +106,35 @@ orig_adata,loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix_
     )
 #orig_adata,loading_directory,distance_matrix_sparse = kl.preprocessing.kl_dense_matrix_sample(choosen_sample,h5ad_filename,"draw",current_folder_input)
 
-#运行自带的示例，并获取非稀疏矩阵
-#这里需要做非示例的函数进去
-#current_folder_input = current_folder
-#loading_directory,distance_matrix = kl.preprocessing.kl_dense_matrix(choosen_sample,h5ad_filename,"draw",current_folder_input)
+import os
+import scipy.io
+current_folder_result = os.path.join(loading_directory, 'result')
+print(current_folder_result)
+mat_name = "distance_matrix_RNA.mat"
+mat_path = os.path.join(current_folder_result, mat_name)
+scipy.io.savemat(mat_path, {"distance_matrix": distance_matrix})
+print(f"Distance matrix saved as MAT file to: {file_path}")
+
+import pandas as pd
+
+obs_names_list = orig_adata.obs_names.tolist()
+var_names_list = orig_adata.var_names.tolist()
+
+print(orig_adata.obs['orig.ident'])
+index = orig_adata.obs.index
+values = orig_adata.obs['orig.ident']
+
+df_orig_adata = pd.DataFrame({
+    "Index": index,
+    "Value": values
+})
+
+print(df_orig_adata)
+
+csv_name = "orig_ident_RNA.csv"
+csv_path = os.path.join(current_folder_result, csv_name)
+print(csv_path)
+df_orig_adata.to_csv(csv_path, index=False)
 
 ```
 
