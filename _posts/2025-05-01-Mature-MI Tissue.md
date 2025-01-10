@@ -1,5 +1,5 @@
 ---
-title: "Mature Functions: Function Difference of Myocardial"
+title: "Mature Functions: Function Map of MI Tissue"
 date: 2024-12-04T15:34:30-04:00
 categories:
   - Blog
@@ -7,7 +7,7 @@ tags:
   - Samples
 ---
 
-
+The prerequisite analysis `Mature Functions: Function Difference of Myocardial` needs to be completed first.
 
 5.Perform mixed analysis of the common transcriptome
 ---
