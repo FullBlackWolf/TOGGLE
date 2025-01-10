@@ -236,6 +236,10 @@ p1 <- DimPlot(testAB.integrated_MI, reduction = "umap", group.by = "Fenqun", pt.
 ggsave(filename = "RNA clustering UMAP of MI.pdf", plot = p1, device = 'pdf', width = 21, height = 18, units = 'cm')
 ```
 
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/RNA-1.png" 
+     alt="RNA-1.png" 
+     title="RNA-1.png">
+
 
 Save
 ---
