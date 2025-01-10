@@ -39,7 +39,7 @@ library(ggrepel)
 ---
 
 ```R
-#Download link:  https://biocomputing.cowtransfer.com/s/2df0081e282147
+#Database download link:  https://biocomputing.cowtransfer.com/s/2df0081e282147
 #Password: ufurmd
 setwd("C:/GEOANALYSIS/GSE232429")
 
