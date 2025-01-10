@@ -14,7 +14,11 @@ The prerequisite analysis `Mature Functions: Function Difference of Myocardial` 
 
 5.1.Projecting organizations onto a single-cell functional map
 
-Read data
+5.1.1.Calculate the cell similarity of the whole genome.
+---
+
+
+5.1.2.Read data
 
 ```python
 import numpy as np
@@ -36,11 +40,11 @@ parent_directory_origin = kl.kl_settings.parent_directory_origin
 current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Clustering',1)
 ```
 
-Combine
+5.1.3.Combine
 
 ```python
-h5ad_filename = "心梗-成纤维细胞-所有基因.h5ad"
-csv_filename = "心肌梗死普通转录组.csv"
+h5ad_filename = "fibroblasts_all_gene.h5ad" #心梗-成纤维细胞-所有基因.h5ad
+csv_filename = "心肌梗死普通转录组.csv" #心梗-成纤维细胞-所有基因.h5ad
 sample_choose = 'fibroblasts'
 num_samples = 8000
 
@@ -51,5 +55,7 @@ adata_merged = kl.preprocessing.merge_tissue_with_singlecell(
     sample_choose,
     num_samples
     )
+
+
 ```
 
