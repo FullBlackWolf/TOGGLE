@@ -19,10 +19,10 @@ tags:
 ---
 
 ```python
-import cospar as cs
+ 
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
@@ -224,10 +224,10 @@ Adult mice-Electronic cigarette
 ---
 
 ```python
-import cospar as cs
+ 
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
@@ -413,10 +413,10 @@ Adult_mice-Electronic_freshair
 ---
 
 ```python
-import cospar as cs
+ 
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
@@ -576,10 +576,10 @@ Child mice - aVc_c
 ---
 
 ```python
-import cospar as cs
+ 
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
@@ -752,10 +752,10 @@ Child vs adult electronic cigarettes - Child mice - electronic cigarettes
 Child mice - c_c
 ---
 ```python
-import cospar as cs
+ 
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
@@ -932,10 +932,10 @@ Electronic cigarettes vs. fresh air - adult mice - electronic cigarettes
 aVc_c
 ---
 ```python
-import cospar as cs
+ 
 import numpy as np
 import os
-import kailin as kl
+import LittleSnowFox as kl
 #import matlab.engine
 #eng = matlab.engine.start_matlab()
 
