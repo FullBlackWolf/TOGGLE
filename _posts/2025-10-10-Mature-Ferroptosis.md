@@ -686,7 +686,7 @@ ggsave(filename = "Figure 3E-1.pdf", plot = p2, device = 'pdf', width = 26, heig
 ```R
 p3 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "Biaoqian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 3E-2.pdf", plot = p3, device = 'pdf', width = 26, height = 14, units = 'cm')
-save(testAB.integrated,file = 'GSE232429_after_removing_3_and_4.Rdata')
+save(testAB.integrated,file = 'GSE232429 after removing 3 and 4.Rdata')
 ```
 
 
