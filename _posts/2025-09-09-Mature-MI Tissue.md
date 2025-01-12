@@ -15,6 +15,21 @@ The prerequisite analysis `Mature Functions: Function Difference of Myocardial` 
 5.1.Prepare the single-cell maps needed for use.
 ---
 
+Save .h5ad
+```R
+DefaultAssay(testAB.integrated) <- "RNA"
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")#转成版本4的矩阵
+###确保选择的是包含所有基因的矩阵
+sceasy::convertFormat(
+  testAB.integrated,
+  from = "seurat",
+  to = "anndata",
+  outFile = "心梗-成纤维细胞-所有基因.h5ad"
+)
+```
+
+Run similarity
+
 ```python
 
 import numpy as np
