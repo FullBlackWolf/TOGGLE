@@ -17,6 +17,7 @@ Change the working directory in R to: `C:/GEOANALYSIS/GSE232429`.
 ---
 
 ```R
+library(DEsingle)
 library(Seurat)
 library(multtest)
 library(dplyr)
@@ -578,6 +579,7 @@ library(monocle3)
 library(uwot)
 library(ComplexHeatmap)
 library(ggrepel)
+library(DEsingle)
 ```
 
 2.3.10 DEG analysis for GSE232429 (R)
@@ -1128,7 +1130,7 @@ ggsave(filename = "Figure 4E-2.pdf", plot = p6, device = 'pdf', width = 26, heig
 # Table1 <- table(testAB.integrated$Group, testAB.integrated$shijian2)
 # write.table(Table1, file = "The cell proportion of the new grouping result-group.txt", sep ="\t")
 # Plot cells elevated compared to MCAO group
-tb <- data.frame(table(testAB.integrated$shijian2,testAB.integrated$Sample, testAB.integrated$Group))
+tb <- data.frame(table(testAB.integrated$shijian,testAB.integrated$Sample, testAB.integrated$Group))
 tb=tb[,c(1,3,4)]
 
 tb$Total <- apply(tb,1,function(x)sum(tb[tb$Var3 == x[2],3]))
@@ -1178,7 +1180,7 @@ DefaultAssay(testAB.integrated) <- "RNA"
 #Do DEG analysis
 s0 <- subset(testAB.integrated,idents=c("Group R2-1", "Group R2-5"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$shijian2)
+group0 <- factor(s0$shijian)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-1 vs Group R2-5.csv")
 
@@ -1190,31 +1192,31 @@ write.csv(results0, file="Group R2-1 vs Group R2-6.csv")
 
 s0 <- subset(testAB.integrated,idents=c("Group R2-1", "Group R2-7"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$shijian2)
+group0 <- factor(s0$shijian)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-1 vs Group R2-7.csv")
 
 s0 <- subset(testAB.integrated,idents=c("Group R2-3", "Group R2-5"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$shijian2)
+group0 <- factor(s0$shijian)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-3 vs Group R2-5.csv")
 
 s0 <- subset(testAB.integrated,idents=c("Group R2-3", "Group R2-6"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$shijian2)
+group0 <- factor(s0$shijian)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-3 vs Group R2-6.csv")
 
 s0 <- subset(testAB.integrated,idents=c("Group R2-3", "Group R2-7"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$shijian2)
+group0 <- factor(s0$shijian)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-3 vs Group R2-7.csv")
 
 s0 <- subset(testAB.integrated,idents=c("Group R2-2", "Group R2-4"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$shijian2)
+group0 <- factor(s0$shijian)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-2 vs Group R2-4.csv")
 ```
@@ -1239,11 +1241,15 @@ write.csv(chayi1, file="Differential genes between Group R2-3 and Group R2-9.csv
 
 ```R
 testAB.integrated=get(load(file = 'GSE232429 after removing 3 and 4.Rdata'))
+DefaultAssay(testAB.integrated) <- "RNA" ####这个是我刚刚插入的
+testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")#转成版本4的矩阵
+testAB.integrated[["RNA4"]] <- NULL #去掉RNA4
+testAB.integrated[["SCT"]] <- NULL #去掉SCT
+testAB.integrated[["integrated"]] <- NULL #去掉SCT
 Idents(testAB.integrated) <- "Biaoqian"
 testAB.integrated <- subset(testAB.integrated,idents=c("R2-2","R2-3"),invert = FALSE)
 Idents(testAB.integrated) <- "Group"
 testAB.integrated <- subset(testAB.integrated,idents=c("MCAO"),invert = FALSE)
-DefaultAssay(testAB.integrated) <- "RNA4"
 ###First generate h5ad for further analysis###
 # Make sure you select a matrix that contains all genes
 sceasy::convertFormat(
@@ -1309,7 +1315,7 @@ print(choosen_sample)
 
 
 #需要区分dense和sparase
-save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
+save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian']"]
 
 #将要计算的文件保存到/result
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
@@ -1436,7 +1442,7 @@ result_data <- read.csv("pseudotime_map_R3.csv", stringsAsFactors = FALSE)
 # Make sure the columns in the file are named "Var1" and "Result", check the file contents
 head(result_data)
 # Check if all Var1 have corresponding cell names in the Seurat object
-common_cells <- intersect(result_data$Var1, rownames(testAB.integrated@meta.data))
+common_cells <- intersect(result_data$Var3, rownames(testAB.integrated@meta.data))
 if (length(common_cells) < nrow(result_data)) {
   warning("Some cells in '15-21-result.csv' are not found in testAB.integrated metadata!")
 }
@@ -1444,7 +1450,7 @@ if (length(common_cells) < nrow(result_data)) {
 # First create a new column "Result" and assign it to NA
 testAB.integrated@meta.data$Result <- NA
 # Use match() to merge the corresponding relationships
-matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var1)
+matching_indices <- match(rownames(testAB.integrated@meta.data), result_data$Var3)
 testAB.integrated@meta.data$Result <- result_data$Result[matching_indices]
 ##Group by Result
 # Get metadata 
