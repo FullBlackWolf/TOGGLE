@@ -1096,8 +1096,8 @@ ggsave(filename = "Figure 4C-2.pdf", plot = p5, device = 'pdf', width = 21, heig
 
 ```R
 
-Table1 <- table(testAB.integrated$newresults)
-write.table(Table1, file = "The number of cells per cluster.txt", sep ="\t")
+# Table1 <- table(testAB.integrated$newresults)
+# write.table(Table1, file = "The number of cells per cluster.txt", sep ="\t")
 cell_type_cols <- c("#5a5098","#6693b1","#a3caa9","#deedad","#ffffcc","#efd695","#dd9667","#bd5c56","#842844")
 p5 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "shijian", split.by = "Group", pt.size=0.5, label = T,repel = TRUE, raster=FALSE, cols = cell_type_cols) + labs(x = "UMAP1", y = "UMAP2") + theme(panel.border = element_rect(fill=NA,color="black", size=1, linetype="solid"), axis.text.y = element_blank(), axis.ticks.y = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank())
 ggsave(filename = "Figure 4E-1.pdf", plot = p5, device = 'pdf', width = 26, height = 14, units = 'cm')
@@ -1125,8 +1125,8 @@ ggsave(filename = "Figure 4E-2.pdf", plot = p6, device = 'pdf', width = 26, heig
 ---
 
 ```R
-Table1 <- table(testAB.integrated$Group, testAB.integrated$shijian2)
-write.table(Table1, file = "The cell proportion of the new grouping result-group.txt", sep ="\t")
+# Table1 <- table(testAB.integrated$Group, testAB.integrated$shijian2)
+# write.table(Table1, file = "The cell proportion of the new grouping result-group.txt", sep ="\t")
 # Plot cells elevated compared to MCAO group
 tb <- data.frame(table(testAB.integrated$shijian2,testAB.integrated$Sample, testAB.integrated$Group))
 tb=tb[,c(1,3,4)]
