@@ -99,7 +99,7 @@ for(i in 1:length(scRNAlist)){
   HB_m <- match(HB_genes, rownames(sc@assays$RNA))
   HB_genes <- rownames(sc@assays$RNA)[HB_m] 
   HB_genes <- HB_genes[!is.na(HB_genes)] 
-  sc[["HB_percent"]] <- PercentageFeatureSet(sc, pattern = "^Hb") 
+  sc[["HB_percent"]] <- PercentageFeatureSet(sc, features=HB_genes)
   # Assign 'sc' back to scRNAlist[[i]]
   scRNAlist[[i]] <- sc
   # Remove 'sc'
