@@ -458,9 +458,6 @@ adata_merged = kl.preprocessing.merge_tissue_with_singlecell(
     num_samples
     )
 
-
-```
-
 ```
 
 ```python
