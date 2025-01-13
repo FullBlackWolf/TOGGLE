@@ -240,9 +240,25 @@ ggsave(filename = "Preliminary grouping of MI - split by group.pdf", plot = p2, 
 
 Save .h5ad
 ```R
+#Removal of fibroblasts for storage
+testAB.integrated <- subset(testAB.integrated,idents=c("Fibroblasts","Myofibroblast"),invert = FALSE)
+testAB.integrated$RNA_snn_res.0.18 <- NULL
+testAB.integrated$clusters1 <- NULL
+testAB.integrated$clusters2 <- NULL
+testAB.integrated$seurat_clusters <- NULL
+#Re-finding highly variable genes
+testAB.integrated <- NormalizeData(testAB.integrated) %>% 
+  FindVariableFeatures(selection.method = "vst",nfeatures = 3000) %>% 
+  ScaleData() %>% 
+  RunPCA(npcs = 30, verbose = T)
+#save
+save(testAB.integrated, file = "MI-FibroblastCell.Rdata")
+
+###Make sure the default gene is from RNA
 DefaultAssay(testAB.integrated) <- "RNA"
 testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")#转成版本4的矩阵
-###确保选择的是包含所有基因的矩阵
+
+###Make sure you select the matrix that contains all genes.
 sceasy::convertFormat(
   testAB.integrated,
   from = "seurat",
