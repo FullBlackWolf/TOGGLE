@@ -421,13 +421,96 @@ print(csv_path)
 df_orig_adata.to_csv(csv_path, index=False)
 ```
 
+2.3.Unsupervised learning
+---
+```matlab
 
+
+%% Load data and Split to compute
+%% Load data and Split to compute
+MM0 = load('./result/distance_matrix_merged.mat');
+MM0 = MM0.distance_matrix;
+
+%% 读取要排序的对象
+count_=readtable('./result/orig_ident_merged.csv');
+
+%% 得到边界划分点
+%[p,splitlist] = binary_corr_sorting(MM0,20,125,5,5);
+[p,splitlist] = binary_corr_sorting(MM0,20,200,5,5);
+
+%% 对划分点去重
+[uniqueList, ~, ~] = unique(splitlist, 'stable');
+
+%% 对相似度矩阵排序
+MM=MM0(p,p);
+split=[];
+
+%% 重排count_result
+count_result=count_(p,:);
+split_simple=uniqueList;
+
+%% 第一个起始位点置为1
+split_simple(1)=1;
+split_simple=[split_simple,length(MM0)];
+
+%% 计算均值矩阵
+[simple_matrix]=sample_computing(count_result,split_simple,MM,"mean");
+
+
+
+%% 合并成小矩阵
+ClusterReslut=cluster_map(split_simple,simple_matrix,0,0.0002,0);
+count_result.Result = ClusterReslut;
+
+
+%重排小矩阵
+[cluster_map_matrix] = genetic_encoder( ...
+    simple_matrix, ...
+    60, ...% nPop = 50;  % 种群规模大小为30
+    1, ...% nPc = 1; % 子代规模的比例0.8
+    200, ...% maxIt = 200; % 最大迭代次数
+    5 ...% cycletimes = 200; % 循环计算次数
+    );
+
+
+%重拍小矩阵方案2
+% 创建行和列标签（示例）
+%row_labels = cluster_map_label;
+%column_labels = cluster_map_label;
+% 使用 heatmap 函数并传递相应参数
+h = heatmap(cluster_map_matrix);
+%h.YDisplayLabels = row_labels; % 设置行标签
+%h.XDisplayLabels = column_labels; % 设置列标签
+h.ColorLimits = [0,0.0002]%
+
+%% 临近法激活
+corr_matrix = relevance_generate(0.0002,2,cluster_map_matrix);
+hi = heatmap(corr_matrix);
+
+
+%% 编码
+encode_result = encoder_corr_matrix(0.000201,0.000199,10,2,cluster_map_matrix);
+figure(2)
+hj = heatmap(encode_result);
+
+%% 解码
+figure(3)
+[weighting_decode,decode_result] = decoder_corr_matrix(encode_result);
+weighting_result = decode_result;
+hk = heatmap(weighting_result);
+hk.ColorLimits = [33,34]
+
+
+writetable(count_result, './result/result_merged.csv');
+```
 
 
 3.Perform the mapping from tissue to single cells.
 ---
 
 Move `adata_merged.h5ad` from `[LittleSnowFox installation path]\database\Clustering_sample\fibroblasts\data\adata_merged.h5ad` to `C:\GEOANALYSIS\GSE253768\`
+
+Move `result_merged.csv` from `[LittleSnowFox installation path]\database\Clustering_sample\fibroblasts\data\result_merged.csv` to `C:\GEOANALYSIS\GSE253768\`
 
 ```R
 library(SeuratDisk)
@@ -469,7 +552,23 @@ seurat_object@meta.data <- meta_seurat
 head(seurat_object@meta.data)
 
 ##Import the new grouping results
-index_result <- read.csv("result_mixed mapping.csv")
+#index_result <- read.csv("result_merged.csv")
+
+
+
+
+# Load the dataset
+data <- read.csv("result_merged.csv")
+# Modify the Var1 column
+data$Var1 <- paste(data$Var1, data$Var2, sep = "_")
+# Set Var1 as row names and remove the Var1 column
+rownames(data) <- data$Var1
+data <- data[ , !(names(data) %in% "Var1")]
+index_result <- data
+
+
+
+
 ##Make sure the table's Index is consistent with the Cell name of the Seurat object
 ##Set the Index as the row name to facilitate subsequent operations
 rownames(index_result) <- index_result$Var1
