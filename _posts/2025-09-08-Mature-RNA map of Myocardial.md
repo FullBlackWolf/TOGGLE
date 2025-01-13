@@ -7,7 +7,9 @@ tags:
   - Samples
 ---
 
-The default data file storage directory is `C:/GEOANALYSIS/GSE253768`
+The default data file storage directory is `C:/GEOANALYSIS/GSE253768`    
+Highly recommended to use `Rstudio`. Need to select the environment which containing `anndata`, in `Tools > Global options > Python > Python interpreter`   
+
 
 
 1.Preprocessing and generate h5ad file. (R)
