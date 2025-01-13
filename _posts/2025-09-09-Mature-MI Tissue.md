@@ -360,7 +360,7 @@ current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Cluster
 5.2.3.Combine
 
 ```python
-h5ad_filename = "fibroblasts_all_gene.h5ad" #心梗-成纤维细胞-所有基因.h5ad
+h5ad_filename = "fibroblasts_allgene.h5ad" #心梗-成纤维细胞-所有基因.h5ad
 csv_filename = "tissue.csv" #心梗-成纤维细胞-所有基因.h5ad
 sample_choose = 'fibroblasts'
 num_samples = 8000
