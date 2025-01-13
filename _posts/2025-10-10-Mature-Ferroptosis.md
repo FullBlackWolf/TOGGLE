@@ -834,7 +834,7 @@ print(choosen_sample)
 
 
 #需要区分dense和sparase
-save_list = ["orig_adata.obsm['X_umap']", "orig_adata.obs['shijian2']"]
+save_list = ["orig_adata.obsm['X_umap']"]
 
 #将要计算的文件保存到/result
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
