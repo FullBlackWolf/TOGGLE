@@ -423,6 +423,9 @@ df_orig_adata.to_csv(csv_path, index=False)
 
 2.3.Unsupervised learning (matlab)
 ---
+
+The matlab file is located in `[LittleSnowFox package]\database\Clustering_sample\fibroblasts\main_v3_matlab_run_me_merged_tissue.m`
+
 ```matlab
 
 
