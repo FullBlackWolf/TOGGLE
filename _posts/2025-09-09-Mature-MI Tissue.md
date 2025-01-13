@@ -239,7 +239,7 @@ ggsave(filename = "Preliminary grouping of MI - split by group.pdf", plot = p2, 
 2.1.Prepare the single-cell maps needed for use.
 ---
 
-2.1.1.Save .h5ad
+2.1.1.Save .h5ad (R)
 ---
 
 
@@ -271,7 +271,7 @@ sceasy::convertFormat(
 )
 ```
 
-2.1.2.Run similarity
+2.1.2.Run similarity (Python)
 ---
 
 ```python
@@ -374,7 +374,7 @@ adata_merged.write(file_path)
 
 
 
-2.2.Projecting organizations onto a single-cell functional map, calculate the cell similarity of the whole genome.
+2.2.Projecting organizations onto a single-cell functional map, calculate the cell similarity of the whole genome.(Python)
 ---
 
 ```python
@@ -421,7 +421,7 @@ print(csv_path)
 df_orig_adata.to_csv(csv_path, index=False)
 ```
 
-2.3.Unsupervised learning
+2.3.Unsupervised learning (matlab)
 ---
 ```matlab
 
@@ -505,7 +505,7 @@ writetable(count_result, './result/result_merged.csv');
 ```
 
 
-3.Perform the mapping from tissue to single cells.
+3.Perform the mapping from tissue to single cells. (R)
 ---
 
 Move `adata_merged.h5ad` from `[LittleSnowFox installation path]\database\Clustering_sample\fibroblasts\data\adata_merged.h5ad` to `C:\GEOANALYSIS\GSE253768\`
@@ -619,7 +619,7 @@ ggsave(filename = "UMAP diagram highlighting MI and Sham points.pdf", plot = p1,
      alt="Myocardial-8.png" 
      title="Myocardial-8.png">
 
-4.Save the result
+4.Save the result (R)
 ---
 
 ```R
