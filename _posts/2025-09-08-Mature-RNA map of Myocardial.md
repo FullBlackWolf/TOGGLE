@@ -7,6 +7,8 @@ tags:
   - Samples
 ---
 
+The default data file storage directory is `C:/GEOANALYSIS/GSE253768`
+
 
 1.Preprocessing and generate h5ad file. (R)
 ---
@@ -160,6 +162,21 @@ p1 <- DimPlot(testAB.integrated, reduction = "umap", group.by = "clusters2", pt.
 ggsave(filename = "Preliminary grouping of MI - overall.pdf", plot = p1, device = 'pdf', width = 21, height = 18, units = 'cm')
 ```
 
+```R
+testAB.integrated <- subset(testAB.integrated,idents=c("Fibroblasts","Myofibroblast"),invert = FALSE)
+testAB.integrated$RNA_snn_res.0.18 <- NULL
+testAB.integrated$clusters1 <- NULL
+testAB.integrated$clusters2 <- NULL
+testAB.integrated$seurat_clusters <- NULL
+#Re-finding highly variable genes
+testAB.integrated <- NormalizeData(testAB.integrated) %>% 
+  FindVariableFeatures(selection.method = "vst",nfeatures = 3000) %>% 
+  ScaleData() %>% 
+  RunPCA(npcs = 30, verbose = T)
+# Save
+save(testAB.integrated, file = "MI-FibroblastCell.Rdata")
+```
+
 
 1.3.Exporting RNA files
 ---
@@ -167,7 +184,7 @@ ggsave(filename = "Preliminary grouping of MI - overall.pdf", plot = p1, device 
 
 ```R
 # Load data
-load("C:/GEOANALYSIS/GSE253768/MI Cell-15 clusters.Rdata")
+load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
 # Downgrade the matrix to an older version if necessary
 testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
 # Extract fibroblasts from the myocardial infarction group
@@ -214,6 +231,7 @@ sceasy::convertFormat(
 )
 ```
 
+
 2.Calculate functional mapping.
 ---
 
@@ -238,7 +256,7 @@ current_folder = kl.workcatalogue.choosemode_kl(parent_directory_origin,'Cluster
 choosen_sample = "fibroblasts"
 
 #选择.h5ad文件
-h5ad_filename = "MI-高变基因.h5ad"
+h5ad_filename = "MI_fiberRNA.h5ad"
 
 
 #运行自带的示例，并获取稀疏矩阵
@@ -349,7 +367,7 @@ h = heatmap(cluster_map_matrix);
 %h.YDisplayLabels = row_labels; % 设置行标签
 %h.XDisplayLabels = column_labels; % 设置列标签
 h.ColorLimits = [0,0.001]%
-% writetable(count_result, './result/result_RNA.csv');
+
 
 %% 临近法激活
 corr_matrix = relevance_generate(0.0001,1,cluster_map_matrix);
@@ -368,11 +386,14 @@ figure(3)
 weighting_result = decode_result + 2*weighting_decode;
 hk = heatmap(weighting_result);
 hk.ColorLimits = [60,65]
-```
 
+writetable(count_result, './result/result_RNA.csv');
+```
 
 4.Generate RNA map
 ---
+
+Move `result_RNA.csv` from `[Little Snow Fox installation directory]\database\Clustering_sample\fibroblasts\result` to `C:\GEOANALYSIS\GSE253768`.
 
 ```R
 # Import the results
