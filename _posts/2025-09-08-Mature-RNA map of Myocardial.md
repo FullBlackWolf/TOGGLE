@@ -167,7 +167,7 @@ ggsave(filename = "Preliminary grouping of MI - overall.pdf", plot = p1, device 
 
 ```R
 # Load data
-load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
+load("C:/GEOANALYSIS/GSE253768/MI Cell-15 clusters.Rdata")
 # Downgrade the matrix to an older version if necessary
 testAB.integrated[["RNA"]] <- as(object = testAB.integrated[["RNA"]], Class = "Assay")
 # Extract fibroblasts from the myocardial infarction group
