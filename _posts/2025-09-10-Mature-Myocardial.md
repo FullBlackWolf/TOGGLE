@@ -12,6 +12,7 @@ tags:
 ---
 
 The default data file storage directory is `C:/GEOANALYSIS/GSE253768`   
+Highly recommended to use `Rstudio`. Need to select the environment which containing `anndata`, in `Tools > Global options > Python > Python interpreter`  
 
 ```Python
 #File Structure
