@@ -427,11 +427,13 @@ df_orig_adata.to_csv(csv_path, index=False)
 3.Perform the mapping from tissue to single cells.
 ---
 
+Move `adata_merged.h5ad` from `[LittleSnowFox installation path]\database\Clustering_sample\fibroblasts\data\adata_merged.h5ad` to `C:\GEOANALYSIS\GSE253768\`
+
 ```R
 library(SeuratDisk)
 # Set the input file path and output file path
-input_file <- "tissue_and_sc.h5ad" # Replace with your h5ad file path
-output_file <- "tissue_and_sc.h5seurat" # Convert to temporary h5seurat file
+input_file <- "adata_merged.h5ad" # Replace with your h5ad file path
+output_file <- "adata_merged.h5seurat" # Convert to temporary h5seurat file
 # Convert .h5ad to .h5seurat format
 Convert(input_file, dest = "h5seurat", overwrite = TRUE)
 # Load .h5seurat file to Seurat object
