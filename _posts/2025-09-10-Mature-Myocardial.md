@@ -11,7 +11,7 @@ tags:
 1.Preprocessing
 ---
 
-The default data file storage directory is `C:/GEOANALYSIS/GSE253768`
+The default data file storage directory is `C:/GEOANALYSIS/GSE253768`   
 
 ```Python
 #File Structure
