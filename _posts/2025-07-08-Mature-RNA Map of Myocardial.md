@@ -1,5 +1,5 @@
 ---
-title: "Mature Functions: RNA map of Myocardial"
+title: "Mature Functions: RNA Map of Myocardial"
 date: 2024-12-04T13:34:30-04:00
 categories:
   - Blog
