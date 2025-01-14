@@ -112,7 +112,7 @@ We provide GEO dataset backup and R language library file backup
 Terminally differentiated cells undergo programmed cell death through distinct molecular pathways, including ferroptosis, apoptosis, and pyroptosis. However, identifying specific types remains challenging due to the complexity of signaling pathways, marker genes, and the limitations of current tools.   
 
 𝑨𝒍𝒈𝒐𝒓𝒊𝒕𝒉𝒎 𝑪𝒉𝒂𝒍𝒍𝒆𝒏𝒈𝒆𝒔:  
-It is necessary to use unsupervised algorithms because the function and lineage changes of cells are a continuous process. If it is possible to obtain a broadly representative set of labeled samples that cover the entire fate map, then the status of cells on the fate map is known, eliminating the need for differentiation between function and lineage. The current cell tracking markers are not only expensive but also cannot be used on mature cells that no longer divide, which presents the following issues:
+It is necessary to use unsupervised algorithms because the function and lineage changes of cells are a continuous process. If it is possible to obtain a broadly representative set of labeled samples that cover the entire fate map, then the status of cells on the fate map is known, eliminating the need for differentiation between function and lineage. The current cell tracking markers are not only expensive but also cannot be used on mature cells that no longer divide, which presents the following issues:   
 •	Endpoint loss (e.g., missing terminal samples like dead neurons in stroke).  
 •	Time loss (difficulty in sampling at multiple intervals).  
 •	Sample imbalance (uneven representation of cell stages), and the absence of clear fate boundaries (gradual transitions in processes like ferroptosis).   
