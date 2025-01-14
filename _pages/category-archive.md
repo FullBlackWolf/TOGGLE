@@ -10,9 +10,10 @@ author_profile: true
 ---
 Python = `3.9.18`(No compatibility testing performed)  
 Matlab = `R2024a`(In theory, all versions are supported, because Matlab is backward compatible)   
-    --Matlab Tool Box = `Parllel computing toolbox`, `Statics and machine learning toolbox`    
-R = `4.3.2`  
-Anaconda/Miniconda (Highly recommend)  
+    -----Matlab Tool Box = `Parllel computing toolbox`   
+                           `Statics and machine learning toolbox`       
+R = `4.3.2`     
+Anaconda/Miniconda (Highly recommend)     
   
   
 2.PIP Install
