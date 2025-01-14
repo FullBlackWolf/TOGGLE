@@ -51,9 +51,9 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
        ---[R_processing] #Preprocessing with R
               ---Hematopoiesis_all.R
               ---Hematopoiesis_prog.R
-              ---Myocardial_infarction.R
-              ---Myocardial_infarction_RNA.R
-              ---Neuron.R
+              ---R-Mature-Myocardial.R
+              ---R-Mature-MI Tissue.R
+              ---R-Mature-Ferroptosis.R
               ---Reprogramming_all.R
               ---Reprogramming_prog.R
        ---cigarette.ipynb #First step for e-cigarette analysis
