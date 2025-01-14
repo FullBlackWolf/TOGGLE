@@ -271,6 +271,9 @@ sceasy::convertFormat(
 )
 ```
 
+Save the R variable table as `variables.Rdata`.   
+
+
 2.1.2.Run similarity (Python)
 ---
 
@@ -514,6 +517,8 @@ writetable(count_result, './result/result_merged.csv');
 
 3.Perform the mapping from tissue to single cells. (R)
 ---
+
+Read the R variable table as `variables.Rdata`.   
 
 Move `adata_merged.h5ad` from `[LittleSnowFox installation path]\database\Clustering_sample\fibroblasts\data\adata_merged.h5ad` to `C:\GEOANALYSIS\GSE253768\`
 
