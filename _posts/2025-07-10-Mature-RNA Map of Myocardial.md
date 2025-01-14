@@ -233,6 +233,8 @@ sceasy::convertFormat(
 )
 ```
 
+Save the R variable table as `variables.Rdata`.   
+
 
 2.Calculate functional mapping. (Python)
 ---
@@ -396,6 +398,8 @@ writetable(count_result, './result/result_RNA.csv');
 
 4.Generate RNA map (R)
 ---
+
+Read the R variable table as `variables.Rdata`.   
 
 Move `result_RNA.csv` from `[Little Snow Fox installation directory]\database\Clustering_sample\fibroblasts\result` to `C:\GEOANALYSIS\GSE253768`.
 
