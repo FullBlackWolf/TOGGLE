@@ -479,12 +479,13 @@ writetable(count_result, './result/result_diff.csv'); #导入R
 Open the R variable table as `variables.Rdata`.
 
 
+Move the `result_diff.csv` from `[Package path of LittleSnowFox]\database\Clustering_sample\fibroblasts\result\result_diff.csv` to `C:\GEOANALYSIS\GSE253768\MI-FibroblastCell.Rdata`
+
 ```R
 #reload
 load("C:/GEOANALYSIS/GSE253768/MI-FibroblastCell.Rdata")
 ```
 
-The original location of `result_diff.csv` is `[Package path of LittleSnowFox]\database\Clustering_sample\fibroblasts\result\result_diff.csv`.
 
 ```R
 # Import the results
