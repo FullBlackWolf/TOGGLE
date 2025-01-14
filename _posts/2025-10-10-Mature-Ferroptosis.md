@@ -1187,7 +1187,7 @@ write.csv(results0, file="Group R2-1 vs Group R2-5.csv")
 
 s0 <- subset(testAB.integrated,idents=c("Group R2-1", "Group R2-6"),invert = FALSE)
 s0 <- as.SingleCellExperiment(s0)
-group0 <- factor(s0$shijian2)
+group0 <- factor(s0$shijian)
 results0 <- DEsingle(counts = s0, group = group0, parallel = TRUE)
 write.csv(results0, file="Group R2-1 vs Group R2-6.csv")
 
