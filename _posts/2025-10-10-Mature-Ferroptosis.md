@@ -1392,8 +1392,6 @@ h = heatmap(cluster_map_matrix);
 h.ColorLimits = [0.00005,0.0003]%
 
 %writetable(count_result, './result/result_group.csv');
-writetable(count_result,"result/pseudotime_map_R3.csv");
-
 
 
 %% 临近法激活
@@ -1413,6 +1411,8 @@ weighting_result = weighting_decode + decode_result;
 hk = heatmap(decode_result);
 hk.ColorLimits = [26,27]
 
+
+writetable(count_result,"result/pseudotime_map_R3.csv");
 ```
 
 
