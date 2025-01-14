@@ -15,7 +15,7 @@ tags:
 1.Main: Adult mice-e-cigarette-only e-cigarette and air-only difference in genes
 ---
 
-1.1.Calculate the correlation of RNA.
+1.1.Calculate the correlation of RNA. (Python)
 ---
 
 ```python
@@ -109,7 +109,7 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
-1.2.Cluster RNA using unsupervised methods.
+1.2.Cluster RNA using unsupervised methods. (Matlab)
 ---
 
 ```matlab
@@ -173,7 +173,7 @@ writetable(count_result, filename);
 
 ```
 
-1.3.Obtain group segmentation results.
+1.3.Obtain group segmentation results. (Matlab)
 ---
 
 ```matlab
@@ -220,7 +220,7 @@ We selected a set shown in the article for testing, but there are actually many 
 2.Other potential experiments.
 ---
 
-Adult mice-Electronic cigarette
+Adult mice-Electronic cigarette (Python)
 ---
 
 ```python
@@ -409,7 +409,7 @@ filename = fullfile('result', 'Adult_mice-Electronic_cigarette_result.csv');
 
 ```
 
-Adult_mice-Electronic_freshair
+Adult_mice-Electronic_freshair (Python)
 ---
 
 ```python
@@ -503,6 +503,8 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
+(Matlab)
+
 ```matlab
 
 
@@ -572,7 +574,7 @@ filename = fullfile('result', 'Adult_mice-Electronic_freshair_result.csv');
 Fresh air in children vs adults - Child mice - E-cigarettes
 ---
 
-Child mice - aVc_c
+Child mice - aVc_c (Python)
 ---
 
 ```python
@@ -665,6 +667,9 @@ current_save_path_csv = os.path.join(current_save_path, 'Child mice - aVc_c.csv'
 pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
+
+(Matlab)
+
 ```matlab
 
 
@@ -749,7 +754,7 @@ hk.ColorLimits = [23,25]
 
 Child vs adult electronic cigarettes - Child mice - electronic cigarettes
 ---
-Child mice - c_c
+Child mice - c_c (Python)
 ---
 ```python
  
@@ -842,6 +847,8 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
+(Matlab)
+
 ```matlab
 
 
@@ -929,7 +936,7 @@ hk.ColorLimits = [35,37]
 
 Electronic cigarettes vs. fresh air - adult mice - electronic cigarettes
 ---
-aVc_c
+aVc_c (Python)
 ---
 ```python
  
@@ -1022,6 +1029,7 @@ pd.DataFrame(label).to_csv(current_save_path_csv, index=False)
 print(f"文件已保存到 {current_save_path_csv}")
 ```
 
+(Matlab)
 
 ```matlab
 
