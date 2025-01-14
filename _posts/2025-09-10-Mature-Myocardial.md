@@ -450,7 +450,7 @@ h = heatmap(cluster_map_matrix);
 h.ColorLimits = [0,0.0001]%
 
 %if you want to save that
-writetable(count_result, './result/result_diff.csv'); #导入R
+
 
 
 %% 临近法激活
@@ -469,6 +469,8 @@ figure(3)
 weighting_result = decode_result;
 hk = heatmap(weighting_result);
 hk.ColorLimits = [30,31]
+
+writetable(count_result, './result/result_diff.csv'); #导入R
 ```
 
 2.4.Use the group information (R)
