@@ -274,6 +274,10 @@ sceasy::convertFormat(
 2.1.2.Run similarity (Python)
 ---
 
+
+Move `C:/GEOANALYSIS/GSE253768/fibroblasts_allgene.h5ad` to `[Path of LittleSnowFox]/database/Clustering_sample/fibroblasts/data/`
+
+
 ```python
 
 import numpy as np
