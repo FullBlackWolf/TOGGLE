@@ -237,6 +237,8 @@ sceasy::convertFormat(
 2.Calculate functional mapping. (Python)
 ---
 
+Move `C:/GEOANALYSIS/GSE253768/MI_fiberRNA.h5ad` to `[Path of LittleSnowFox]/database/Clustering_sample/fibroblasts/data/`
+
 ```python
 import numpy as np
 import os
