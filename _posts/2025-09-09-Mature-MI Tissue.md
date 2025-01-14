@@ -589,7 +589,7 @@ mi_cells <- c("MI.1", "MI.2", "MI.3", "MI.4")
 #Update the meta.data of the Seurat object and create a new Fenqun3 column
 seurat_object@meta.data <- seurat_object@meta.data %>%
   mutate(Fenqun4 = case_when(
-    Cell_Barcode %in% mi_cells ~ "MI", 
+    orig.ident %in% mi_cells ~ "MI", 
     Result >= 1 & Result <= 9 ~ "FibR2-G1",
     Result >= 10 & Result <= 12 ~ "FibR2-G2",
     Result >= 13 & Result <= 25 ~ "FibR2-G3",
