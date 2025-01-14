@@ -24,7 +24,7 @@ Highly recommended to use `Rstudio`. Need to select the environment which contai
 #       ---MI2.csv
 
 ```
-
+ 
 
 1.1.Load required R packages (R)
 ---
