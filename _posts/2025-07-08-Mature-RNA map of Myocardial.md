@@ -12,10 +12,10 @@ Highly recommended to use `Rstudio`. Need to select the environment which contai
 
 
 
-1.Preprocessing and generate h5ad file. (R)
+1.Preprocessing and generate h5ad file. 
 ---
 
-1.1.Load required packages
+1.1.Load required packages (R)
 ---
 
 ```R
@@ -82,7 +82,7 @@ for (i in 1:length(dir_name)) {
   }
 ```
 
-1.2.Perform a simple merge and then plot quality control (QC)
+1.2.Perform a simple merge and then plot quality control (R)
 ---
 
 ```R
@@ -180,7 +180,7 @@ save(testAB.integrated, file = "MI-FibroblastCell.Rdata")
 ```
 
 
-1.3.Exporting RNA files
+1.3.Exporting RNA files (R)
 ---
 
 
@@ -234,7 +234,7 @@ sceasy::convertFormat(
 ```
 
 
-2.Calculate functional mapping.
+2.Calculate functional mapping. (Python)
 ---
 
 ```python
@@ -307,7 +307,7 @@ csv_path = os.path.join(current_folder_result, csv_name)
 print(csv_path)
 df_orig_adata.to_csv(csv_path, index=False)
 ```
-3.Unsupervised learning
+3.Unsupervised learning (Matlab)
 ---
 
 ```matlab
@@ -392,7 +392,7 @@ hk.ColorLimits = [60,65]
 writetable(count_result, './result/result_RNA.csv');
 ```
 
-4.Generate RNA map
+4.Generate RNA map (R)
 ---
 
 Move `result_RNA.csv` from `[Little Snow Fox installation directory]\database\Clustering_sample\fibroblasts\result` to `C:\GEOANALYSIS\GSE253768`.
