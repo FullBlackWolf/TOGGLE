@@ -574,7 +574,7 @@ index_result <- data
 
 ##Make sure the table's Index is consistent with the Cell name of the Seurat object
 ##Set the Index as the row name to facilitate subsequent operations
-rownames(index_result) <- index_result$Var1
+#rownames(index_result) <- index_result$Var1
 ##Match the Result column to the metadata of the Seurat object according to the Index
 metadata <- seurat_object@meta.data # Get the metadata of the Seurat object
 metadata$Result <- index_result[rownames(metadata), "Result"]
