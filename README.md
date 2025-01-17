@@ -12,5 +12,5 @@ Chen, Junpeng, et al. "TOGGLE identifies fate and function process within a sing
 
 Debug
 ---
-2025-01-13 Updated to Pypi: https://pypi.org/project/LittleSnowFox/
+2025-01-13 Updated to Pypi: https://pypi.org/project/LittleSnowFox/   
 2025-01-14 Published first version, finished sample guide
