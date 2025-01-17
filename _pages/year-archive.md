@@ -9,6 +9,11 @@ Preprint
 
 Chen, Junpeng, et al. "TOGGLE identifies fate and function process within a single type of mature cell through single-cell transcriptomics." bioRxiv (2025): 2025-01.
 
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Cardiolablogo.png" 
+     alt="Cardiolablogo.png" 
+     title="Cardiolablogo.png">
+
+
 Background
 ---
 
