@@ -18,4 +18,4 @@ Debug
 In Comming
 ---
 2025-01-17 {In building}: Docker one-click deployment  
-2025-01-17 {In building}: More cool features
+2025-01-17 {In building}: More cool functions
