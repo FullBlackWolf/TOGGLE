@@ -1,5 +1,5 @@
 ---
-title: "Welcome to TOGGLE!"
+title: "Welcome to TOGGLE(Old name: KAILIN)!"
 permalink: /posts/
 author_profile: true
 ---
