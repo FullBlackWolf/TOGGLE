@@ -58,7 +58,7 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "TOGGLE(KAILIN): Single Cell Fate Tracing tools"
+  name   : "TOGGLE(KAILIN): Single Cell Function Tracing tools"
   avatar : "/assets/images/Cardiolablogo.png"
   bio    : "𝓒𝓪𝓻𝓵𝓵'𝓼 𝓵𝓪𝓫"
   links:
