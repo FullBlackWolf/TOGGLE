@@ -4,10 +4,11 @@ permalink: /posts/
 author_profile: true
 ---
 
-Preprint
+Publications
 ---
 
-Chen, Junpeng, et al. "TOGGLE identifies fate and function process within a single type of mature cell through single-cell transcriptomics." bioRxiv (2025): 2025-01.
+Chen, Junpeng, et al. "TOGGLE identifies fate and function process within a single type of mature cell through single-cell transcriptomics." bioRxiv (2025): 2025-01.  
+Zeng, L., Yang, K., Yu, G. 𝒞𝒽𝑒𝓃, 𝒥.*, et al. Advances in research on immunocyte iron metabolism, ferroptosis, and their regulatory roles in autoimmune and autoinflammatory diseases. Cell Death Dis 15, 481 (2024). https://doi.org/10.1038/s41419-024-06807-2.    
 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Cardiolablogo.png" 
      alt="Cardiolablogo.png" 
