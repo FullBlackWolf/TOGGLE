@@ -13,7 +13,7 @@ title: "About"
 </div>
 <br>
 <div style="text-align: justify;">
-These documents were written by Junpeng Chen, who is the project leader. Junpeng Chen designed the machine learning component and the mathematics theory part. Junyao Jiang carried out the single-cell analysis. Kailin Yang, Haihui Wu, and Shanshan Wang conducted the animal experiments. You Li and TIanda Sun solved many key problems related to the project.
+These documents were written by Junpeng Chen, who is the project leader. Junpeng Chen designed the machine learning component and the mathematics theory part. Kailin Yang and Junyao Jiang carried out the single-cell analysis. Kailin Yang, Haihui Wu, and Shanshan Wang conducted the animal experiments. You Li and TIanda Sun solved many key problems related to the project. Kailin Yang is the leader of animal experiments.
 </div>
 <br>
 <div style="text-align: justify;">
