@@ -1,4 +1,4 @@
----
+![image](https://github.com/user-attachments/assets/56f170ea-3613-4859-b272-294135ca398a)---
 title: "Welcome to TOGGLE(Old name: KAILIN)!"
 permalink: /posts/
 author_profile: true
@@ -135,3 +135,10 @@ Ferroptotic Neurons Prediction. A: Cells in previous Groups R2-2 and R2-3 furthe
      alt="Result" 
      title="Result">
 
+𝑻𝒂𝒔𝒌 5: 𝑷𝒓𝒆𝒔𝒔𝒖𝒓𝒆 𝒂𝒏𝒅 𝒏𝒐𝒊𝒔𝒆 𝒕𝒆𝒔𝒕𝒊𝒏𝒈 𝒐𝒇 𝒄𝒆𝒍𝒍𝒔 𝒇𝒐𝒓 𝒕𝒉𝒆 𝒔𝒂𝒎𝒆 𝒕𝒚𝒑𝒆.
+<div style="text-align: justify;">
+a: The real label; b: Our classification result
+</div>
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/noise_test.png" 
+     alt="Noise" 
+     title="Noise">
