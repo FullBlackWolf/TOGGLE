@@ -11,18 +11,7 @@ Chen, Junpeng, et al. "TOGGLE identifies fate and function process within a sing
 https://www.biorxiv.org/content/10.1101/2025.01.01.631041v1
         
         
-        
-        
-        
-        
-        
-           
   
-  
-Debug
----
-2025-01-13 Updated to Pypi: https://pypi.org/project/LittleSnowFox/   
-2025-01-14 Published first version, finished sample guide  
   
   
 In Comming
