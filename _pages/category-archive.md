@@ -67,7 +67,7 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
 
 ```python
 #link
-https://biocomputing.cowtransfer.com/s/0e565a54f32141
+https://biocomputing.
 
 #Password  
 giguig
