@@ -7,7 +7,7 @@ author_profile: true
 𝘚𝘶𝘱𝘱𝘰𝘳𝘵 𝘵𝘩𝘦 𝘰𝘱𝘦𝘯 𝘴𝘰𝘶𝘳𝘤𝘦 𝘮𝘰𝘷𝘦𝘮𝘦𝘯𝘵 𝘵𝘰 𝘢𝘭𝘭𝘦𝘷𝘪𝘢𝘵𝘦 𝘸𝘰𝘳𝘬 𝘱𝘳𝘦𝘴𝘴𝘶𝘳𝘦 𝘧𝘰𝘳 𝘴𝘤𝘪𝘦𝘯𝘵𝘪𝘧𝘪𝘤 𝘱𝘦𝘦𝘳𝘴, 𝘦𝘭𝘪𝘮𝘪𝘯𝘢𝘵𝘦 𝘵𝘦𝘤𝘩𝘯𝘪𝘤𝘢𝘭 𝘣𝘢𝘳𝘳𝘪𝘦𝘳𝘴, 𝘢𝘯𝘥 𝘱𝘳𝘰𝘮𝘰𝘵𝘦 𝘪𝘯𝘵𝘦𝘳𝘥𝘪𝘴𝘤𝘪𝘱𝘭𝘪𝘯𝘢𝘳𝘺 𝘤𝘰𝘭𝘭𝘢𝘣𝘰𝘳𝘢𝘵𝘪𝘰𝘯.  
 
 
-Note: To protect the originality of the manuscript, we will release the password for the key functional package after peer review has been completed.
+Note: To protect the originality of the manuscript, we will release the password for the key functional package during peer review, public person will have ti after peer review has been completed.
 ---
   
 
