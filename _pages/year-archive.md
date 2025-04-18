@@ -23,7 +23,7 @@ Zeng, L., Yang, K., Yu, G. 𝒞𝒽𝑒𝓃, 𝒥.*, et al. Advances in research
 Innovation
 ---
 <div style="text-align: justify;">
-We named this method "Trajectory of Gene Generated Lineage Estimation (TOGGLE)." Based on the above issues, this study developed a new algorithm—TOGGLE. Compared with Cospar, Super OT, WOT, and GAN-based OT algorithms, TOGGLE offers the following advantages: 
+We named this self-supervised learning(a kind of unsupervised learning) method "Trajectory of Gene Generated Lineage Estimation (TOGGLE)." Based on the above issues, this study developed a new algorithm—TOGGLE. Compared with Cospar, Super OT, WOT, and GAN-based OT algorithms, TOGGLE offers the following advantages: 
 </div>
 <div style="text-align: justify;">
 (1) This addresses a novel type of tracing problem. Except for immune cells, mature cells generally do not undergo cloning, making lineage tracing based on cell division unsuitable for mature cells. Mature cells exhibit highly similar temporal states, and their capture is often limited to a single stage within the programmed fate of cells. Based on the ability to perform mature cell subtype/type classification and lineage tracing prediction, we extended functionality to enable classification within the same subtype/type of cells based on their specific functional states. 
