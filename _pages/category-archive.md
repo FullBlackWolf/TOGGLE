@@ -75,7 +75,7 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
 https://biocomputing.cowtransfer.com/s/090b3801dedd44
 
 #Password  
-
+atsfgx1791
 ```
 
 When installing TOGGLE (KALIN) using Anaconda, the path is typically:  
