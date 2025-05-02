@@ -4,14 +4,26 @@ permalink: /posts/
 author_profile: true
 ---
 
-Publications
+Related Publications
 ---
 
-Chen, Junpeng, et al. "TOGGLE identifies fate and function process within a single type of mature cell through single-cell transcriptomics." bioRxiv (2025): 2025-01.  
+𝒞𝒽𝑒𝓃, 𝒥.*, et al. "TOGGLE identifies fate and function process within a single type of mature cell through single-cell transcriptomics." bioRxiv (2025): 2025-01.  
     
 Zeng, L., Yang, K., Yu, G. 𝒞𝒽𝑒𝓃, 𝒥.*, et al. Advances in research on immunocyte iron metabolism, ferroptosis, and their regulatory roles in autoimmune and autoinflammatory diseases. Nature - Cell Death Dis 15, 481 (2024). https://doi.org/10.1038/s41419-024-06807-2
         
-        
+
+Tan, Y., Zhang, Z., Zheng, C., Wintergerst, K. A., Keller, B. B., & 𝒞𝒶𝒾, ℒ*. (2020). Mechanisms of diabetic cardiomyopathy and potential therapeutic strategies: preclinical and clinical evidence. Nature Reviews Cardiology, 17(9), 585-607.
+
+
+Wang, X., Chen, X., Zhou, W., Men, H., Bao, T., Sun, Y., ... & 𝒞𝒶𝒾, ℒ*. (2022). Ferroptosis is essential for diabetic cardiomyopathy and is prevented by sulforaphane via AMPK/NRF2 pathways. Acta Pharmaceutica Sinica B, 12(2), 708-722.
+
+
+Wang, J., Song, Y., Elsherif, L., Song, Z., Zhou, G., Prabhu, S. D., ... & 𝒞𝒶𝒾, ℒ*. Cardiac metallothionein induction plays the major role in the prevention of diabetic cardiomyopathy by zinc supplementation. Circulation, 113(4), 544-554.
+
+Zhang, C., Tan, Y., Miao, X., Bai, Y., Feng, W., Li, X., & 𝒞𝒶𝒾, ℒ*. (2012). Fgf21 Expresses in Diabetic Hearts and Protects from Palmitate-and Diabetes-Induced Cardiac Cell Death In Vitro and In Vivo Via Erk1/2-Dependent P38 Mapk/ampk Signaling Pathways.
+
+
+Klionsky, D. J., Abdel-Aziz, A. K., Abdelfatah, S., Abdellatif, M., Abdoli, A., Abel, S., ... & Bartek, J. (2021). Guidelines for the use and interpretation of assays for monitoring autophagy. autophagy, 17(1), 1-382.
         
                
 
