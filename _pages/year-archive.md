@@ -13,7 +13,7 @@ Zeng, L., Yang, K., Yu, G. 𝒞𝒽𝑒𝓃, 𝒥.*, et al. Advances in research
         
 Tan, Y., Zhang, Z., Zheng, C., Wintergerst, K. A., Keller, B. B., & 𝒞𝒶𝒾, ℒ*. (2020). Mechanisms of diabetic cardiomyopathy and potential therapeutic strategies: preclinical and clinical evidence. Nature Reviews Cardiology, 17(9), 585-607.
         
-Carll AP, Arab C, Salatini R, Miles MD, Nystoriak MA, Fulghum KL, Riggs DW, Shirk GA, Theis WS, Talebi N, Bhatnagar A, Conklin DJ (2022). E-cigarettes and their lone constituents induce cardiac arrhythmia and conduction defects in mice. Nature Communications. 13(1):6088.
+𝒞𝒶𝓇𝓁𝓁 𝒜𝒫*, Arab C, Salatini R, Miles MD, Nystoriak MA, Fulghum KL, Riggs DW, Shirk GA, Theis WS, Talebi N, Bhatnagar A, Conklin DJ (2022). E-cigarettes and their lone constituents induce cardiac arrhythmia and conduction defects in mice. Nature Communications. 13(1):6088.
         
 Wang, X., Chen, X., Zhou, W., Men, H., Bao, T., Sun, Y., ... & 𝒞𝒶𝒾, ℒ*. (2022). Ferroptosis is essential for diabetic cardiomyopathy and is prevented by sulforaphane via AMPK/NRF2 pathways. Acta Pharmaceutica Sinica B, 12(2), 708-722.
         
