@@ -20,7 +20,7 @@ Wang, X., Chen, X., Zhou, W., Men, H., Bao, T., Sun, Y., ... & 𝒞𝒶𝒾, ℒ
 
 Wang, J., Song, Y., Elsherif, L., Song, Z., Zhou, G., Prabhu, S. D., ... & 𝒞𝒶𝒾, ℒ*. Cardiac metallothionein induction plays the major role in the prevention of diabetic cardiomyopathy by zinc supplementation. Circulation, 113(4), 544-554.
 
-Zhang, C., Tan, Y., Miao, X., Bai, Y., Feng, W., Li, X., & 𝒞𝒶𝒾, ℒ*. (2012). Fgf21 Expresses in Diabetic Hearts and Protects from Palmitate-and Diabetes-Induced Cardiac Cell Death In Vitro and In Vivo Via Erk1/2-Dependent P38 Mapk/ampk Signaling Pathways.
+Zhang, C., Tan, Y., Miao, X., Bai, Y., Feng, W., Li, X., & 𝒞𝒶𝒾, ℒ*. Fgf21 Expresses in Diabetic Hearts and Protects from Palmitate-and Diabetes-Induced Cardiac Cell Death In Vitro and In Vivo Via Erk1/2-Dependent P38 Mapk/ampk Signaling Pathways. Circulation
 
 
 Klionsky, D. J., Abdel-Aziz, A. K., Abdelfatah, S., Abdellatif, M., Abdoli, A., Abel, S., ... & Bartek, J. (2021). Guidelines for the use and interpretation of assays for monitoring autophagy. autophagy, 17(1), 1-382.
