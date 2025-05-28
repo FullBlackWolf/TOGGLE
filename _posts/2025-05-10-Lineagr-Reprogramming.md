@@ -52,7 +52,7 @@ Save .csv and .mat
 ```python
 
 #需要区分dense和sparase
-save_list = ["orig_adata.obsm['X_emb']", "orig_adata.obs['label']"]
+save_list = ["orig_adata.obs['label']","orig_adata.obsm['X_emb']"]
 
 #将要计算的文件保存到/result
 merged_csv,result_directory = kl.workcatalogue.kl_save(loading_directory,choosen_sample,distance_matrix,save_list,orig_adata)
