@@ -75,7 +75,7 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
 https://biocomputing.cowtransfer.com/s/090b3801dedd44
 
 #Password  
-atsfgx1791
+Please see the password attached to the manuscript. It will be made publicly accessible upon publication.
 ```
 
 When installing TOGGLE (KALIN) using Anaconda, the path is typically:  
@@ -98,7 +98,7 @@ Overwrite the files in
 https://biocomputing.cowtransfer.com/s/eee620f9e5124a
 
 #password
-utrm19305
+Please see the password attached to the manuscript. It will be made publicly accessible upon publication.
 ```
 
 3.2.R package
