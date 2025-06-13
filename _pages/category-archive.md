@@ -77,6 +77,9 @@ https://biocomputing.cowtransfer.com/s/090b3801dedd44
 #Password  
 Please see the password attached to the manuscript. It will be made publicly accessible upon publication.
 ```
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Password.jpg" 
+     alt="Password.jpg" 
+     title="Advanced.jpg">
 
 When installing TOGGLE (KALIN) using Anaconda, the path is typically:  
 
@@ -100,6 +103,9 @@ https://biocomputing.cowtransfer.com/s/eee620f9e5124a
 #password
 Please see the password attached to the manuscript. It will be made publicly accessible upon publication.
 ```
+<img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Password.jpg" 
+     alt="Password.jpg" 
+     title="Advanced.jpg">
 
 3.2.R package
 
