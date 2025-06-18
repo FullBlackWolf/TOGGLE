@@ -11,6 +11,8 @@ Related Publications
         
 Zeng, L., Yang, K., Yu, G. 𝒞𝒽𝑒𝓃, 𝒥.*, et al. Advances in research on immunocyte iron metabolism, ferroptosis, and their regulatory roles in autoimmune and autoinflammatory diseases. Nature - Cell Death Dis 15, 481 (2024). https://doi.org/10.1038/s41419-024-06807-2
         
+        
+        
 Tan, Y., Zhang, Z., Zheng, C., Wintergerst, K. A., Keller, B. B., & 𝒞𝒶𝒾, ℒ*. (2020). Mechanisms of diabetic cardiomyopathy and potential therapeutic strategies: preclinical and clinical evidence. Nature Reviews Cardiology, 17(9), 585-607.
         
 𝒞𝒶𝓇𝓁𝓁 𝒜𝒫*, Arab C, Salatini R, Miles MD, Nystoriak MA, Fulghum KL, Riggs DW, Shirk GA, Theis WS, Talebi N, Bhatnagar A, Conklin DJ (2022). E-cigarettes and their lone constituents induce cardiac arrhythmia and conduction defects in mice. Nature Communications. 13(1):6088.
@@ -28,6 +30,13 @@ Klionsky, D. J., Abdel-Aziz, A. K., Abdelfatah, S., Abdellatif, M., Abdoli, A., 
 <img src="https://raw.githubusercontent.com/FullBlackWolf/ATPX4869/refs/heads/master/assets/images/Cardiolablogo.png" 
      alt="Cardiolablogo.png" 
      title="Cardiolablogo.png">
+
+
+Biographical Note
+---
+<div style="text-align: justify;">
+Chen's guidance comes from Dr. Alex P. Carll. Another mentor is Dr. Lu Cai, one of the contributors to the standardization of autophagy detection methods, whose research on criteria for identifying diabetes induced apoptosis has been included in numerous clinical guidelines. Jinwen Ge is President of Hunan University of Chinese Medicine, Leader of the National Administration of Traditional Chinese Medicine Key Discipline: Integrated Chinese and Western Clinical Medicine (Cardiovascular and Cerebrovascular Diseases), and is also responsible for the evaluation of Medicine SCI journal classifications in China.
+</div>
 
 
 Innovation
