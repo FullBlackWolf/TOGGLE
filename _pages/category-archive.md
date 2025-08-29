@@ -75,7 +75,7 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
 https://biocomputing.cowtransfer.com/s/090b3801dedd44
 
 #Password  
-We found that the source code had been copied by other scholars, while our paper has not yet been published. So this will be provided during the review stage
+qwerdfgbnm12
 ```
 
 
@@ -99,7 +99,7 @@ Overwrite the files in
 https://biocomputing.cowtransfer.com/s/eee620f9e5124a
 
 #password
-We found that the source code had been copied by other scholars, while our paper has not yet been published. So this will be provided during the review stage
+qwerdfgbnm12
 ```
 
 
