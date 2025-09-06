@@ -71,11 +71,7 @@ If the folder is placed correctly, you will be prompted with "Do you want to ove
 3.1.Database & Matlab processing codes
 
 ```python
-#link
-https://biocomputing.cowtransfer.com/s/090b3801dedd44
-
-#Password  
-qwerdfgbnm12
+https://drive.google.com/drive/folders/1tt8eXFgE1P7giZ94zG37vByWgZpvUtkN?usp=drive_link
 ```
 
 
@@ -96,10 +92,7 @@ Overwrite the files in
 
 ```python
 #link
-https://biocomputing.cowtransfer.com/s/eee620f9e5124a
-
-#password
-qwerdfgbnm12
+https://drive.google.com/drive/folders/1tt8eXFgE1P7giZ94zG37vByWgZpvUtkN?usp=drive_link
 ```
 
 
