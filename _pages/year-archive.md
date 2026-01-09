@@ -7,7 +7,7 @@ author_profile: true
 Related Publications
 ---
 
-𝒞𝒽𝑒𝓃, 𝒥.*, et al. "TOGGLE identifies fate and function process within a single type of mature cell through single-cell transcriptomics." accepted on eLife.  
+𝒞𝒽𝑒𝓃, 𝒥.*, et al. "TOGGLE identifies fate and function process within a single type of mature cell through single-cell transcriptomics."  
         
 Zeng, L., Yang, K., Yu, G. 𝒞𝒽𝑒𝓃, 𝒥.*, et al. Advances in research on immunocyte iron metabolism, ferroptosis, and their regulatory roles in autoimmune and autoinflammatory diseases. Nature - Cell Death Dis 15, 481 (2024). https://doi.org/10.1038/s41419-024-06807-2
         
