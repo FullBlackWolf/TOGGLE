@@ -14,11 +14,16 @@ The default GEO data file is located at `C:/GEOANALYSIS/GSE232429`.
 Change the working directory in R to: `C:/GEOANALYSIS/GSE232429`.    
 Highly recommended to use `Rstudio`. Need to select the environment which containing `anndata`, in `Tools > Global options > Python > Python interpreter`    
 
-1.1 Load required packages (R Studio)
----
 
 ```R
-library(DEsingle)
+
+######Mature Functions: Programmed Ferroptosis ########################
+####1 Preprocessing####
+#The default GEO data file is located at C:/GEOANALYSIS/GSE232429.
+#Change the working directory in R to: C:/GEOANALYSIS/GSE232429.
+#Highly recommended to use Rstudio. Need to select the environment which containing anndata, in Tools > Global options > Python > Python interpreter
+
+###1.1 Load required packages for this section (R Studio)###############
 library(Seurat)
 library(multtest)
 library(dplyr)
@@ -26,190 +31,201 @@ library(ggplot2)
 library(patchwork)
 library(tidyverse)
 library(future)
-library(RColorBrewer)
-library(SummarizedExperiment)
-library(scater)
-library(cowplot)
 library(harmony)
-library(monocle3)
-library(uwot)
-library(ComplexHeatmap)
+library(RColorBrewer)
 library(ggrepel)
-```
+library(sceasy)
 
-1.2 Create vector to read files (R)
----
-
-```R
+###1.2 Create vector to read files (R)Permalink###############
 #Database download link:  https://biocomputing.cowtransfer.com/s/2df0081e282147
 #Password: ufurmd
-setwd("C:/GEOANALYSIS/GSE232429")
+setwd("C:/GEOANALYSIS/GSE2324291w")
+
+## Save the file names in the folder to "dir_name"
+dir_name <- list.files("./data")
+## check "dir_name"
+dir_name
+#[1] "MCAO1" "MCAO2" "Sham1"
+## Assign names to "dir_name" based on folder names
+names(dir_name) <- c("MCAO1", "MCAO2", "Sham1")
+## Check the "dir_name" after name assignment
+print(dir_name)
+# Model1   Model2   Treat1   Treat2 
+#"Model1" "Model2" "Treat1" "Treat2" 
 
 #File Structure
 # ---[C:\]
 #   ---[GEOANALYSIS]
 #     ---[GSE232429]
-#       ---[Sham1]
-#           ---matrix.mtx.gz
-#           ---features.tsv.gz
-#           ---barcodes.tsv.gz
-#       ---[MCAO1]
-#           ---matrix.mtx.gz
-#           ---features.tsv.gz
-#           ---barcodes.tsv.gz
-#       ---[MCAO2]
-#           ---matrix.mtx.gz
-#           ---features.tsv.gz
-#           ---barcodes.tsv.gz
-```
+#        ---[data]
+#          ---[Sham1]
+#             ---matrix.mtx.gz
+#             ---features.tsv.gz
+#             ---barcodes.tsv.gz
+#          ---[MCAO1]
+#             ---matrix.mtx.gz
+#             ---features.tsv.gz
+#             ---barcodes.tsv.gz
+#           ---[MCAO2]
+#             ---matrix.mtx.gz
+#             ---features.tsv.gz
+#             ---barcodes.tsv.gz
+#        ---[figures]
+#        ---[output]
+#        ---[saves]
 
-1.3 Read data (R)
----
 
-```R
-Sham1<- Read10X(data.dir = "Sham1")
-MCAO1<- Read10X(data.dir = "MCAO1")
-MCAO2<- Read10X(data.dir = "MCAO2")
-```
+###1.3 Read data and create Seurat objects with sample names (R)###############
+## Initialize a list for Seurat objects
+scRNAlist <- list()
 
-1.4 Create Seurat object and filter. Add code to filter out cells with fewer than 200 genes (min.features = 200) and genes covered by fewer than 3 cells (min.cells = 3) (R)
----
+## Loop through each sample, read data, and create Seurat objects
+for (sample in names(dir_name)) {
+  # Construct the full path to the data directory
+  data_path <- file.path("./data", dir_name[sample])
+  
+  # Read 10X data and create a Seurat object [to filter out cells with fewer than 200 genes (min.features = 200) and genes covered by fewer than 3 cells (min.cells = 3)]
+  counts <- Read10X(data.dir = data_path)
+  obj <- CreateSeuratObject(counts, 
+                            project = sample, 
+                            min.cells = 3, 
+                            min.features = 200)
+  
+  # Overwrite orig.ident to ensure it is the folder name
+  obj$orig.ident <- sample
+  
+  # Save to list
+  scRNAlist[[sample]] <- obj
+  
+  # Output sample name for confirmation
+  cat(paste("Processed sample:", sample, "\n"))
+}
 
-```R
-Sham1<- CreateSeuratObject(counts =Sham1, project = "Sham1", min.features = 200, min.cells = 3)
-MCAO1<- CreateSeuratObject(counts =MCAO1, project = "MCAO1", min.features = 200, min.cells = 3)
-MCAO2<- CreateSeuratObject(counts =MCAO2, project = "MCAO2", min.features = 200, min.cells = 3)
+###1.4 Filter the data###############
+#Calculate the ratio of mitochondria to red blood cells
+for(i in 1:length(scRNAlist)){
+  sc <- scRNAlist[[i]]
+  # Calculation of mitochondrial ratio
+  sc[["mt_percent"]] <- PercentageFeatureSet(sc, pattern = "^mt-")
+  # Calculate the red blood cell ratio
+  HB_genes <- c("Hbb-bt", "Hbb-bs", "Hbb-bh2", "Hbb-bh1", "Hbb-y", "Hba-x", "Hba-a1", "Hbq1b", "Hba-a2", "Hbq1a")
+  # Make sure the gene name exists in the data
+  HB_genes <- intersect(HB_genes, rownames(sc))
+  if (length(HB_genes) == 0) {
+    stop("No red blood cell-related genes were found in the dataset. Please check that the gene names are correct!")
+  }
+  HB_m <- match(HB_genes, rownames(sc@assays$RNA))
+  HB_genes <- rownames(sc@assays$RNA)[HB_m] 
+  HB_genes <- HB_genes[!is.na(HB_genes)] 
+  sc[["HB_percent"]] <- PercentageFeatureSet(sc, features=HB_genes)
+  # Assign sc to scRNAlist[[i]]
+  scRNAlist[[i]] <- sc
+  # Delete sc
+  rm(sc)
+}
 
-# Calculate mitochondrial DNA
-Sham1[["percent.mt"]] <- PercentageFeatureSet(Sham1, pattern = "^mt-")
-MCAO1[["percent.mt"]] <- PercentageFeatureSet(MCAO1, pattern = "^mt-")
-MCAO2[["percent.mt"]] <- PercentageFeatureSet(MCAO2, pattern = "^mt-")
-
-# Merge data and plot quality control (QC)
-CI <- merge(Sham1, y=c(MCAO1, MCAO2), add.cell.ids = c("Sham1", "MCAO1", "MCAO2"), project = "all")
+#Merge and then create a quality control chart
+#MCAO1, MCAO2, and Sham1 are merged to generate CI
+CI <- merge(scRNAlist[[1]], y = scRNAlist[-1], add.cell.ids = names(scRNAlist))
 head(colnames(CI))
 unique(sapply(X = strsplit(colnames(CI), split = "_"), FUN = "[", 1))
+Idents(CI) <- "orig.ident"
 
-plot1 <- FeatureScatter(CI, feature1 = "nFeature_RNA", feature2 = "percent.mt")
-plot2 <- FeatureScatter(CI, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
-CombinePlots(plots = list(plot1, plot2))#Quality control plot1
-VlnPlot(CI, features = c("percent.mt", "nFeature_RNA", "nCount_RNA"), ncol = 3, pt.size=0)#Quality control plot2
-VlnPlot(CI, features = c("percent.mt", "nFeature_RNA", "nCount_RNA"), ncol = 3, pt.size=0.5)#Quality control plot3
-```
+plot1 <- FeatureScatter(CI, feature1 = "nCount_RNA", feature2 = "mt_percent", raster=FALSE)
+plot2 <- FeatureScatter(CI, feature1 = "nCount_RNA", feature2 = "nFeature_RNA", raster=FALSE)
+p1 <- CombinePlots(plots = list(plot1, plot2))#QC plot 1
+p2 <- VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent"), ncol = 4, pt.size=0)#QC plot 2
+p3 <- VlnPlot(CI, features = c("mt_percent", "nFeature_RNA", "nCount_RNA", "HB_percent"), ncol = 4, pt.size=0.5)#QC plot 3
 
-1.5 Remove cells with high mitochondrial gene expression or extreme values (R)
----
+#Output QC plots into "figures" fold
+ggsave(filename = "./figures/QC Plot1.pdf", plot = p1, device = 'pdf', width = 24, height = 12, units = 'cm')
+ggsave(filename = "./figures/QC Plot2.pdf", plot = p2, device = 'pdf', width = 35, height = 15, units = 'cm')
+ggsave(filename = "./figures/QC Plot3.pdf", plot = p3, device = 'pdf', width = 35, height = 15, units = 'cm')
 
-```R
-# Parameters referenced from https://cloud.tencent.com/developer/article/2195816 and https://zhuanlan.zhihu.com/p/484804392
-# nFeature_RNA: Genes expressed in each cell > 300 and < 7000;
-# mt_percent: Mitochondrial gene expression < 25% of total gene expression;
-Sham1<- subset(Sham1, subset = nFeature_RNA > 300 & nFeature_RNA < 7000 & 
-                 percent.mt < 25)
-MCAO1<- subset(MCAO1,subset = nFeature_RNA > 300 & nFeature_RNA < 7000 & 
-                 percent.mt < 25)
-MCAO2<- subset(MCAO2, subset = nFeature_RNA > 300 & nFeature_RNA < 7000 & 
-                 percent.mt < 25)
-```
+###1.5 Remove cells with high mitochondrial gene expression or extreme values (R)###############
+# nFeature_RNA: Genes expressed in each cell > 500 and < 8000;
+# nCount_RNA: Retain cells with nCount_RNA values below the 98th percentile.
+# mt_percent: Mitochondrial gene expression < 30% of total gene expression;
+# HB_percent: The percentage of gene expression in erythrocytes <5%
+scRNAlist <- lapply(X = scRNAlist, FUN = function(x){
+  x <- subset(x, 
+              subset = nFeature_RNA > 500 & nFeature_RNA < 8000 & 
+                mt_percent < 30 & 
+                HB_percent < 5 & 
+                nCount_RNA < quantile(nCount_RNA,0.98))})
 
-1.6 Perform CCA integration (R)
----
+###1.6 Data integration using the harmony function, generating `testAB.integrated`.###
+#Merge seurat objects
+scRNAlist <- merge(scRNAlist[[1]], y = scRNAlist[-1], add.cell.ids = names(scRNAlist))
 
-```R
-myfunction1 <- function(testA.seu){
-  testA.seu <- NormalizeData(testA.seu, normalization.method = "LogNormalize", scale.factor = 10000)
-  testA.seu <- FindVariableFeatures(testA.seu, selection.method = "vst", nfeatures = 2000)
-  return(testA.seu)
-}
-Sham1<- myfunction1(Sham1)
-MCAO1<- myfunction1(MCAO1)
-MCAO2<- myfunction1(MCAO2)
-```
+#Screening for highly variable genes and dimensionality reduction
+scRNAlist <- NormalizeData(scRNAlist) %>% 
+  FindVariableFeatures(selection.method = "vst",nfeatures = 3000) %>% 
+  ScaleData() %>% 
+  RunPCA(npcs = 30, verbose = T)
 
-1.7 Integration (R)
----
+#integrating
+testAB.integrated <- RunHarmony(scRNAlist, group.by.vars = "orig.ident")
 
-```R
-list <- list (Sham1, MCAO1, MCAO2)
-testAB.anchors <- FindIntegrationAnchors(object.list = list, dims = 1:20)
-testAB.integrated <- IntegrateData(anchorset = testAB.anchors, dims = 1:20)
-```
+###1.7 Add sample and group information (R)Permalink############
+# Copy orig.ident to Sample
+testAB.integrated@meta.data$Sample <- testAB.integrated@meta.data$orig.ident
 
-1.8 Add sample and group information (R)
----
+# Copy orig.ident to Group, removing the numbers
+testAB.integrated@meta.data$Group <- gsub("[0-9]", "", testAB.integrated@meta.data$orig.ident)
 
-```R
-# Retrieve metadata
-metadata <- testAB.integrated@meta.data
-# Copy 'orig.ident' to new column 'Sample'
-metadata$Sample <- metadata$orig.ident
-# Create new column 'Group' based on 'orig.ident'
-metadata$Group <- ifelse(grepl("Sham", metadata$orig.ident), "Sham",
-                         ifelse(grepl("MCAO", metadata$orig.ident), "MCAO", NA))
-# Ensure updated metadata is reassigned to Seurat object
-testAB.integrated@meta.data <- metadata
-# Check results
+# Check the modified metadata
 head(testAB.integrated@meta.data)
-```
 
-1.9 As per documentation, use 'integrated' for finding cluster markers and 'RNA' (normalized data) for differential analysis (R)
----
+###1.8 Clustering and dimensionality reduction using UMAP/t-SNE###################
+#The Seurat object generated after clustering is defined as NeuronR1.
+#"NeuronR1" was used for the first round of cell state classification (Round 1).
+NeuronR1 <- FindNeighbors(testAB.integrated, reduction = "harmony", dims = 1:15) %>% 
+  FindClusters(resolution = 0.1)
 
+#Dimensionality reduction
+NeuronR1 <- RunTSNE(NeuronR1, reduction = "harmony", dims = 1:10)
+NeuronR1 <- RunUMAP(NeuronR1, reduction = "harmony", dims = 1:30)
 
-```R
-# Set default matrix to 'integrated' for subsequent steps
-DefaultAssay(testAB.integrated) <- "integrated"
-# Run the standard workflow for visualization and clustering
-testAB.integrated <- ScaleData(testAB.integrated, features = rownames(testAB.integrated))
-testAB.integrated <- RunPCA(testAB.integrated, npcs = 50, verbose = FALSE)
-testAB.integrated <- FindNeighbors(testAB.integrated, dims = 1:30)
-testAB.integrated <- FindClusters(testAB.integrated, resolution = 0.1)
-testAB.integrated <- RunUMAP(testAB.integrated, dims = 1:10)
-testAB.integrated <- RunTSNE(testAB.integrated, dims = 1:30)
-save(testAB.integrated, file = "GSE232429 Neuron.Rdata")
-```
+###1.10 Data oreoricessing is completed, export data####################
+##1.10.1 Export Seurat object "NeuronR1" into "saves" fold
+save(NeuronR1, file = "./saves/NeuronR1.Rdata")
 
-
-1.10 Save the file as h5ad for further analysis in Python (R)
----
-
-```R
-library(SeuratDisk)
-convert_Rdata_to_H5AD <- function(rdata_path) {
-  file_dir <- dirname(rdata_path)
-  file_name <- tools::file_path_sans_ext(basename(rdata_path))
-  load(rdata_path)
-  object_names <- ls()
+##1.10.2 Export seurat object "Neuron R1" as a h5ad file for Section 2.
+#Export the cells and 3000 highly variable genes in h5ad format.
+# Create a new folder
+dir.create("./output/h5adfile", recursive = TRUE, showWarnings = FALSE)
+# Define a general export function (to export highly variable genes)
+export_high_var_to_h5ad <- function(seurat_obj, filename, top_n = 3000) {
+  # Set Assay
+  DefaultAssay(seurat_obj) <- "RNA"
+  seurat_obj[["RNA"]] <- as(seurat_obj[["RNA"]], Class = "Assay")  # Convert Assay5 type to Assay4
   
-  # 检查是否为 Seurat 对象
-  for (obj_name in object_names) {
-    obj <- get(obj_name)
-    if (inherits(obj, "Seurat")) {
-
-      # 保存为 H5Seurat 格式
-      h5seurat_path <- file.path(file_dir, paste0(file_name, "_", obj_name, ".h5Seurat"))
-      SaveH5Seurat(obj, filename = h5seurat_path)
-
-      # 转换为 H5AD 格式
-      h5ad_path <- file.path(file_dir, paste0(file_name, "_", obj_name, ".h5ad"))
-      Convert(h5seurat_path, dest = "h5ad")
-      cat("Conversion complete for object", obj_name, ". H5AD file saved at:", h5ad_path, "/n")
-    }
-  }
+  # Find highly variable genes
+  seurat_obj <- FindVariableFeatures(seurat_obj, selection.method = "vst", nfeatures = top_n)
+  high_var_genes <- VariableFeatures(seurat_obj)
+  
+  # Construct a new object containing only highly variable genes.
+  seurat_high_var <- subset(seurat_obj, features = high_var_genes)
+  
+  # Export path
+  out_path <- file.path("output/h5adfile", filename)
+  
+  # Convert the format and save.
+  sceasy::convertFormat(
+    seurat_high_var,
+    from = "seurat",
+    to = "anndata",
+    outFile = out_path
+  )
+  cat("Highly variable genes have been successfully exported:", out_path, "\n")
 }
 
-#Export H5AD Files
-# args <- commandArgs(trailingOnly = TRUE)
-args <- "GSE232429 Neuron.Rdata"#工作路径下的Rdata文件
-if (length(args) == 0) {
-  stop("No .Rdata file path provided. Usage: Rscript script_name.R <path_to_Rdata>")
-}
-rdata_path <- args[1]
-convert_Rdata_to_H5AD(rdata_path) 
-
+# Export h5ad
+export_high_var_to_h5ad(NeuronR1, "NeuronR1.h5ad")
 
 ```
-H5ad saved as `GSE232429 Neuron_testAB.integrated.h5ad`. Because the automatically generated file name is too long, change it to `GSE232429 Neuron.h5ad`  
+H5ad saved as `NeuronR1.h5ad`, change it to `GSE232429 Neuron.h5ad`  
 
 Save the variable table as `Round0.Rdata`. OR: Do not close R to ensure the subsequent programs can run.
 
