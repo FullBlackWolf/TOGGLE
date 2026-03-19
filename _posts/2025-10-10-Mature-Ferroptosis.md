@@ -14,7 +14,7 @@ The default GEO data file is located at `C:/GEOANALYSIS/GSE232429`.
 Change the working directory in R to: `C:/GEOANALYSIS/GSE232429`.    
 Highly recommended to use `Rstudio`. Need to select the environment which containing `anndata`, in `Tools > Global options > Python > Python interpreter`    
 
-
+ 
 ```R
 
 ######Mature Functions: Programmed Ferroptosis ########################
