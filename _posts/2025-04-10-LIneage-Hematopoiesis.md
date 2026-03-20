@@ -493,7 +493,7 @@ close(fig);
 end
 
 
-[cutIdx, encode_result, weighting_result] = auto_boundary_by_encoder(0.00026,0.00030,10,3,cluster_map_matrix,row_labels,column_labels);
+toggle_visualization()
 
 
 
